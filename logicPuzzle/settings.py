@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'drf_yasg',
     'rest_framework',
     'production',
+    'food_waste'
 ]
 
 MIDDLEWARE = [
