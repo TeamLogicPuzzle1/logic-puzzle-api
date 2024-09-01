@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'drf_yasg',
     'rest_framework',
+    'production',
+    'food_waste',
+    'notice',
 ]
 
 MIDDLEWARE = [
