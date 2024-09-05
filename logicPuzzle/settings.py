@@ -10,12 +10,12 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 
-import db_settings
 from pathlib import Path
+
+import db_settings
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -27,7 +27,6 @@ SECRET_KEY = db_settings.SECRET_KEY
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-
 
 # Application definition
 
@@ -73,12 +72,43 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'logicPuzzle.wsgi.application'
 
+DEFAULT_LOGGING = {
+    'version': 1,
+    'disable_existing_loggers': False,  # 디폴트 : True, 장고의 디폴트 로그 설정을 대체. / False : 장고의 디폴트 로그 설정의 전부 또는 일부를 다시 정의
+    'formatters': {  # message 출력 포맷 형식
+        'verbose': {
+            'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
+            'datefmt': "%d/%b/%Y %H:%M:%S"
+        },
+        'simple': {
+            'format': '%(levelname)s %(message)s'
+        },
+    },
+    'handlers': {
+        'file': {
+            'level': 'DEBUG',
+            'class': 'logging.FileHandler',
+            'filename': 'file_name.log',  # message가 저장될 파일명(파일명 변경 가능)
+            'formatter': 'verbose'
+        },
+    },
+    'loggers': {
+        'django': {
+            'handlers': ['file'],  # 'file' : handler의 이름
+            'propagate': True,
+            'level': 'DEBUG',  # DEBUG 및 그 이상의 메시지를 file 핸들러에게 보내줍니다.
+        },
+        'app_name': {  # Project에서 생성한 app의 이름
+            'handlers': ['file'],  # 다른 app을 생성 후 해당 app에서도
+            'level': 'DEBUG',  # 사용하고자 할 경우 해당 app 이름으로
+        },  # 좌측 코드를 추가 작성해서 사용
+    }
+}
 
 # Database
 # https://docs.djangoproject.com/en/5.0/ref/settings/#databases
 
 DATABASES = db_settings.DATABASES
-
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -97,7 +127,6 @@ AUTH_PASSWORD_VALIDATORS = [
         'NAME': 'django.contrib.auth.password_validation.NumericPasswordValidator',
     },
 ]
-
 
 # Internationalization
 # https://docs.djangoproject.com/en/5.0/topics/i18n/
