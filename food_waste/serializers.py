@@ -4,4 +4,4 @@ from .models import FoodWaste
 class FoodWasteSerializer(serializers.ModelSerializer):
     class Meta:
         model = FoodWaste
-        fields = ['id', 'amount', 'date']
+        fields = ['id', 'quantity', 'date']
