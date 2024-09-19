@@ -1,23 +1,25 @@
-version: "3"
+version: "2"
 services:
-  django-web:
-    container_name: django-web
-    image: logicpuzzle-test:1.0.0 # 이미지, 태그
-    ports:
-        - "8080:8080"
-    build: ./
-    volumes:
-        - ./srv/logicpuzzle_web:/path/in/container
-        - ./log/uwsgi:/log
   nginx:
+    image: nginx:latest
     container_name: nginx
-    image: nginx
     ports:
-        - "80:80"
-    build: ./nginx
+      - "9090:9090/tcp"
     volumes:
-        - ./srv/logicpuzzle_web:/path/in/container
-        - ./log/nginx:/log
-        - ./.static_root:/static
-    depends_on :
-        - django-web
+      - ./nginx:/etc/nginx/conf.d
+      - ./.static_root:/.static_root
+    depends_on:
+      - web
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: web
+    command: >
+        bash -c "python manage.py collectstatic --noinput
+        && python3 manage.py migrate
+        && gunicorn logicPuzzle.wsgi:application --bind 0.0.0.0:8080 --log-level=debug --access-logfile=- --log-file=-"
+    volumes:
+      - ./.static_root:/usr/arc/app/staticfiles
+    expose:
+      - "8080"
