@@ -9,7 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import os
 from pathlib import Path
 
 import db_settings
@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'production',
     'food_waste',
     'notice',
+    'user',
 ]
 
 MIDDLEWARE = [
@@ -147,6 +148,10 @@ DEFAULT_LOGGING = {
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
+SWAGGER_SETTINGS = {
+   'USE_SESSION_AUTH': False
+}
+
 CORS_ALLOW_METHODS = (
     'DELETE',
     'GET',
@@ -172,6 +177,7 @@ CORS_ALLOW_HEADERS = (
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field

@@ -13,7 +13,7 @@ class FoodWasteViewSet(mixins.CreateModelMixin,
     serializer_class = FoodWasteSerializer
 
     def get_stats(self, start_date, end_date):
-        stats = self.queryset.filter(date_recorded__gte=start_date, date_recorded__lte=end_date).aggregate(total=Sum('amount'))
+        stats = self.queryset.filter(date_recorded__gte=start_date, date__lte=end_date).aggregate(total=Sum('amount'))
         return stats['total'] or 0
 
     @action(detail=False, methods=['get'])
