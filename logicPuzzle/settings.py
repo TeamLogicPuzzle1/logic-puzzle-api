@@ -9,7 +9,9 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+import sys
 import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from pathlib import Path
 
 import db_settings
