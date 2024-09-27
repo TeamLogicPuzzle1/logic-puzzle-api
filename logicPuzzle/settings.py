@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'drf_yasg',
     'rest_framework',
+    'corsheaders',
     'production',
     'food_waste',
     'notice',
@@ -54,6 +55,7 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'corsheaders.middleware.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'logicPuzzle.urls'
@@ -146,8 +148,13 @@ DEFAULT_LOGGING = {
     }
 }
 
+CORS_ALLOWED_ORIGINS = [
+    "http://localhost:9090",  # Nginx URL
+    "http://localhost:8080",  # BackEnd URL
+]
+
 ##CORS
-CORS_ORIGIN_ALLOW_ALL = True
+CORS_ORIGIN_ALLOW_ALL = True    # 모든 호스트 허용
 CORS_ALLOW_CREDENTIALS = True
 
 SWAGGER_SETTINGS = {

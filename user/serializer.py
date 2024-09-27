@@ -1,23 +1,30 @@
 import json
+
+from drf_yasg.utils import logger
 from rest_framework import serializers
 from .models import User
 
 
 class CreateUserSerializer(serializers.Serializer):
-    userId = serializers.CharField()
-    password = serializers.CharField()
+    userId = serializers.CharField(source='user_id')
+    password = serializers.CharField(write_only=True)
     email = serializers.CharField()
 
     def create(self, validated_data):
         """
         Create a new board instance and return it as a JSON object.
         """
-        user = User.objects.create(**validated_data)
-        return json.dumps({
-            "userId": user.userId,
-            "password": user.password,
-            "email": user.email
-        })
+        try:
+            user = User.objects.create(
+                user_id=validated_data['user_id'],
+                password=validated_data['password'],
+                email=validated_data['email']
+            )
+            logger.debug(f"User created with ID: {user.userId}")  # Log success
+            return user
+        except Exception as e:
+            logger.error(f"Error creating user: {str(e)}")  # Log any errors during creation
+            raise serializers.ValidationError("Error creating user.")
 
 
 class CheckPasswordSerializer(serializers.Serializer):
