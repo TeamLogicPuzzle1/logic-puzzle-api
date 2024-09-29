@@ -6,7 +6,7 @@ from .models import User
 
 
 class CreateUserSerializer(serializers.Serializer):
-    userId = serializers.CharField(source='user_id')
+    user_id = serializers.CharField()
     password = serializers.CharField(write_only=True)
     email = serializers.CharField()
 
@@ -20,7 +20,7 @@ class CreateUserSerializer(serializers.Serializer):
                 password=validated_data['password'],
                 email=validated_data['email']
             )
-            logger.debug(f"User created with ID: {user.userId}")  # Log success
+            logger.debug(f"User created with ID: {user.user_id}")   # Log success
             return user
         except Exception as e:
             logger.error(f"Error creating user: {str(e)}")  # Log any errors during creation

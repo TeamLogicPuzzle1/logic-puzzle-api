@@ -149,7 +149,7 @@ DEFAULT_LOGGING = {
 }
 
 CORS_ALLOWED_ORIGINS = [
-    "http://localhost:9090",  # Nginx URL
+    "http://localhost:80",  # Nginx URL
     "http://localhost:8080",  # BackEnd URL
 ]
 
