@@ -24,12 +24,9 @@ class SignupAPIView(APIView):
     def post(self, request):
         user = request.data
         try:
-            logger.debug("======>1")
             serializer = self.serializer_class(data=user)
-            logger.debug("======>2")
             serializer.is_valid(raise_exception=True)
             user = serializer.save()
-            logger.debug("======>3")
             return Response({"message": "회원가입이 성공적으로 완료되었습니다.", "data": serializer.data}, status=status.HTTP_201_CREATED)
         except ValidationError as e:
             # 유효성 검사 실패 시 예외 처리
