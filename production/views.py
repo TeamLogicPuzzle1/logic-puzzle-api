@@ -1,30 +1,39 @@
-from rest_framework import viewsets, filters
+from rest_framework.parsers import MultiPartParser, FormParser
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.response import Response
+from rest_framework.decorators import action
+from .serializers import ProductCreateSerializer
 from .models import Product
-from .serializers import ProductSerializer
-
-<<<<<<< HEAD
-# Create your views here.
+from .servicelayer import extract_expiration_date_from_image
 from rest_framework import viewsets
-from .models import Product
-from .serializers import ProductSerializer
+import os
+from google.cloud import vision
 
+# Google Cloud Vision API의 인증 설정
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'C:/Users/wtme4/OneDrive/바탕 화면/credentials/my-service-account.json'
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-=======
-class ProductViewSet(viewsets.ModelViewSet):
-    queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-    filter_backends = [filters.OrderingFilter]
-    ordering_fields = ['name', 'expiration_date', 'quantity']
-    ordering = ['name']
+    serializer_class = ProductCreateSerializer
+    parser_classes = (MultiPartParser, FormParser)  # 파일 업로드를 처리하기 위한 파서 설정
 
-    def create(self, request, *args, **kwargs):
-        # 데이터 검증 및 처리 시 시리얼라이저를 사용
+    @swagger_auto_schema(
+        request_body=ProductCreateSerializer,
+        responses={201: ProductCreateSerializer},
+        operation_description="Create a product with an optional image file."
+    )
+    @action(detail=False, methods=['post'], url_path='create-with-image')
+    def create_with_image(self, request):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)  # 시리얼라이저의 validate 메소드를 호출하여 검증
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=201, headers=headers)
->>>>>>> b1a42273d14747a7e473f1904d1d7b508364f847
+        if serializer.is_valid():
+            product = serializer.save()
+
+            # 이미지 파일 처리
+            image = request.FILES.get('image')
+            if image:
+                expiration_date = extract_expiration_date_from_image(image)
+                if expiration_date:
+                    product.expiration_date = expiration_date
+                    product.save()
+
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)

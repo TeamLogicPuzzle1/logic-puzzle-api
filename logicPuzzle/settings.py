@@ -13,6 +13,13 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 from pathlib import Path
 
 import db_settings
+from django.conf import settings
+from dotenv import load_dotenv
+import os.path
+
+load_dotenv()
+GOOGLE_API_KEY = os.getenv('AIzaSyDdE-VBMf-WDKNFHSWpbRgBlcAZwe9TaCI')
+
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -39,6 +46,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'drf_yasg',
     'rest_framework',
+    'production',
+    'food_waste',
+    'notice',
+    'user',
+    'alam',
 ]
 
 MIDDLEWARE = [
@@ -175,3 +187,14 @@ STATIC_URL = 'static/'
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Media files settings
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+#캐시문제 해결 중
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    }
+}
