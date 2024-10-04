@@ -1,32 +1,35 @@
 import bcrypt
-
 from drf_yasg.utils import logger
-from rest_framework import serializers
+from rest_framework import serializers, status
+from rest_framework.exceptions import APIException
 
 from .models import User
 
 
 class CreateUserSerializer(serializers.Serializer):
     user_id = serializers.CharField()
+    id_check = serializers.BooleanField(default=False)
     password = serializers.CharField(write_only=True)
     password_check = serializers.CharField(write_only=True)
     email = serializers.CharField()
-    certifi_num = serializers.IntegerField()
-
-    def validate_user_id(self, value):
-        """
-        Check if the user_id already exists.
-        """
-        if User.objects.filter(user_id=value).exists():
-            raise serializers.ValidationError("This user_id is already taken.")
-        return value
+    verify_check = serializers.BooleanField(default=False)
 
     def validate(self, data):
         """
         Ensure that the two password fields match.
         """
+        # Password match check
         if data['password'] != data['password_check']:
             raise serializers.ValidationError("Passwords do not match.")
+
+        # Double check field validation (should be True)
+        if not data.get('id_check', False):  # Ensures that it is explicitly True
+            raise serializers.ValidationError("The id check option must be confirmed (True).")
+
+        # Verify check field validation (should be True)
+        if not data.get('verify_check', False):  # Ensures that it is explicitly True
+            raise serializers.ValidationError("The verify check option must be confirmed (True).")
+
         return data
 
     def create(self, validated_data):
@@ -46,9 +49,5 @@ class CreateUserSerializer(serializers.Serializer):
             return user
         except Exception as e:
             logger.error(f"Error creating user: {str(e)}")  # Log any errors during creation
-            raise serializers.ValidationError("Error creating user.")
-
-
-class CheckPasswordSerializer(serializers.Serializer):
-    password = serializers.CharField()
-    check_password = serializers.CharField()
+            raise APIException(detail="Error creating user.",
+                               code=status.HTTP_500_INTERNAL_SERVER_ERROR)
