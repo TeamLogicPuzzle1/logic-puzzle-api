@@ -1,0 +1,14 @@
+
+{
+  "type": "service_account",
+  "project_id": "alarm1-a8149",
+  "private_key_id": "d29b0e488bab10c284801db09274303d81dfdaf4",
+  "private_key": null,
+ "client_email": null,
+  "client_id": null,
+  "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+  "token_uri": "https://oauth2.googleapis.com/token",
+  "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+  "client_x509_cert_url": null,
+  "universe_domain": "googleapis.com"
+}
