@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+import ssl
 import sys
 import environ
 import os
@@ -106,8 +107,8 @@ EMAIL_PORT = 587
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-SERVER_EMAIL = EMAIL_HOST_USER
 DEFAULT_FROM_MAIL = EMAIL_HOST_USER
+EMAIL_SSL_CONTEXT = ssl._create_unverified_context()
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -181,6 +182,24 @@ CORS_ALLOWED_ORIGINS = [
 ##CORS
 CORS_ORIGIN_ALLOW_ALL = True    # 모든 호스트 허용
 CORS_ALLOW_CREDENTIALS = True
+
+CACHES = {
+    "default": {
+        "BACKEND": 'django_redis.cache.RedisCache',
+        "LOCATION": 'redis://redis_service:6379/1',
+        "OPTIONS": {
+            "CLIENT_CLASS": "django_redis.client.DefaultClient",
+        }
+    }
+}
+
+#celery
+CELERY_BROKER_URL = 'localhost:6379'
+CELERY_RESULT_BACKEND = 'localhost:6379'
+CELERY_ACCEPT_CONTENT = ['application/json']
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_TIMEZONE = TIME_ZONE
 
 SWAGGER_SETTINGS = {
    'USE_SESSION_AUTH': False

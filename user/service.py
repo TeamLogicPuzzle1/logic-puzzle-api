@@ -1,9 +1,13 @@
+from django.core.mail import EmailMessage
+from django.core.mail.backends.smtp.EmailBackend import ssl_context
 from django.db import IntegrityError, DatabaseError
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
 from user.models import User
+from user.serializer import EmailThread
+from util.emailHelper import sendEmailHelper
 
 
 class UserService:
@@ -36,3 +40,22 @@ class UserService:
         else:
             return Response({"message": "사용 가능한 아이디입니다.", "data": True},
                             status=status.HTTP_200_OK)
+
+    @classmethod
+    def sendVerifyCode(cls, email):
+        try:
+            # 인증 코드 생성 및 이메일 전송 로직
+            code = sendEmailHelper.makeRandomCode()  # 인증 코드 생성 함수 호출
+            message = code
+            subject = "EMAIL 제목"
+            to = [email]
+
+            mail = EmailMessage(subject=subject, body=message, to=to)
+            mail.content_subtype = "html"  # 이메일을 HTML 형식으로 설정
+            mail.send(fail_silently=False, connection=None, ssl_context=ssl_context)
+
+            return Response({"message": "Success to send Email", "data": True}, status=status.HTTP_202_ACCEPTED)
+
+        except Exception as e:
+            # 예외 처리: 이메일 전송 실패 시 에러 메시지 반환
+            return Response({"message": f"Failed to send Email: {str(e)}", "data": False}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
