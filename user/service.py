@@ -1,12 +1,13 @@
-from django.core.mail import EmailMessage
-from django.core.mail.backends.smtp.EmailBackend import ssl_context
+import ssl
+from smtplib import SMTPResponseException, SMTPException
+
+from django.core.mail import EmailMessage, get_connection, send_mail
 from django.db import IntegrityError, DatabaseError
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
 from user.models import User
-from user.serializer import EmailThread
 from util.emailHelper import sendEmailHelper
 
 
@@ -51,11 +52,11 @@ class UserService:
             to = [email]
 
             mail = EmailMessage(subject=subject, body=message, to=to)
-            mail.content_subtype = "html"  # 이메일을 HTML 형식으로 설정
-            mail.send(fail_silently=False, connection=None, ssl_context=ssl_context)
+            mail.content_subtype = "html"
+            mail.send()
 
             return Response({"message": "Success to send Email", "data": True}, status=status.HTTP_202_ACCEPTED)
 
-        except Exception as e:
+        except SMTPException as e:
             # 예외 처리: 이메일 전송 실패 시 에러 메시지 반환
             return Response({"message": f"Failed to send Email: {str(e)}", "data": False}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

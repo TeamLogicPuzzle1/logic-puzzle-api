@@ -13,6 +13,7 @@ import os
 import ssl
 import sys
 
+import certifi
 import environ
 
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -25,6 +26,16 @@ env = environ.Env(
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# SSL 인증서와 키 파일 경로 지정
+SSL_CERT_FILE = os.path.join(BASE_DIR, 'ssl', 'server.cert')
+SSL_KEY_FILE = os.path.join(BASE_DIR, 'ssl', 'server.key')
+
+# SSL 컨텍스트 생성
+#EMAIL_SSL_CONTEXT = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+#EMAIL_SSL_CONTEXT.load_cert_chain(certfile=SSL_CERT_FILE, keyfile=SSL_KEY_FILE)
+#EMAIL_SSL_CONTEXT.options |= ssl.OP_NO_SSLv2
+#EMAIL_SSL_CONTEXT.options |= ssl.OP_NO_SSLv3
 
 # Take environment variables from .env file
 environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
@@ -107,8 +118,10 @@ EMAIL_PORT = 587
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-DEFAULT_FROM_MAIL = EMAIL_HOST_USER
-EMAIL_SSL_CONTEXT = ssl._create_unverified_context()
+EMAIL_USE_SSL = False  # TLS를 사용할 경우 True로 설정하지 않음
+#EMAIL_SSL_CERTFILE = SSL_CERT_FILE
+#EMAIL_SSL_KEYFILE = SSL_KEY_FILE
+#EMAIL_SSL_CONTEXT = EMAIL_SSL_CONTEXT
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators

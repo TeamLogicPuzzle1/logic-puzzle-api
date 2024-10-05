@@ -17,7 +17,7 @@ colorama==0.4.6
 colorclass==2.2.2
 cron-descriptor==1.4.5
 cryptography==43.0.1
-Django==5.0.7
+Django==5.1.1
 django-celery-beat==2.7.0
 django-celery-results==2.5.1
 django-cors-headers==4.4.0
@@ -51,8 +51,11 @@ kombu==5.4.2
 load-dotenv==0.1.0
 msgpack==1.1.0
 mysqlclient==2.2.4
+numpy==2.1.1
 packaging==24.1
+pandas==2.2.3
 pillow==10.4.0
+pip-system-certs==4.0
 pip-upgrader==1.4.15
 prompt_toolkit==3.0.48
 proto-plus==1.24.0
@@ -84,3 +87,4 @@ uvicorn==0.30.6
 vine==5.1.0
 wcwidth==0.2.13
 wheel==0.44.0
+wrapt==1.16.0
