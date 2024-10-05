@@ -14,15 +14,15 @@ class Migration(migrations.Migration):
         migrations.CreateModel(
             name='User',
             fields=[
-                ('id', models.AutoField(primary_key=True, serialize=False)),
-                ('user_id', models.CharField(max_length=20)),
-                ('password', models.CharField(max_length=50)),
-                ('email', models.CharField(max_length=30)),
-                ('created_date', models.DateField(auto_now_add=True)),
-                ('updated_date', models.DateTimeField(auto_now=True)),
+                ('id', models.AutoField(primary_key=True, serialize=False)),  # 기본 키 설정
+                ('user_id', models.CharField(max_length=20)),  # 사용자 ID
+                ('password', models.CharField(max_length=50)),  # 비밀번호
+                ('email', models.CharField(max_length=30)),  # 이메일
+                ('created_date', models.DateField(auto_now_add=True)),  # 생성 날짜
+                ('updated_date', models.DateTimeField(auto_now=True)),  # 업데이트 날짜
             ],
             options={
-                'db_table': 'user',
+                'db_table': 'user',  # 데이터베이스 테이블 이름 설정
             },
         ),
     ]

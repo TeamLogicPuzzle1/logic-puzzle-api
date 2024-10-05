@@ -11,8 +11,10 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 """
 import ssl
 import sys
-import environ
 import os
+
+from environ import environ
+
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from pathlib import Path
 
@@ -23,9 +25,6 @@ env = environ.Env(
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-# Take environment variables from .env file
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -48,7 +47,6 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'drf_yasg',
     'rest_framework',
-    'corsheaders',
     'production',
     'food_waste',
     'notice',
@@ -63,7 +61,6 @@ MIDDLEWARE = [
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
-    'corsheaders.middleware.CorsMiddleware'
 ]
 
 ROOT_URLCONF = 'logicPuzzle.urls'
@@ -174,13 +171,8 @@ DEFAULT_LOGGING = {
     }
 }
 
-CORS_ALLOWED_ORIGINS = [
-    "http://localhost:80",  # Nginx URL
-    "http://localhost:8080",  # BackEnd URL
-]
-
 ##CORS
-CORS_ORIGIN_ALLOW_ALL = True    # 모든 호스트 허용
+CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
 CACHES = {
@@ -200,6 +192,7 @@ CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
+
 
 SWAGGER_SETTINGS = {
    'USE_SESSION_AUTH': False
