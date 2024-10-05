@@ -36,6 +36,7 @@ google-auth-httplib2==0.2.0
 google-cloud-core==2.4.1
 google-cloud-firestore==2.19.0
 google-cloud-storage==2.18.2
+google-cloud-vision==3.7.4
 google-crc32c==1.6.0
 google-resumable-media==2.7.2
 googleapis-common-protos==1.65.0
@@ -51,6 +52,7 @@ load-dotenv==0.1.0
 msgpack==1.1.0
 mysqlclient==2.2.4
 packaging==24.1
+pillow==10.4.0
 pip-upgrader==1.4.15
 prompt_toolkit==3.0.48
 proto-plus==1.24.0
@@ -60,6 +62,7 @@ pyasn1_modules==0.4.1
 pycodestyle==2.11.1
 pycparser==2.22
 PyJWT==2.9.0
+PyMySQL==1.1.1
 pyparsing==3.1.4
 python-crontab==3.2.0
 python-dateutil==2.9.0.post0
