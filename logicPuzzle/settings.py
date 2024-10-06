@@ -65,6 +65,7 @@ INSTALLED_APPS = [
     'food_waste',
     'notice',
     'user',
+    'profile',
 ]
 
 MIDDLEWARE = [

@@ -15,3 +15,6 @@ class FoodWaste(models.Model):
 
     def __str__(self):
         return f"{self.get_quantity_display()} - {self.date_recorded}"
+
+    class Meta:
+        db_table = 'food_waste'
