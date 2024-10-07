@@ -28,8 +28,8 @@ env = environ.Env(
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SSL 인증서와 키 파일 경로 지정
-SSL_CERT_FILE = os.path.join(BASE_DIR, 'ssl', 'server.cert')
-SSL_KEY_FILE = os.path.join(BASE_DIR, 'ssl', 'server.key')
+SSL_CERT_FILE = os.path.join(BASE_DIR, 'ssl', 'django.crt')
+SSL_KEY_FILE = os.path.join(BASE_DIR, 'ssl', 'django.key')
 
 # SSL 컨텍스트 생성
 #EMAIL_SSL_CONTEXT = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
@@ -66,6 +66,7 @@ INSTALLED_APPS = [
     'notice',
     'user',
     'profile',
+    'sslserver',
 ]
 
 MIDDLEWARE = [
