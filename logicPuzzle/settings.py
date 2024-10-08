@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+
 import sys
 import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
@@ -23,6 +24,15 @@ GOOGLE_API_KEY = os.getenv('AIzaSyDdE-VBMf-WDKNFHSWpbRgBlcAZwe9TaCI')
 
 
 
+import db_settings
+from django.conf import settings
+from dotenv import load_dotenv
+import os.path
+
+load_dotenv()
+GOOGLE_API_KEY = os.getenv('AIzaSyDdE-VBMf-WDKNFHSWpbRgBlcAZwe9TaCI')
+
+
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
@@ -35,7 +45,9 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+
+ALLOWED_HOSTS = ["*"]
+
 
 # Application definition
 

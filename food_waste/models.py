@@ -1,5 +1,5 @@
-# models.py
 from django.db import models
+from django.core.exceptions import ValidationError
 
 class FoodWaste(models.Model):
     QUANTITY_CHOICES = [
@@ -10,16 +10,12 @@ class FoodWaste(models.Model):
         (20, '20L'),  # 20L 추가
     ]
 
-    quantity = models.IntegerField(choices=QUANTITY_CHOICES)  # 필수 필드
+    quantity = models.FloatField(choices=QUANTITY_CHOICES)  # 음식물 쓰레기 양 (리터 단위, 필수 필드)
     date_recorded = models.DateField(auto_now_add=True)  # 객체 생성 시 현재 날짜 자동 설정
-
-    def __str__(self):
-        return f"{self.get_quantity_display()} - {self.date_recorded}"
-    quantity = models.FloatField()  # 음식물 쓰레기 양 (리터 단위)
     date = models.DateField(db_index=True)  # 날짜 (인덱스 추가)
 
     def __str__(self):
-        return f"{self.quantity} L on {self.date}"
+        return f"{self.quantity} L on {self.date_recorded}"
 
     def clean(self):
         # 유효성 검사: 양이 음수일 수 없음
