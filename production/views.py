@@ -9,8 +9,12 @@ from rest_framework import viewsets
 import os
 from google.cloud import vision
 
+# .env 파일에서 환경 변수 로드
+load_dotenv()
+
 # Google Cloud Vision API의 인증 설정
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'C:/ggg/ninth-camera-437119-m6-0ceb1acf5b4d'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
+
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductCreateSerializer
