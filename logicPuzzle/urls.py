@@ -41,7 +41,6 @@ urlpatterns = [
     path('api/v1/production/', include('production.urls')),
     path('api/v1/foodWaste/', include('food_waste.urls')),
     path('api/v1/notice/', include('notice.urls')),
-    path('alam/', include('alam.urls')),
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),

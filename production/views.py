@@ -10,7 +10,7 @@ import os
 from google.cloud import vision
 
 # Google Cloud Vision API의 인증 설정
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'C:/Users/wtme4/OneDrive/바탕 화면/credentials/my-service-account.json'
+os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'C:/ggg/ninth-camera-437119-m6-0ceb1acf5b4d'
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductCreateSerializer
