@@ -10,7 +10,7 @@ media
 
 # python file
 db_settings.py
-
+.static_root
 # Environments
 .env
 .venv

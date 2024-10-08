@@ -15,13 +15,18 @@ Including another URLconf
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
 
+
 from django.contrib import admin
+from django.conf.urls.static import static
+# from django.contrib import admin
 from django.urls import path, re_path, include
 from drf_yasg import openapi
 from drf_yasg.views import get_schema_view
 from rest_framework.permissions import AllowAny
 from django.conf import settings
 from django.conf.urls.static import static
+
+from logicPuzzle import settings
 
 schema_view = get_schema_view(
     openapi.Info(
@@ -47,4 +52,5 @@ urlpatterns = [
 ]
 
 if settings.DEBUG:  # 개발 모드에서만 적용
-    urlpatterns += static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+    urlpatterns += (static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
+                    + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))

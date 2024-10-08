@@ -9,7 +9,9 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-
+import sys
+import os
+sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from pathlib import Path
 from django.conf import settings
 from dotenv import load_dotenv
@@ -33,7 +35,7 @@ SECRET_KEY = os.getenv("SECRET_KEY")
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ["*"]
+ALLOWED_HOSTS = ['*']
 
 # Application definition
 
@@ -156,6 +158,10 @@ DEFAULT_LOGGING = {
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
+SWAGGER_SETTINGS = {
+   'USE_SESSION_AUTH': False
+}
+
 CORS_ALLOW_METHODS = (
     'DELETE',
     'GET',
@@ -181,6 +187,7 @@ CORS_ALLOW_HEADERS = (
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
