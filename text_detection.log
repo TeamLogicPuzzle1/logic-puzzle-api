@@ -1,0 +1,51 @@
+ERROR:django.request:Internal Server Error: /api/v1/production/products/create-with-image/
+Traceback (most recent call last):
+  File "C:\Program Files\Project\DjangoCRUD\.venv\Lib\site-packages\django\core\handlers\exception.py", line 55, in inner
+    response = get_response(request)
+               ^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Project\DjangoCRUD\.venv\Lib\site-packages\django\core\handlers\base.py", line 197, in _get_response
+    response = wrapped_callback(request, *callback_args, **callback_kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Project\DjangoCRUD\.venv\Lib\site-packages\django\views\decorators\csrf.py", line 65, in _view_wrapper
+    return view_func(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Project\DjangoCRUD\.venv\Lib\site-packages\rest_framework\viewsets.py", line 124, in view
+    return self.dispatch(request, *args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Project\DjangoCRUD\.venv\Lib\site-packages\rest_framework\views.py", line 509, in dispatch
+    response = self.handle_exception(exc)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Project\DjangoCRUD\.venv\Lib\site-packages\rest_framework\views.py", line 469, in handle_exception
+    self.raise_uncaught_exception(exc)
+  File "C:\Program Files\Project\DjangoCRUD\.venv\Lib\site-packages\rest_framework\views.py", line 480, in raise_uncaught_exception
+    raise exc
+  File "C:\Program Files\Project\DjangoCRUD\.venv\Lib\site-packages\rest_framework\views.py", line 506, in dispatch
+    response = handler(request, *args, **kwargs)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Project\logic-puzzle-api\production\views.py", line 33, in create_with_image
+    expiration_date = extract_expiration_date_from_image(image)
+                      ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Project\logic-puzzle-api\production\servicelayer.py", line 27, in extract_expiration_date_from_image
+    client = vision.ImageAnnotatorClient()
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Project\DjangoCRUD\.venv\Lib\site-packages\google\cloud\vision_v1\services\image_annotator\client.py", line 699, in __init__
+    self._transport = transport_init(
+                      ^^^^^^^^^^^^^^^
+  File "C:\Program Files\Project\DjangoCRUD\.venv\Lib\site-packages\google\cloud\vision_v1\services\image_annotator\transports\grpc.py", line 157, in __init__
+    super().__init__(
+  File "C:\Program Files\Project\DjangoCRUD\.venv\Lib\site-packages\google\cloud\vision_v1\services\image_annotator\transports\base.py", line 103, in __init__
+    credentials, _ = google.auth.default(
+                     ^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Project\DjangoCRUD\.venv\Lib\site-packages\google\auth\_default.py", line 657, in default
+    credentials, project_id = checker()
+                              ^^^^^^^^^
+  File "C:\Program Files\Project\DjangoCRUD\.venv\Lib\site-packages\google\auth\_default.py", line 650, in <lambda>
+    lambda: _get_explicit_environ_credentials(quota_project_id=quota_project_id),
+            ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Project\DjangoCRUD\.venv\Lib\site-packages\google\auth\_default.py", line 270, in _get_explicit_environ_credentials
+    credentials, project_id = load_credentials_from_file(
+                              ^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "C:\Program Files\Project\DjangoCRUD\.venv\Lib\site-packages\google\auth\_default.py", line 114, in load_credentials_from_file
+    raise exceptions.DefaultCredentialsError(
+google.auth.exceptions.DefaultCredentialsError: File C:/Users/wtme4/OneDrive/πŸ≈¡ »≠∏È/credentials/my-service-account.json was not found.
+INFO:django.utils.autoreload:C:\Program Files\Project\logic-puzzle-api\production\servicelayer.py changed, reloading.
