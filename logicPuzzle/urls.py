@@ -41,7 +41,7 @@ schema_view = get_schema_view(
 )
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('api/v1/user/', include('user.urls')),
     path('api/v1/production/', include('production.urls')),
     path('api/v1/foodWaste/', include('food_waste.urls')),
     path('api/v1/notice/', include('notice.urls')),
@@ -51,8 +51,10 @@ urlpatterns = [
 ]
 
 
+
 if settings.DEBUG:  # 개발 모드에서만 적용
     urlpatterns += (static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
                     + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT))
+
 
 

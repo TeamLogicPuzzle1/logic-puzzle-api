@@ -26,3 +26,4 @@ class FoodWaste(models.Model):
         ordering = ['-date']  # 기본 정렬 기준 설정
         db_table = 'food_waste'
 
+

@@ -22,5 +22,7 @@ class Product(models.Model):
     def __str__(self):
         return f"{self.name} - {self.expiration_date}"
 
+
     class Meta:
-        db_table = 'product'  # 데이터베이스 테이블 이름
+        db_table = 'production'
+

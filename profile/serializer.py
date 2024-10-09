@@ -1,21 +1,14 @@
-import email
-import threading
-
-import bcrypt
 from drf_yasg.utils import logger
 from rest_framework import serializers, status
 from rest_framework.exceptions import APIException
 
-from .models import User
+from .models import Profile
 
 
-class CreateUserSerializer(serializers.Serializer):
-    user_id = serializers.CharField()
-    id_check = serializers.BooleanField(default=False)
-    password = serializers.CharField(write_only=True)
-    password_check = serializers.CharField(write_only=True)
-    email = serializers.CharField()
-    verify_check = serializers.BooleanField(default=False)
+class CreateProfileSerializer(serializers.Serializer):
+    user_id = serializers.CharField(required=True)
+    profile_name = serializers.CharField(required=True)
+    pin_num = serializers.IntegerField(required=True)
 
     def validate(self, data):
         """
@@ -40,17 +33,13 @@ class CreateUserSerializer(serializers.Serializer):
         Create a new board instance and return it as a JSON object.
         """
         try:
-            # Hash the password
-            hashed_password = bcrypt.hashpw(validated_data['password'].encode("utf-8"), bcrypt.gensalt()).decode("utf-8")
 
-            user = User.objects.create(
+            profile = Profile.objects.create(
                 user_id=validated_data['user_id'],
-                password=hashed_password,
                 email=validated_data['email']
             )
-            logger.debug(f"User created with ID: {user.user_id}")   # Log success
-            return user
+            return profile
         except Exception as e:
             logger.error(f"Error creating user: {str(e)}")  # Log any errors during creation
-            raise APIException(detail="Error creating user.",
+            raise APIException(detail="Error creating profile.",
                                code=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -4,7 +4,11 @@ services:
     image: nginx:latest
     container_name: nginx
     ports:
+<<<<<<< HEAD
       - "9090:9090/tcp"
+=======
+      - "80:80"
+>>>>>>> f3f07d4aaf9b8d04c7fc7f30a7bcb65d851258d2
     volumes:
       - ./nginx:/etc/nginx/conf.d
       - ./.static_root:/.static_root
@@ -22,4 +26,16 @@ services:
     volumes:
       - ./.static_root:/usr/arc/app/staticfiles
     expose:
+<<<<<<< HEAD
       - "8080"
+=======
+      - "8080"
+    depends_on:
+      - redis
+  redis:
+    container_name: redis_service
+    image: redis
+    ports:
+      - "6379:6379"
+    restart: always
+>>>>>>> f3f07d4aaf9b8d04c7fc7f30a7bcb65d851258d2

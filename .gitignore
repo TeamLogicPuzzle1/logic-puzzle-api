@@ -7,9 +7,13 @@ local_settings.py
 db.sqlite3
 db.sqlite3-journal
 media
+node_modules
 
 # python file
+<<<<<<< HEAD
 db_settings.py
+=======
+>>>>>>> f3f07d4aaf9b8d04c7fc7f30a7bcb65d851258d2
 .static_root
 # Environments
 .env
