@@ -12,8 +12,6 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 import ssl
 import sys
-
-<<<<<<< HEAD
 import sys
 import os
 from pathlib import Path
@@ -24,7 +22,7 @@ import os.path
 load_dotenv()
 GOOGLE_API_KEY = os.getenv('AIzaSyDdE-VBMf-WDKNFHSWpbRgBlcAZwe9TaCI')
 
-=======
+
 import certifi
 import environ
 
@@ -35,7 +33,6 @@ env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
 )
->>>>>>> f3f07d4aaf9b8d04c7fc7f30a7bcb65d851258d2
 
 
 
@@ -70,21 +67,17 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
-<<<<<<< HEAD
-SECRET_KEY = os.getenv("SECRET_KEY")
-=======
+
 SECRET_KEY = env('SECRET_KEY')
->>>>>>> f3f07d4aaf9b8d04c7fc7f30a7bcb65d851258d2
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-<<<<<<< HEAD
+
 
 ALLOWED_HOSTS = ["*"]
-=======
-ALLOWED_HOSTS = ['*']
->>>>>>> f3f07d4aaf9b8d04c7fc7f30a7bcb65d851258d2
+
 
 
 # Application definition
@@ -100,10 +93,8 @@ INSTALLED_APPS = [
     'food_waste',
     'notice',
     'user',
-<<<<<<< HEAD
-=======
     'profile',
->>>>>>> f3f07d4aaf9b8d04c7fc7f30a7bcb65d851258d2
+
 ]
 
 MIDDLEWARE = [
