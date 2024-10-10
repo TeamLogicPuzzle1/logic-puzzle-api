@@ -36,10 +36,9 @@ env = environ.Env(
 
 
 
-import db_settings
+
 from django.conf import settings
 from dotenv import load_dotenv
-import db_settings
 
 # Load environment variables
 load_dotenv()
