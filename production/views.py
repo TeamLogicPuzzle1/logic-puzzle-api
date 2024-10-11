@@ -4,7 +4,7 @@ from rest_framework.response import Response
 from rest_framework.decorators import action
 from .serializers import ProductCreateSerializer
 from .models import Product
-from .servicelayer import extract_expiration_date_from_image
+from .service import extract_expiration_date_from_image
 from rest_framework import viewsets
 import os
 from dotenv import load_dotenv
