@@ -3,5 +3,9 @@
   <component name="Black">
     <option name="sdkName" value="Python 3.12 (myproject)" />
   </component>
+<<<<<<< HEAD
   <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (DjangoCRUD)" project-jdk-type="Python SDK" />
+=======
+  <component name="ProjectRootManager" version="2" project-jdk-name="Python 3.12 (logic-puzzle-api)" project-jdk-type="Python SDK" />
+>>>>>>> 18ec35eeefee789c99be95f975b64c1d5946b4e6
 </project>

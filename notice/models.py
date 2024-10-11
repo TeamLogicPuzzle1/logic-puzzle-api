@@ -10,3 +10,4 @@ class Notice(models.Model):
 
     class Meta:
         db_table = 'notice'
+

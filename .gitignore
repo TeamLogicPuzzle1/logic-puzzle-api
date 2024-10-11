@@ -3,10 +3,13 @@
 *.pot
 *.pyc
 __pycache__/
+/__pycache__/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
 media
+node_modules
+ssl
 
 # python file
 db_settings.py
@@ -14,6 +17,8 @@ db_settings.py
 # Environments
 .env
 .venv
+.config
+config/
 
 # PyCharm
 .idea/

@@ -1,19 +1,54 @@
-from rest_framework import viewsets, filters
+from rest_framework.parsers import MultiPartParser, FormParser
+from drf_yasg.utils import swagger_auto_schema
 from rest_framework.response import Response
+from rest_framework.decorators import action
+from .serializers import ProductCreateSerializer
 from .models import Product
-from .serializers import ProductSerializer
+from .servicelayer import extract_expiration_date_from_image
+from rest_framework import viewsets
+import os
+from dotenv import load_dotenv
+import logging
+
+# 로깅 설정
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
-    serializer_class = ProductSerializer
-    filter_backends = [filters.OrderingFilter]
-    ordering_fields = ['name', 'expiration_date', 'quantity']
-    ordering = ['name']
+    serializer_class = ProductCreateSerializer
+    parser_classes = (MultiPartParser, FormParser)  # 파일 업로드를 처리하기 위한 파서 설정
 
-    def create(self, request, *args, **kwargs):
-        # 데이터 검증 및 처리 시 시리얼라이저를 사용
+    @swagger_auto_schema(
+        request_body=ProductCreateSerializer,
+        responses={201: ProductCreateSerializer},
+        operation_description="Create a product with an optional image file."
+    )
+    @action(detail=False, methods=['post'], url_path='create-with-image')
+    def create_with_image(self, request):
         serializer = self.get_serializer(data=request.data)
-        serializer.is_valid(raise_exception=True)  # 시리얼라이저의 validate 메소드를 호출하여 검증
-        self.perform_create(serializer)
-        headers = self.get_success_headers(serializer.data)
-        return Response(serializer.data, status=201, headers=headers)
+        if serializer.is_valid():
+            product = serializer.save()
+
+            # 이미지 파일 처리
+            image = request.FILES.get('image')
+            if not image:
+                return Response({"error": "Image file is required."}, status=400)  # 이미지가 없는 경우 에러 메시지 추가
+
+            logger.info(f"Received image file: {image.name}, size: {image.size}")
+
+            try:
+                expiration_date = extract_expiration_date_from_image(image)
+                if expiration_date:
+                    product.expiration_date = expiration_date
+                    product.save()
+                else:
+                    logger.warning("No expiration date could be extracted.")
+                    return Response({"error": "No expiration date could be extracted."}, status=400)
+
+            except Exception as e:  # 예외 처리 추가
+                logger.exception(f"Error processing image: {str(e)}")
+                return Response({"error": str(e)}, status=400)
+
+            return Response(serializer.data, status=201)
+        return Response(serializer.errors, status=400)
