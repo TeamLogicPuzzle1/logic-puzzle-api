@@ -8,39 +8,28 @@ db.sqlite3
 db.sqlite3-journal
 media
 
-<<<<<<< HEAD
 ### Django.Python Stack ###
-# Byte-compiled / optimized / DLL files
-*.py[cod]
-*$py.class
-=======
 # Byte-compiled / optimized / DLL files
 *.py[cod]
 *$py.class
 
 *.manifest
 *.spec
-*.pyc
 
 # python file
 db_settings.py
 .static_root
->>>>>>> b31fe6e13f1b3021c1994028a135c8ff58e26ab8
 # Environments
 .env
 .venv
-<<<<<<< HEAD
 ssl
-config
 config/
-=======
 env/
 venv/
 ENV/
 env.bak/
 venv.bak/
 
->>>>>>> d8a2a1fa43a9e9ce5ee177efbec9aeffae536608
 # PyCharm
 .idea/
 .babelrc
