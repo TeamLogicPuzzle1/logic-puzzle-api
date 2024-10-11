@@ -93,11 +93,7 @@ INSTALLED_APPS = [
     'notice',
     'user',
     'profile',
-<<<<<<< HEAD
     'sslserver',
-=======
-
->>>>>>> 18ec35eeefee789c99be95f975b64c1d5946b4e6
 ]
 
 MIDDLEWARE = [

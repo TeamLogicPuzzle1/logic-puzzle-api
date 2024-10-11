@@ -17,12 +17,8 @@ db_settings.py
 # Environments
 .env
 .venv
-<<<<<<< HEAD
 ssl
-=======
-.config
+config
 config/
->>>>>>> 18ec35eeefee789c99be95f975b64c1d5946b4e6
-
 # PyCharm
 .idea/
