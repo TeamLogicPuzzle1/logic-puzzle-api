@@ -3,24 +3,36 @@
 *.pot
 *.pyc
 __pycache__/
-/__pycache__/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
 media
-node_modules
-ssl
 
-# python file
-db_settings.py
-.static_root
+### Django.Python Stack ###
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+*$py.class
 # Environments
 .env
 .venv
-.config
-config/
+env/
+venv/
+ENV/
+env.bak/
+venv.bak/
 
 # PyCharm
 .idea/
 .babelrc
 *.idea
+
+# User-specific stuff
+.idea/**/workspace.xml
+.idea/**/tasks.xml
+.idea/**/usage.statistics.xml
+.idea/**/dictionaries
+.idea/**/shelf
+
+# IntelliJ
+out/
+config/
