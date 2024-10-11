@@ -3,12 +3,20 @@
 *.pot
 *.pyc
 __pycache__/
-__pycache__/
+/__pycache__/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
 media
 node_modules
+
+# Byte-compiled / optimized / DLL files
+*.py[cod]
+*$py.class
+
+*.manifest
+*.spec
+*.pyc
 
 # python file
 db_settings.py
