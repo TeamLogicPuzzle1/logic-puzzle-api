@@ -5,6 +5,12 @@ from datetime import datetime
 from google.cloud import vision
 from dotenv import load_dotenv
 import logging
+import environ
+
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
 
 # 로깅 설정
 logging.basicConfig(level=logging.INFO)
@@ -13,7 +19,7 @@ logger = logging.getLogger(__name__)
 # .env 파일에서 환경 변수 로드
 load_dotenv()
 
-credentials_path = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
+credentials_path = env('GOOGLE_APPLICATION_CREDENTIALS')
 
 if not credentials_path:
     raise EnvironmentError("GOOGLE_APPLICATION_CREDENTIALS is not set in the .env file.")

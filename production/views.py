@@ -14,19 +14,6 @@ import logging
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
-# .env 파일에서 환경 변수 로드
-load_dotenv()
-
-# Google Cloud Vision API 인증 설정 함수
-def setup_google_vision():
-    credentials_path = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
-    if not credentials_path or not os.path.exists(credentials_path):
-        raise FileNotFoundError("Google Cloud credentials file not found. Check the path in your .env file.")
-    os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = credentials_path
-
-# Google Vision API 인증 설정
-setup_google_vision()
-
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductCreateSerializer

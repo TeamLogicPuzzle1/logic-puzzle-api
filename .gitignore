@@ -20,5 +20,6 @@ db_settings.py
 .venv
 .config
 config/
+
 # PyCharm
 .idea/
