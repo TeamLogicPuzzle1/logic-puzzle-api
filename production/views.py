@@ -7,10 +7,13 @@ from .models import Product
 from .servicelayer import extract_expiration_date_from_image
 from rest_framework import viewsets
 import os
-from google.cloud import vision
+from dotenv import load_dotenv
+import logging
 
-# Google Cloud Vision API의 인증 설정
-os.environ['GOOGLE_APPLICATION_CREDENTIALS'] = 'C:/Users/wtme4/OneDrive/바탕 화면/credentials/my-service-account.json'
+# 로깅 설정
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
+
 class ProductViewSet(viewsets.ModelViewSet):
     queryset = Product.objects.all()
     serializer_class = ProductCreateSerializer
@@ -29,11 +32,23 @@ class ProductViewSet(viewsets.ModelViewSet):
 
             # 이미지 파일 처리
             image = request.FILES.get('image')
-            if image:
+            if not image:
+                return Response({"error": "Image file is required."}, status=400)  # 이미지가 없는 경우 에러 메시지 추가
+
+            logger.info(f"Received image file: {image.name}, size: {image.size}")
+
+            try:
                 expiration_date = extract_expiration_date_from_image(image)
                 if expiration_date:
                     product.expiration_date = expiration_date
                     product.save()
+                else:
+                    logger.warning("No expiration date could be extracted.")
+                    return Response({"error": "No expiration date could be extracted."}, status=400)
+
+            except Exception as e:  # 예외 처리 추가
+                logger.exception(f"Error processing image: {str(e)}")
+                return Response({"error": str(e)}, status=400)
 
             return Response(serializer.data, status=201)
         return Response(serializer.errors, status=400)

@@ -12,6 +12,16 @@ https://docs.djangoproject.com/en/5.0/ref/settings/
 import os
 import ssl
 import sys
+import sys
+import os
+from pathlib import Path
+from django.conf import settings
+from dotenv import load_dotenv
+import os.path
+
+load_dotenv()
+GOOGLE_API_KEY = os.getenv('AIzaSyDdE-VBMf-WDKNFHSWpbRgBlcAZwe9TaCI')
+
 
 import certifi
 import environ
@@ -23,6 +33,18 @@ env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
 )
+
+
+
+
+from django.conf import settings
+from dotenv import load_dotenv
+
+# Load environment variables
+load_dotenv()
+
+# Google API Key (make sure to load it from .env instead)
+GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -44,15 +66,20 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
 
 # SECURITY WARNING: keep the secret key used in production secret!
+
 SECRET_KEY = env('SECRET_KEY')
+
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['*']
+
+
+ALLOWED_HOSTS = ["*"]
+
+
 
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -66,7 +93,11 @@ INSTALLED_APPS = [
     'notice',
     'user',
     'profile',
+<<<<<<< HEAD
     'sslserver',
+=======
+
+>>>>>>> 18ec35eeefee789c99be95f975b64c1d5946b4e6
 ]
 
 MIDDLEWARE = [
@@ -84,8 +115,7 @@ ROOT_URLCONF = 'logicPuzzle.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / 'templates']
-        ,
+        'DIRS': [BASE_DIR / 'templates'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
@@ -158,8 +188,8 @@ APPEND_SLASH = False
 
 DEFAULT_LOGGING = {
     'version': 1,
-    'disable_existing_loggers': False,  # 디폴트 : True, 장고의 디폴트 로그 설정을 대체. / False : 장고의 디폴트 로그 설정의 전부 또는 일부를 다시 정의
-    'formatters': {  # message 출력 포맷 형식
+    'disable_existing_loggers': False,
+    'formatters': {
         'verbose': {
             'format': "[%(asctime)s] %(levelname)s [%(name)s:%(lineno)s] %(message)s",
             'datefmt': "%d/%b/%Y %H:%M:%S"
@@ -172,26 +202,27 @@ DEFAULT_LOGGING = {
         'file': {
             'level': 'DEBUG',
             'class': 'logging.FileHandler',
-            'filename': 'file_name.log',  # message가 저장될 파일명(파일명 변경 가능)
+            'filename': 'file_name.log',
             'formatter': 'verbose'
         },
     },
     'loggers': {
         'django': {
-            'handlers': ['file'],  # 'file' : handler의 이름
+            'handlers': ['file'],
             'propagate': True,
-            'level': 'DEBUG',  # DEBUG 및 그 이상의 메시지를 file 핸들러에게 보내줍니다.
+            'level': 'DEBUG',
         },
-        'app_name': {  # Project에서 생성한 app의 이름
-            'handlers': ['file'],  # 다른 app을 생성 후 해당 app에서도
-            'level': 'DEBUG',  # 사용하고자 할 경우 해당 app 이름으로
-        },  # 좌측 코드를 추가 작성해서 사용
+        'app_name': {
+            'handlers': ['file'],
+            'level': 'DEBUG',
+        },
     }
 }
 
-##CORS
+# CORS settings
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
+
 
 CACHES = {
     "default": {
@@ -242,7 +273,20 @@ CORS_ALLOW_HEADERS = (
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR,'static')
 
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# Media files settings
+MEDIA_URL = '/media/'
+MEDIA_ROOT = BASE_DIR / 'media'
+
+# Cache settings
+CACHES = {
+    'default': {
+        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
+    }
+}
+

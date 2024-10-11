@@ -4,94 +4,92 @@ import re
 from datetime import datetime
 from google.cloud import vision
 from dotenv import load_dotenv
+import logging
+import environ
 
-import os
-from dotenv import load_dotenv
+env = environ.Env(
+    # set casting, default value
+    DEBUG=(bool, False)
+)
 
-
+# 로깅 설정
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 # .env 파일에서 환경 변수 로드
 load_dotenv()
 
-credentials_path = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
+credentials_path = env('GOOGLE_APPLICATION_CREDENTIALS')
+
+if not credentials_path:
+    raise EnvironmentError("GOOGLE_APPLICATION_CREDENTIALS is not set in the .env file.")
+
+# 유통기한 형식을 확인하는 정규 표현식
+EXPIRATION_DATE_REGEX = r'(\d{1,2}/\d{1,2}/\d{2,4}|\d{1,2}-\d{1,2}-\d{2,4}|\d{1,2}\s*[A-Za-z]{3,9}\s*\d{2,4}|\d{8})'
+
+
+def parse_expiration_date(text):
+    """Extracts the expiration date from the text using regex."""
+    matches = re.findall(EXPIRATION_DATE_REGEX, text)
+    if matches:
+        for match in matches:
+            try:
+                # YYYYMMDD 형식 처리
+                if len(match) == 8 and match.isdigit():
+                    return datetime.strptime(match, '%Y%m%d').date()
+
+                # 시도해보는 다른 날짜 형식
+                if '/' in match:
+                    return datetime.strptime(match, '%m/%d/%Y').date()
+                elif '-' in match:
+                    return datetime.strptime(match, '%m-%d-%Y').date()
+                else:
+                    return datetime.strptime(match, '%d %B %Y').date()
+            except ValueError:
+                continue
+    return None
 
 
 # 이미지에서 유통기한 추출
 def extract_expiration_date_from_image(image_file):
-    # 이미지 파일을 읽어 content로 변환
-    content = image_file.read()
+    try:
+        # Google Vision API 클라이언트 생성
+        client = vision.ImageAnnotatorClient()
 
-    # Google Vision API 클라이언트 생성
-    client = vision.ImageAnnotatorClient()
+        # 이미지 파일의 포인터를 처음으로 이동
+        image_file.seek(0)
 
-    # 이미지 데이터로 Image 객체 생성
-    image = vision.Image(content=content)
+        # 이미지 파일을 읽어서 Vision API에 전달하기 위한 형식으로 변환
+        content = image_file.read()  # 이미지 파일의 내용을 읽음
+        if not content:
+            logger.error("Image content is empty.")
+            return None
 
-    # 텍스트 감지 요청
-    response = client.text_detection(image=image)
+        image = vision.Image(content=content)
 
-    # API 응답에서 텍스트 감지 결과 처리
-    if response.error.message:
-        print("Error in API request:", response.error.message)
-        return datetime.now().date()  # 오류 발생 시 현재 날짜 반환
+        # Vision API에 요청
+        response = client.text_detection(image=image)
 
-    if response.text_annotations:
-        extracted_text = response.text_annotations[0].description
-        expiration_date = parse_expiration_date(extracted_text)
-        # 반환된 유통기한이 None이면 현재 날짜 반환
-        if expiration_date is None:
-            expiration_date = datetime.now().date()
-        return expiration_date
+        # API 응답을 로깅
+        if response.error.message:
+            logger.error(f"Error in API request: {response.error.message}")
+            return None  # 오류 발생 시 None 반환
 
-    return datetime.now().date()  # 이미지에서 텍스트가 감지되지 않았을 경우 현재 날짜 반환
+        logger.info(f"API Response: {response}")
 
-# 유통기한 문자열을 날짜 형식으로 파싱
-def parse_expiration_date(text):
-    date_patterns = [
-        r'\b\d{8}\b',  # 8자리 숫자 (예: YYYYMMDD, MMDDYYYY, DDMMYYYY)
-        r'\b\d{6}\b',  # 6자리 숫자 (예: YYMMDD, DDMMYY)
-    ]
+        texts = response.text_annotations
 
-    current_date = datetime.now()  # 현재 날짜
+        # API 응답에서 텍스트 감지 결과 처리
+        if texts:
+            extracted_text = texts[0].description
+            logger.info(f"Extracted Text: {extracted_text}")  # 추출된 텍스트 로그로 출력
+            expiration_date = parse_expiration_date(extracted_text)
+            if expiration_date:
+                return expiration_date
+            else:
+                logger.warning("No valid expiration date found in the text.")
+                return None
 
-    for pattern in date_patterns:
-        match = re.search(pattern, text)
-        if match:
-            date_str = match.group(0)
-            extracted_date = extract_date_with_validation(date_str)
-            return extracted_date
-
-    # 일치하는 날짜 형식이 없을 경우 현재 날짜 반환
-    return current_date.date()
-
-# 숫자 형식에 따른 날짜 변환 로직
-def extract_date_with_validation(date_str):
-    current_date = datetime.now()
-
-    if len(date_str) == 8:
-        year = int(date_str[0:4])
-        month = int(date_str[4:6])
-        day = int(date_str[6:8])
-
-        if 1 <= month <= 12 and 1 <= day <= 31:
-            try:
-                extracted_date = datetime(year, month, day)
-                if extracted_date >= current_date:
-                    return extracted_date.date()
-            except ValueError:
-                pass
-
-    elif len(date_str) == 6:
-        year = int(date_str[0:2]) + 2000
-        month = int(date_str[2:4])
-        day = int(date_str[4:6])
-
-        if 1 <= month <= 12 and 1 <= day <= 31:
-            try:
-                extracted_date = datetime(year, month, day)
-                if extracted_date >= current_date:
-                    return extracted_date.date()
-            except ValueError:
-                pass
-
-    return current_date.date()
+    except Exception as e:
+        logger.exception(f"An error occurred while processing the image: {str(e)}")
+        return None  # 예외 발생 시 None 반환

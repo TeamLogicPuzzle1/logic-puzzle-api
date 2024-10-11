@@ -3,18 +3,26 @@
 *.pot
 *.pyc
 __pycache__/
+/__pycache__/
 local_settings.py
 db.sqlite3
 db.sqlite3-journal
 media
 node_modules
+ssl
 
 # python file
+db_settings.py
 .static_root
 # Environments
 .env
 .venv
+<<<<<<< HEAD
 ssl
+=======
+.config
+config/
+>>>>>>> 18ec35eeefee789c99be95f975b64c1d5946b4e6
 
 # PyCharm
 .idea/

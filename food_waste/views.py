@@ -14,6 +14,7 @@ class FoodWasteViewSet(viewsets.ModelViewSet):
     serializer_class = FoodWasteSerializer
     parser_classes = [MultiPartParser, FormParser]  # 파일 업로드를 위한 파서 설정
 
+
     @swagger_auto_schema(
         request_body=FoodWasteSerializer,
         responses={201: FoodWasteSerializer},
@@ -23,8 +24,9 @@ class FoodWasteViewSet(viewsets.ModelViewSet):
         return super().create(request, *args, **kwargs)
 
     def get_stats(self, start_date, end_date):
-        stats = self.queryset.filter(date_recorded__gte=start_date, date__lte=end_date).aggregate(total=Sum('quantity'))  # 'amount' 대신 'quantity'로 수정
+        stats = self.queryset.filter(date_recorded__gte=start_date, date__lte=end_date).aggregate(total=Sum('amount'))
         return stats['total'] or 0
+
 
     @swagger_auto_schema(
         responses={200: 'Total quantity of food waste for today'},

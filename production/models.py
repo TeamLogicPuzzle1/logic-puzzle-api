@@ -2,7 +2,8 @@ from django.db import models
 
 class Product(models.Model):
     name = models.CharField(max_length=255)  # 상품 이름
-    expiration_date = models.DateField(null=True, blank=True)
+
+    expiration_date = models.DateField(null=True, blank=True)  # 유통 기한
     category = models.CharField(max_length=255, blank=True, null=True)  # 카테고리
     location = models.CharField(
         max_length=255,
@@ -19,7 +20,9 @@ class Product(models.Model):
     image = models.ImageField(upload_to='products/', blank=True, null=True)  # 이미지 파일 필드 추가
 
     def __str__(self):
-        return f"{self.name} - {self.expiration_date}"  # 이름과 만료일자를 함께 반환
+        return f"{self.name} - {self.expiration_date}"
+
 
     class Meta:
         db_table = 'production'
+
