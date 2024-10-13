@@ -44,3 +44,4 @@ venv.bak/
 # IntelliJ
 out/
 /ssl/
+/node_modules/
