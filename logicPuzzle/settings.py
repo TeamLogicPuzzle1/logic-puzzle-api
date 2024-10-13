@@ -9,23 +9,9 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-import os
-import ssl
 import sys
-import sys
-import os
-from pathlib import Path
-from django.conf import settings
-from dotenv import load_dotenv
-import os.path
-
-load_dotenv()
-GOOGLE_API_KEY = os.getenv('AIzaSyDdE-VBMf-WDKNFHSWpbRgBlcAZwe9TaCI')
-
-
-import certifi
 import environ
-
+import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from pathlib import Path
 
@@ -34,20 +20,11 @@ env = environ.Env(
     DEBUG=(bool, False)
 )
 
-
-
-
-from django.conf import settings
-from dotenv import load_dotenv
-
-# Load environment variables
-load_dotenv()
-
-# Google API Key (make sure to load it from .env instead)
-GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
-
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # SSL 인증서와 키 파일 경로 지정
 SSL_CERT_FILE = os.path.join(BASE_DIR, 'ssl', 'django.crt')
@@ -59,8 +36,6 @@ SSL_KEY_FILE = os.path.join(BASE_DIR, 'ssl', 'django.key')
 #EMAIL_SSL_CONTEXT.options |= ssl.OP_NO_SSLv2
 #EMAIL_SSL_CONTEXT.options |= ssl.OP_NO_SSLv3
 
-# Take environment variables from .env file
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
