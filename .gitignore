@@ -1,22 +1,24 @@
 ### Django ###
-*.log
-*.pot
-*.pyc
+*.log/
+*.pot/
+*.pyc/
 __pycache__/
 /__pycache__/
-local_settings.py
-db.sqlite3
-db.sqlite3-journal
+local_settings.py/
+db.sqlite3/
+db.sqlite3-journal/
 media
 node_modules
 
 # python file
-db_settings.py
-.static_root
+db_settings.py/
+.static_root/
 # Environments
+
 .env
+.env/
 .venv
-.config
+.config/
 config/
 
 # PyCharm
