@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django.contrib.auth.hashers import make_password
 from drf_yasg.utils import logger
 from rest_framework import serializers, status
@@ -11,6 +12,7 @@ class CreateProfileSerializer(serializers.Serializer):
     profile_name = serializers.CharField(required=True)
     pin_num = serializers.IntegerField(required=True, write_only=True)
     leader_yn = serializers.CharField(read_only=True)
+    member_id = serializers.IntegerField(read_only=True)
 
     def validate(self, data):
         """
@@ -45,3 +47,14 @@ class CreateProfileSerializer(serializers.Serializer):
             logger.error(f"Error creating profile: {str(e)}")  # Log any errors during creation
             raise APIException(detail="Error creating profile.",
                                code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class LoginSerializer(serializers.Serializer):
+    member_id = serializers.IntegerField(required=True, write_only=True)
+    pin_num = serializers.IntegerField(required=True, write_only=True)
+
+Profile = get_user_model()
+
+class ProfileSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Profile
+        fields = '__all__'
