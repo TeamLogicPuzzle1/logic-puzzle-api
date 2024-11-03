@@ -6,6 +6,7 @@ from rest_framework import permissions, status
 from rest_framework.views import APIView
 
 from profile.serializer import CreateProfileSerializer
+from profile.service import ProfileService
 from user.serializer import CreateUserSerializer
 
 
@@ -15,16 +16,16 @@ class MemberAPIView(APIView):
     serializer_class = CreateProfileSerializer
 
     @swagger_auto_schema(
-        operation_id='register',
-        operation_description='회원가입',
-        tags=['User'],
-        request_body=CreateUserSerializer,
-        responses={201: '회원가입 성공', 400: '잘못된 요청', 500: '서버 오류'}
+        operation_id='add member',
+        operation_description='멤버 추가',
+        tags=['Profile'],
+        request_body=CreateProfileSerializer,
+        responses={201: '멤버추가 성공', 400: '잘못된 요청', 500: '서버 오류'}
     )
     def post(self, request):
         try:
             userData = request.data
-            # serializer_class를 UserService로 전달
+            response = ProfileService.profileSave(userData, CreateProfileSerializer)
             return response  # Response를 그대로 반환
         except Exception as e:
             # 여기서 처리되지 않은 예외를 포괄적으로 처리

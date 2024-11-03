@@ -10,12 +10,13 @@ from .models import User
 
 
 class CreateUserSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
     user_id = serializers.CharField()
-    id_check = serializers.BooleanField(default=False)
+    id_check = serializers.BooleanField(default=False, write_only=True)
     password = serializers.CharField(write_only=True)
     password_check = serializers.CharField(write_only=True)
     email = serializers.CharField()
-    verify_check = serializers.BooleanField(default=False)
+    verify_check = serializers.BooleanField(default=False, write_only=True)
 
     def validate(self, data):
         """
@@ -26,11 +27,11 @@ class CreateUserSerializer(serializers.Serializer):
             raise serializers.ValidationError("Passwords do not match.")
 
         # Double check field validation (should be True)
-        if not data.get('id_check', False):  # Ensures that it is explicitly True
+        if not data.get('id_check', True):  # Ensures that it is explicitly True
             raise serializers.ValidationError("The id check option must be confirmed (True).")
 
         # Verify check field validation (should be True)
-        if not data.get('verify_check', False):  # Ensures that it is explicitly True
+        if not data.get('verify_check', True):  # Ensures that it is explicitly True
             raise serializers.ValidationError("The verify check option must be confirmed (True).")
 
         return data
