@@ -58,6 +58,7 @@ class UserCheckAPIView(APIView):
             return Response({"message": f"알 수 없는 오류가 발생했습니다: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 class SendVerificationCode(APIView):
+    permission_classes = [permissions.AllowAny]
     @swagger_auto_schema(
         operation_id='verificationCode',
         operation_description='이메일 인증',

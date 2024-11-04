@@ -5,7 +5,7 @@ from rest_framework.decorators import action
 from .serializers import ProductCreateSerializer
 from .models import Product
 from .servicelayer import extract_expiration_date_from_image
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 import os
 from dotenv import load_dotenv
 import logging
@@ -15,6 +15,7 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class ProductViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Product.objects.all()
     serializer_class = ProductCreateSerializer
     parser_classes = (MultiPartParser, FormParser)  # 파일 업로드를 처리하기 위한 파서 설정

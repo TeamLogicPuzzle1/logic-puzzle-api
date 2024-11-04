@@ -1,9 +1,10 @@
-from rest_framework import generics
+from rest_framework import generics, permissions
 from drf_yasg.utils import swagger_auto_schema
 from .models import Notice
 from .serializers import NoticeSerializer
 
 class NoticeListCreate(generics.ListCreateAPIView):
+    permission_classes = [permissions.IsAuthenticated]
     queryset = Notice.objects.all()
     serializer_class = NoticeSerializer
 
