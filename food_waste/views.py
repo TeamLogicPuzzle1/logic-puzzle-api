@@ -1,5 +1,5 @@
 # views.py
-from rest_framework import viewsets
+from rest_framework import viewsets, permissions
 from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.decorators import action
 from rest_framework.response import Response
@@ -10,6 +10,7 @@ from .serializers import FoodWasteSerializer
 from .serviceslayer import get_daily_statistics, get_weekly_statistics, get_monthly_statistics
 
 class FoodWasteViewSet(viewsets.ModelViewSet):
+    permission_classes = [permissions.IsAuthenticated]
     queryset = FoodWaste.objects.all()
     serializer_class = FoodWasteSerializer
     parser_classes = [MultiPartParser, FormParser]  # 파일 업로드를 위한 파서 설정
