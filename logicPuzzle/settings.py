@@ -298,6 +298,8 @@ SWAGGER_SETTINGS = {
         }
     },
     'USE_SESSION_AUTH': False,
+    'DEEP_LINKING': True,  # Enable deep linking for paths
+    'SHOW_REQUEST_HEADERS': True,  # Show headers in requests
 }
 
 CORS_ALLOW_METHODS = (
