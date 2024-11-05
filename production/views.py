@@ -1,7 +1,10 @@
 from rest_framework.parsers import MultiPartParser, FormParser
 from drf_yasg.utils import swagger_auto_schema
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from rest_framework.decorators import action
+from rest_framework_simplejwt.authentication import JWTAuthentication
+
 from .serializers import ProductCreateSerializer
 from .models import Product
 from .servicelayer import extract_expiration_date_from_image
@@ -15,7 +18,8 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 class ProductViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.IsAuthenticated]
+    authentication_classes = [JWTAuthentication]
+    permission_classes = [IsAuthenticated]
     queryset = Product.objects.all()
     serializer_class = ProductCreateSerializer
     parser_classes = (MultiPartParser, FormParser)  # 파일 업로드를 처리하기 위한 파서 설정

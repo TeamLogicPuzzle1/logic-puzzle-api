@@ -1,3 +1,4 @@
+from django.contrib.auth.models import UserManager
 from django.db import models
 
 
@@ -9,6 +10,21 @@ class User(models.Model):
     email = models.CharField(max_length=30)
     created_date = models.DateTimeField(auto_now_add=True)
     updated_date = models.DateTimeField(auto_now=True)
+
+    USERNAME_FIELD = 'user_id'
+
+    REQUIRED_FIELDS = []
+
+    is_active = models.BooleanField(default=True)
+
+    is_anonymous = models.BooleanField(default=True)
+
+    is_authenticated = models.BooleanField(default=True)
+
+    def has_module_perm(self, app_label):
+        return True
+
+    objects = UserManager()
 
     class Meta:
         db_table = 'user'
