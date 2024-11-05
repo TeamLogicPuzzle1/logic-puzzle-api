@@ -1,8 +1,10 @@
 from django.db import models
 
+import user.models
+
+
 class Product(models.Model):
     name = models.CharField(max_length=255)  # 상품 이름
-
     expiration_date = models.DateField(null=True, blank=True)  # 유통 기한
     category = models.CharField(max_length=255, blank=True, null=True)  # 카테고리
     location = models.CharField(
@@ -18,11 +20,10 @@ class Product(models.Model):
     quantity = models.IntegerField(blank=True, null=True)  # 수량
     memo = models.TextField(blank=True, null=True)  # 메모
     image = models.ImageField(upload_to='products/', blank=True, null=True)  # 이미지 파일 필드 추가
+    user = models.ForeignKey(user.models.User, max_length=20, on_delete=models.PROTECT, default='', null=False)
 
     def __str__(self):
         return f"{self.name} - {self.expiration_date}"
 
-
     class Meta:
         db_table = 'production'
-
