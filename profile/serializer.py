@@ -15,11 +15,8 @@ class CreateProfileSerializer(serializers.Serializer):
     member_id = serializers.IntegerField(read_only=True)
 
     def validate(self, data):
-        """
-        Ensure that the two password fields match.
-        """
-        # Password match check
-        if data['pin_num'] >= 6:
+        pin_str = str(data['pin_num'])
+        if not pin_str.isdigit() or len(pin_str) != 6:
             raise serializers.ValidationError("PIN number must contain only digits.")
         return data
 
@@ -51,8 +48,6 @@ class CreateProfileSerializer(serializers.Serializer):
 class LoginSerializer(serializers.Serializer):
     member_id = serializers.IntegerField(required=True, write_only=True)
     pin_num = serializers.IntegerField(required=True, write_only=True)
-
-Profile = get_user_model()
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
