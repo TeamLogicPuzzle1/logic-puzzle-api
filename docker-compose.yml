@@ -41,6 +41,16 @@ services:
     networks:
       - app-network
 
+  celery_worker:
+    build:
+      context: .
+    container_name: celery_worker
+    command: celery -A logicPuzzle worker --loglevel=info
+    depends_on:
+      - redis
+    networks:
+      - app-network
+
 networks:
   app-network:
     driver: bridge

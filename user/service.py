@@ -1,15 +1,20 @@
-import ssl
-from smtplib import SMTPResponseException, SMTPException
+import logging
+from smtplib import SMTPException
 
-from django.core.mail import EmailMessage, get_connection, send_mail
+from celery import shared_task
+from django.core.mail import EmailMessage
 from django.db import IntegrityError, DatabaseError
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
+import redis
 
 from user.models import User
 from util.emailHelper import sendEmailHelper
 
+logger = logging.getLogger(__name__)
+
+client = redis.StrictRedis(host='redis_service', port=6379, db=0)
 
 class UserService:
     def userSave(data, serializer_class):
@@ -43,20 +48,25 @@ class UserService:
                             status=status.HTTP_200_OK)
 
     @classmethod
-    def sendVerifyCode(cls, email):
+    @shared_task
+    def sendVerifyCode(email):
         try:
+            client.ping()
+            logger.info("email =" + email)
             # 인증 코드 생성 및 이메일 전송 로직
             code = sendEmailHelper.makeRandomCode()  # 인증 코드 생성 함수 호출
             message = code
-            subject = "EMAIL 제목"
+            client.set(email, code, ex=300)
+            subject = "%s" % "[냉집사] 이메일 인증 코드 안내"
             to = [email]
-
             mail = EmailMessage(subject=subject, body=message, to=to)
             mail.content_subtype = "html"
             mail.send()
-
-            return Response({"message": "Success to send Email", "data": True}, status=status.HTTP_202_ACCEPTED)
-
+            # Return a plain dictionary
+            return {"message": "Success to send Email", "data": True}
         except SMTPException as e:
-            # 예외 처리: 이메일 전송 실패 시 에러 메시지 반환
-            return Response({"message": f"Failed to send Email: {str(e)}", "data": False}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+            logger.error(f"Failed to send email: {e}")
+            return {"message": f"Failed to send Email: {str(e)}", "data": False}
+        except redis.ConnectionError:
+            logger.error("Failed to connect to Redis.")
+            return {"message": "Redis connection failed", "data": False}

@@ -1,19 +1,17 @@
 import logging
 
-from django.contrib.auth import authenticate, login
 from django.contrib.auth.hashers import check_password
 from django.db import IntegrityError, DatabaseError
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
-from rest_framework_simplejwt.serializers import TokenObtainPairSerializer
 from rest_framework_simplejwt.tokens import RefreshToken
 
 from profile.models import Profile
-from profile.serializer import ProfileSerializer
 from user.models import User
 
 logger = logging.getLogger(__name__)
+
 
 class ProfileService:
     def profileSave(data, serializer_class):
