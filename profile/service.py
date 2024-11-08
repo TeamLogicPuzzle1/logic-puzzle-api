@@ -12,7 +12,6 @@ from user.models import User
 
 logger = logging.getLogger(__name__)
 
-
 class ProfileService:
     def profileSave(data, serializer_class):
         try:

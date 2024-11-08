@@ -61,11 +61,11 @@ class UserCheckAPIView(APIView):
             return Response({"message": f"알 수 없는 오류가 발생했습니다: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
 
-class SendVerificationCode(APIView):
+class SendVerifyCode(APIView):
     permission_classes = [permissions.AllowAny]
 
     @swagger_auto_schema(
-        operation_id='verificationCode',
+        operation_id='sendVerifyCode',
         operation_description='이메일 인증',
         tags=['User'],
         request_body=openapi.Schema(
@@ -76,13 +76,45 @@ class SendVerificationCode(APIView):
             },
             required=['email']  # 필수 항목 지정
         ),
-        responses={201: '회원가입 성공', 400: '잘못된 요청', 500: '서버 오류'}
+        responses={201: '이메일 전송 성공', 400: '잘못된 요청', 500: '서버 오류'}
     )
     def post(self, request):
         try:
             userEmail = request.data.get('email')
-            response = UserService.sendVerifyCode.delay(userEmail)
-            return Response({"message": "Success to send Email", "data": True}, status=status.HTTP_202_ACCEPTED)
+            task = UserService.sendVerifyCode.delay(userEmail)
+            logger.info("task_id = " + task.id)
+            return Response({"task_id": task.id, "message": f"메일이 전송되었습니다.", "data": True}, status=status.HTTP_201_CREATED)
+        except Exception as e:
+            # 여기서 처리되지 않은 예외를 포괄적으로 처리
+            return Response({"message": f"알 수 없는 오류가 발생했습니다: {str(e)}", "data": False},
+                            status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+
+class CheckVerifyCode(APIView):
+    permission_classes = [permissions.AllowAny]
+
+    @swagger_auto_schema(
+        operation_id='checkVerifyCode',
+        operation_description='인증번호 체크',
+        tags=['User'],
+        request_body=openapi.Schema(
+            type=openapi.TYPE_OBJECT,
+            properties={
+                'code': openapi.Schema(type=openapi.TYPE_INTEGER, format=openapi.TYPE_INTEGER,
+                                       description='인증번호'),
+                'email': openapi.Schema(type=openapi.TYPE_STRING, format=openapi.FORMAT_EMAIL,
+                                        description='이메일 주소'),
+            },
+            required=['code', 'email'],  # 필수 항목 지정
+        ),
+        responses={201: '인증 성공', 400: '잘못된 요청', 500: '서버 오류'}
+    )
+    def patch(self, request):
+        try:
+            checkData = request.data
+            # serializer_class를 UserService로 전달
+            response = UserService.checkVerifyCode(checkData)
+            return response  # Response를 그대로 반환
         except Exception as e:
             # 여기서 처리되지 않은 예외를 포괄적으로 처리
             return Response({"message": f"알 수 없는 오류가 발생했습니다: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

@@ -1,14 +1,15 @@
 import logging
-from smtplib import SMTPException
+from smtplib import SMTPException, SMTPConnectError, SMTPRecipientsRefused, SMTPSenderRefused, SMTPDataError
 
+import redis
 from celery import shared_task
 from django.core.mail import EmailMessage
 from django.db import IntegrityError, DatabaseError
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
-import redis
 
+from logicPuzzle.celery import app
 from user.models import User
 from util.emailHelper import sendEmailHelper
 
@@ -47,26 +48,54 @@ class UserService:
             return Response({"message": "사용 가능한 아이디입니다.", "data": True},
                             status=status.HTTP_200_OK)
 
-    @classmethod
     @shared_task
     def sendVerifyCode(email):
         try:
-            client.ping()
+            logger.info("client.ping() =" + client.ping())
             logger.info("email =" + email)
             # 인증 코드 생성 및 이메일 전송 로직
             code = sendEmailHelper.makeRandomCode()  # 인증 코드 생성 함수 호출
             message = code
-            client.set(email, code, ex=300)
+            client.set(email, code, ex=3000)
             subject = "%s" % "[냉집사] 이메일 인증 코드 안내"
             to = [email]
             mail = EmailMessage(subject=subject, body=message, to=to)
             mail.content_subtype = "html"
             mail.send()
-            # Return a plain dictionary
+            logger.info("Email sent successfully")
             return {"message": "Success to send Email", "data": True}
+        except SMTPRecipientsRefused as e:
+            logger.error(f"Invalid recipient email address: {e}")
+            return {"message": "Invalid recipient email address", "data": False}
+        except SMTPSenderRefused as e:
+            logger.error(f"Sender address refused: {e}")
+            return {"message": "Sender address refused", "data": False}
+        except SMTPDataError as e:
+            logger.error(f"SMTP data error: {e}")
+            return {"message": "SMTP data error", "data": False}
+        except SMTPConnectError as e:
+            logger.error(f"SMTP connection failed: {e}")
+            return {"message": "SMTP connection failed", "data": False}
         except SMTPException as e:
             logger.error(f"Failed to send email: {e}")
             return {"message": f"Failed to send Email: {str(e)}", "data": False}
+        except Exception as e:
+            logger.error(f"Unexpected error: {e}")
+            return {"message": "Unexpected error occurred", "data": False}
         except redis.ConnectionError:
             logger.error("Failed to connect to Redis.")
             return {"message": "Redis connection failed", "data": False}
+
+    @classmethod
+    def checkVerifyCode(cls, checkData):
+        code = checkData.data.get("code")
+        logger.info("code = " + code)
+        email = checkData.data.get("email")
+        logger.info("email = " + email)
+        answer = client.get(email)
+        logger.info("answer = " + answer)
+        if code == answer:
+            client.delete(email)
+            return Response({"code": code}, status=status.HTTP_200_OK)
+        else:
+            return Response({"error": "Code Not Matched"}, status=status.HTTP_400_BAD_REQUEST)
