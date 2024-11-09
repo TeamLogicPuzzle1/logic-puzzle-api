@@ -9,18 +9,19 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
-import sys
 import datetime
 import os
+import os
+import os.path
 import ssl
 import sys
 import sys
-import os
+import sys
 from datetime import timedelta
 from pathlib import Path
+
 from django.conf import settings
 from dotenv import load_dotenv
-import os.path
 
 load_dotenv()
 GOOGLE_API_KEY = os.getenv('AIzaSyDdE-VBMf-WDKNFHSWpbRgBlcAZwe9TaCI')

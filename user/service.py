@@ -51,12 +51,12 @@ class UserService:
     @shared_task
     def sendVerifyCode(email):
         try:
-            logger.info("client.ping() =" + client.ping())
+            logger.info("client.ping() = " + str(client.ping()))
             logger.info("email =" + email)
             # 인증 코드 생성 및 이메일 전송 로직
             code = sendEmailHelper.makeRandomCode()  # 인증 코드 생성 함수 호출
             message = code
-            client.set(email, code, ex=3000)
+            client.set(email, code, ex=300)
             subject = "%s" % "[냉집사] 이메일 인증 코드 안내"
             to = [email]
             mail = EmailMessage(subject=subject, body=message, to=to)
@@ -87,15 +87,21 @@ class UserService:
             return {"message": "Redis connection failed", "data": False}
 
     @classmethod
-    def checkVerifyCode(cls, checkData):
-        code = checkData.data.get("code")
-        logger.info("code = " + code)
-        email = checkData.data.get("email")
-        logger.info("email = " + email)
-        answer = client.get(email)
-        logger.info("answer = " + answer)
-        if code == answer:
+    def checkVerifyCode(cls, code, email):
+        redisVal = client.get(email)
+
+        if redisVal is None:
+            # Log the error or handle it accordingly
+            logger.error("No verification code found for the provided email.")
+            return Response({"message": "인증 코드가 존재하지 않습니다.", "data": False}, status=status.HTTP_400_BAD_REQUEST)
+
+        # Decode the value if it exists
+        answer = redisVal.decode('utf-8')
+        logger.info("answer = " + str(type(answer)) + ":::" + answer)
+        logger.info("code = " + str(type(code)) + ":::" + str(code))
+
+        if str(code) == answer:
             client.delete(email)
-            return Response({"code": code}, status=status.HTTP_200_OK)
+            return Response({"message": "메일 인증이 성공하였습니다.", "data": True}, status=status.HTTP_200_OK)
         else:
-            return Response({"error": "Code Not Matched"}, status=status.HTTP_400_BAD_REQUEST)
+            return Response({"message": "메일 인증이 실패하였습니다.", "data": False}, status=status.HTTP_400_BAD_REQUEST)

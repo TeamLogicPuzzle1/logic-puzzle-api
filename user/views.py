@@ -81,9 +81,8 @@ class SendVerifyCode(APIView):
     def post(self, request):
         try:
             userEmail = request.data.get('email')
-            task = UserService.sendVerifyCode.delay(userEmail)
-            logger.info("task_id = " + task.id)
-            return Response({"task_id": task.id, "message": f"메일이 전송되었습니다.", "data": True}, status=status.HTTP_201_CREATED)
+            response = UserService.sendVerifyCode(userEmail)
+            return Response(response, status=status.HTTP_200_OK)
         except Exception as e:
             # 여기서 처리되지 않은 예외를 포괄적으로 처리
             return Response({"message": f"알 수 없는 오류가 발생했습니다: {str(e)}", "data": False},
@@ -107,14 +106,14 @@ class CheckVerifyCode(APIView):
             },
             required=['code', 'email'],  # 필수 항목 지정
         ),
-        responses={201: '인증 성공', 400: '잘못된 요청', 500: '서버 오류'}
+        responses={200: '인증 성공', 400: '잘못된 요청', 500: '서버 오류'}
     )
-    def patch(self, request):
+    def post(self, request):
         try:
-            checkData = request.data
-            # serializer_class를 UserService로 전달
-            response = UserService.checkVerifyCode(checkData)
-            return response  # Response를 그대로 반환
+            code = request.data.get('code')
+            email = request.data.get('email')
+            response = UserService.checkVerifyCode(code, email)
+            return response
         except Exception as e:
             # 여기서 처리되지 않은 예외를 포괄적으로 처리
             return Response({"message": f"알 수 없는 오류가 발생했습니다: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
