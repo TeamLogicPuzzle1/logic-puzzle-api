@@ -45,10 +45,6 @@ class CreateProfileSerializer(serializers.Serializer):
             raise APIException(detail="Error creating profile.",
                                code=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
-class LoginSerializer(serializers.Serializer):
-    member_id = serializers.IntegerField(required=True, write_only=True)
-    pin_num = serializers.IntegerField(required=True, write_only=True)
-
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
         model = Profile
