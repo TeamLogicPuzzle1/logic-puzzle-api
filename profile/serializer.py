@@ -11,7 +11,7 @@ class CreateProfileSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=True, write_only=True)
     profile_name = serializers.CharField(required=True)
     pin_num = serializers.IntegerField(required=True, write_only=True)
-    leader_yn = serializers.CharField(read_only=True)
+    leader_yn = serializers.BooleanField(read_only=True)
     member_id = serializers.IntegerField(read_only=True)
 
     def validate(self, data):
@@ -44,6 +44,12 @@ class CreateProfileSerializer(serializers.Serializer):
             logger.error(f"Error creating profile: {str(e)}")  # Log any errors during creation
             raise APIException(detail="Error creating profile.",
                                code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class GetProfileListSerializer(serializers.Serializer):
+    id = serializers.IntegerField(read_only=True)
+    user_id = serializers.IntegerField(read_only=True)
+    profile_name = serializers.CharField(read_only=True)
+    leader_yn = serializers.BooleanField(read_only=True)
 
 class ProfileSerializer(serializers.ModelSerializer):
     class Meta:
