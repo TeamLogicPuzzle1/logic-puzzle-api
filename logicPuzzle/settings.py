@@ -9,23 +9,26 @@ https://docs.djangoproject.com/en/5.0/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/5.0/ref/settings/
 """
+import datetime
 import os
+import os
+import os.path
 import ssl
 import sys
 import sys
-import os
+import sys
+from datetime import timedelta
 from pathlib import Path
+
 from django.conf import settings
 from dotenv import load_dotenv
-import os.path
 
 load_dotenv()
 GOOGLE_API_KEY = os.getenv('AIzaSyDdE-VBMf-WDKNFHSWpbRgBlcAZwe9TaCI')
 
-
 import certifi
 import environ
-
+import os
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 from pathlib import Path
 
@@ -33,9 +36,6 @@ env = environ.Env(
     # set casting, default value
     DEBUG=(bool, False)
 )
-
-
-
 
 from django.conf import settings
 from dotenv import load_dotenv
@@ -48,19 +48,20 @@ GOOGLE_API_KEY = os.getenv('GOOGLE_API_KEY')
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
+print(os.path.join(os.getcwd(), '.env'))
+# Take environment variables from .env file
+environ.Env.read_env(os.path.join(os.getcwd(), '.env'))
 
 # SSL 인증서와 키 파일 경로 지정
-SSL_CERT_FILE = os.path.join(BASE_DIR, 'ssl', 'server.cert')
-SSL_KEY_FILE = os.path.join(BASE_DIR, 'ssl', 'server.key')
+SSL_CERT_FILE = os.path.join(BASE_DIR, 'ssl', 'django.crt')
+SSL_KEY_FILE = os.path.join(BASE_DIR, 'ssl', 'django.key')
 
 # SSL 컨텍스트 생성
-#EMAIL_SSL_CONTEXT = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
-#EMAIL_SSL_CONTEXT.load_cert_chain(certfile=SSL_CERT_FILE, keyfile=SSL_KEY_FILE)
-#EMAIL_SSL_CONTEXT.options |= ssl.OP_NO_SSLv2
-#EMAIL_SSL_CONTEXT.options |= ssl.OP_NO_SSLv3
+# EMAIL_SSL_CONTEXT = ssl.create_default_context(ssl.Purpose.CLIENT_AUTH)
+# EMAIL_SSL_CONTEXT.load_cert_chain(certfile=SSL_CERT_FILE, keyfile=SSL_KEY_FILE)
+# EMAIL_SSL_CONTEXT.options |= ssl.OP_NO_SSLv2
+# EMAIL_SSL_CONTEXT.options |= ssl.OP_NO_SSLv3
 
-# Take environment variables from .env file
-environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.0/howto/deployment/checklist/
@@ -69,15 +70,10 @@ environ.Env.read_env(os.path.join(BASE_DIR, '.env'))
 
 SECRET_KEY = env('SECRET_KEY')
 
-
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-
-
 ALLOWED_HOSTS = ["*"]
-
-
 
 # Application definition
 INSTALLED_APPS = [
@@ -93,8 +89,64 @@ INSTALLED_APPS = [
     'notice',
     'user',
     'profile',
-    'notification'
+    'sslserver',
+    'rest_framework_simplejwt',
 ]
+
+REST_FRAMEWORK = {
+    'DEFAULT_PERMISSION_CLASSES': (
+        'rest_framework.permissions.IsAuthenticated', # 인증된 사용자만 접근 가능
+        'rest_framework.permissions.IsAdminUser', # 관리자만 접근 가능
+        'rest_framework.permissions.AllowAny', # 누구나 접근 가능
+    ),
+
+    'DEFAULT_AUTHENTICATION_CLASSES': (
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+        'rest_framework.authentication.SessionAuthentication',
+        'rest_framework.authentication.BasicAuthentication',
+        'rest_framework.authentication.TokenAuthentication',
+    )
+}
+
+# 추가적인 JWT_AUTH 설정
+SIMPLE_JWT = {
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
+    'ROTATE_REFRESH_TOKENS': False,
+    'BLACKLIST_AFTER_ROTATION': False,
+    'UPDATE_LAST_LOGIN': False,
+
+    'ALGORITHM': 'HS256',
+    'SIGNING_KEY': SECRET_KEY,
+    'VERIFYING_KEY': None,
+    'AUDIENCE': None,
+    'ISSUER': None,
+    'JWK_URL': None,
+    'LEEWAY': 0,
+
+    "AUTH_HEADER_TYPES": "Bearer",
+    'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
+    'USER_ID_FIELD': 'id',
+    'USER_ID_CLAIM': 'user_id',
+    'USER_AUTHENTICATION_RULE': 'rest_framework_simplejwt.authentication.default_user_authentication_rule',
+
+    'AUTH_TOKEN_CLASSES': ('rest_framework_simplejwt.tokens.AccessToken',),
+    'TOKEN_TYPE_CLAIM': 'token_type',
+    'TOKEN_USER_CLASS': 'rest_framework_simplejwt.models.TokenUser',
+
+    'JTI_CLAIM': 'jti',
+
+    'SLIDING_TOKEN_REFRESH_EXP_CLAIM': 'refresh_exp',
+    'SLIDING_TOKEN_LIFETIME': timedelta(minutes=5),
+    'SLIDING_TOKEN_REFRESH_LIFETIME': timedelta(days=1),
+
+    "TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainPairSerializer",
+    "TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSerializer",
+    "TOKEN_VERIFY_SERIALIZER": "rest_framework_simplejwt.serializers.TokenVerifySerializer",
+    "TOKEN_BLACKLIST_SERIALIZER": "rest_framework_simplejwt.serializers.TokenBlacklistSerializer",
+    "SLIDING_TOKEN_OBTAIN_SERIALIZER": "rest_framework_simplejwt.serializers.TokenObtainSlidingSerializer",
+    "SLIDING_TOKEN_REFRESH_SERIALIZER": "rest_framework_simplejwt.serializers.TokenRefreshSlidingSerializer",
+}
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -107,6 +159,7 @@ MIDDLEWARE = [
 ]
 
 ROOT_URLCONF = 'logicPuzzle.urls'
+AUTH_USER_MODEL = 'user.User'
 
 TEMPLATES = [
     {
@@ -146,10 +199,11 @@ EMAIL_PORT = 587
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_HOST_USER = env('EMAIL_HOST_USER')
 EMAIL_HOST_PASSWORD = env('EMAIL_HOST_PASSWORD')
-EMAIL_USE_SSL = False  # TLS를 사용할 경우 True로 설정하지 않음
-#EMAIL_SSL_CERTFILE = SSL_CERT_FILE
-#EMAIL_SSL_KEYFILE = SSL_KEY_FILE
-#EMAIL_SSL_CONTEXT = EMAIL_SSL_CONTEXT
+DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
+
+# EMAIL_SSL_CERTFILE = SSL_CERT_FILE
+# EMAIL_SSL_KEYFILE = SSL_KEY_FILE
+# EMAIL_SSL_CONTEXT = EMAIL_SSL_CONTEXT
 
 # Password validation
 # https://docs.djangoproject.com/en/5.0/ref/settings/#auth-password-validators
@@ -219,7 +273,6 @@ DEFAULT_LOGGING = {
 CORS_ORIGIN_ALLOW_ALL = True
 CORS_ALLOW_CREDENTIALS = True
 
-
 CACHES = {
     "default": {
         "BACKEND": 'django_redis.cache.RedisCache',
@@ -230,16 +283,26 @@ CACHES = {
     }
 }
 
-#celery
-CELERY_BROKER_URL = 'localhost:6379'
-CELERY_RESULT_BACKEND = 'localhost:6379'
+# celery
+CELERY_BROKER_URL = 'redis://redis_service:6379/0'
+CELERY_RESULT_BACKEND = 'redis://redis_service:6379/0'
 CELERY_ACCEPT_CONTENT = ['application/json']
 CELERY_RESULT_SERIALIZER = 'json'
 CELERY_TASK_SERIALIZER = 'json'
 CELERY_TIMEZONE = TIME_ZONE
 
 SWAGGER_SETTINGS = {
-   'USE_SESSION_AUTH': False
+    'SECURITY_DEFINITIONS': {
+        'Bearer': {
+            'type': 'apiKey',
+            'in': 'header',
+            'name': 'Authorization',
+            'description': 'JWT Authorization header using the Bearer scheme. Example: "Authorization: Bearer {token}"'
+        }
+    },
+    'USE_SESSION_AUTH': False,
+    'DEEP_LINKING': True,  # Enable deep linking for paths
+    'SHOW_REQUEST_HEADERS': True,  # Show headers in requests
 }
 
 CORS_ALLOW_METHODS = (
@@ -267,8 +330,7 @@ CORS_ALLOW_HEADERS = (
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
 STATIC_URL = 'static/'
-STATIC_ROOT = os.path.join(BASE_DIR,'static')
-
+STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
@@ -278,11 +340,3 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 # Media files settings
 MEDIA_URL = '/media/'
 MEDIA_ROOT = BASE_DIR / 'media'
-
-# Cache settings
-CACHES = {
-    'default': {
-        'BACKEND': 'django.core.cache.backends.dummy.DummyCache',
-    }
-}
-
