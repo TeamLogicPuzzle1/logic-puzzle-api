@@ -93,7 +93,7 @@ INSTALLED_APPS = [
     'notice',
     'user',
     'profile',
-
+    'notification'
 ]
 
 MIDDLEWARE = [
