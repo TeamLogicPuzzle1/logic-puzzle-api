@@ -9,6 +9,7 @@ from .models import Profile
 
 class CreateProfileSerializer(serializers.Serializer):
     id = serializers.IntegerField(required=True, write_only=True)
+    profile_image = serializers.ImageField(required=False)
     profile_name = serializers.CharField(required=True)
     pin_num = serializers.IntegerField(required=True, write_only=True)
     leader_yn = serializers.BooleanField(read_only=True)
@@ -19,6 +20,14 @@ class CreateProfileSerializer(serializers.Serializer):
         if not pin_str.isdigit() or len(pin_str) != 6:
             raise serializers.ValidationError("PIN number must contain only digits.")
         return data
+
+        valid_extensions = ['jpg', 'jpeg', 'png', 'gif']
+        if 'image' in data:
+            image_extension = data['image'].name.split('.')[-1].lower()
+            if image_extension not in valid_extensions:
+                raise serializers.ValidationError("Image must be a .jpg, .jpeg, .png, or .gif file.")
+        return data
+
 
     def create(self, validated_data):
         """

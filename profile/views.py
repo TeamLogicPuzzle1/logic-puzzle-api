@@ -1,6 +1,7 @@
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions, status
+from rest_framework.parsers import MultiPartParser, JSONParser, FormParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -12,18 +13,19 @@ from profile.service import ProfileService
 class MemberAPIView(APIView):
     permission_classes = [permissions.AllowAny]
     serializer_class = CreateProfileSerializer
+    parser_classes = (MultiPartParser, FormParser)
 
     @swagger_auto_schema(
-        operation_id='add member',
+        operation_id='add_member',
         operation_description='멤버 추가',
         tags=['Profile'],
         request_body=CreateProfileSerializer,
-        responses={201: '멤버추가 성공', 400: '잘못된 요청', 500: '서버 오류'}
+        responses={201: '멤버 추가 성공', 400: '잘못된 요청', 500: '서버 오류'}
     )
     def post(self, request):
         try:
-            userData = request.data
-            response = ProfileService.profileSave(userData, CreateProfileSerializer)
+            user_data = request.data
+            response = ProfileService.profileSave(user_data, CreateProfileSerializer)
             return response  # Response를 그대로 반환
         except Exception as e:
             # 여기서 처리되지 않은 예외를 포괄적으로 처리

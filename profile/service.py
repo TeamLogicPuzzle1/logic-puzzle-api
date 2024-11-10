@@ -1,15 +1,12 @@
 import logging
 
-from django.contrib.auth.hashers import check_password
 from django.db import IntegrityError, DatabaseError
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
 
 from profile.models import Profile
 from profile.serializer import GetProfileListSerializer
-from user.models import User
 
 logger = logging.getLogger(__name__)
 
