@@ -45,3 +45,4 @@ venv.bak/
 out/
 /ssl/
 /node_modules/
+logicPuzzle/__pycache__/
