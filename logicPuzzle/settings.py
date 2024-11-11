@@ -91,6 +91,7 @@ INSTALLED_APPS = [
     'profile',
     'sslserver',
     'rest_framework_simplejwt',
+    'rest_framework_simplejwt.token_blacklist',
 ]
 
 REST_FRAMEWORK = {
@@ -110,10 +111,10 @@ REST_FRAMEWORK = {
 
 # 추가적인 JWT_AUTH 설정
 SIMPLE_JWT = {
-    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=30),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
     'REFRESH_TOKEN_LIFETIME': timedelta(days=7),
-    'ROTATE_REFRESH_TOKENS': False,
-    'BLACKLIST_AFTER_ROTATION': False,
+    'ROTATE_REFRESH_TOKENS': True,
+    'BLACKLIST_AFTER_ROTATION': True,
     'UPDATE_LAST_LOGIN': False,
 
     'ALGORITHM': 'HS256',
@@ -124,7 +125,7 @@ SIMPLE_JWT = {
     'JWK_URL': None,
     'LEEWAY': 0,
 
-    "AUTH_HEADER_TYPES": "Bearer",
+    "AUTH_HEADER_TYPES": ('Bearer', ),
     'AUTH_HEADER_NAME': 'HTTP_AUTHORIZATION',
     'USER_ID_FIELD': 'id',
     'USER_ID_CLAIM': 'user_id',
@@ -297,7 +298,7 @@ SWAGGER_SETTINGS = {
             'type': 'apiKey',
             'in': 'header',
             'name': 'Authorization',
-            'description': 'JWT Authorization header using the Bearer scheme. Example: "Authorization: Bearer {token}"'
+            'description': 'Enter token with "Bearer" prefix. JWT Authorization header using the Bearer scheme. Example: "Authorization: Bearer {token}"'
         }
     },
     'USE_SESSION_AUTH': False,
