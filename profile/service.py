@@ -1,14 +1,12 @@
 import logging
 
-from django.contrib.auth.hashers import check_password
 from django.db import IntegrityError, DatabaseError
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
-from rest_framework_simplejwt.tokens import RefreshToken
 
 from profile.models import Profile
-from user.models import User
+from profile.serializer import GetProfileListSerializer
 
 logger = logging.getLogger(__name__)
 
@@ -33,3 +31,16 @@ class ProfileService:
         except Exception as e:
             # 기타 예상치 못한 예외 처리
             return Response({"message": f"알 수 없는 오류가 발생했습니다: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+    @classmethod
+    def getProfileList(cls, userId):
+        profiles = []
+        try:
+            profiles = Profile.objects.filter(user_id=userId).values()
+            serialized_profiles = GetProfileListSerializer(profiles, many=True).data
+            return {"message": "Success", "data": list(serialized_profiles)}
+        except Exception as e:
+            logger.error(f"Unexpected error: {e}")
+            return {"message": "Unexpected error occurred", "data": list(profiles)}
+
+
