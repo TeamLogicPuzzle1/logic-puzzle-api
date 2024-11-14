@@ -2,6 +2,7 @@ from django.core.exceptions import ValidationError
 from django.db import models
 
 import user.models
+import datetime
 
 
 class FoodWaste(models.Model):
@@ -15,7 +16,7 @@ class FoodWaste(models.Model):
 
     quantity = models.FloatField(choices=QUANTITY_CHOICES)  # 음식물 쓰레기 양 (리터 단위, 필수 필드)
     date_recorded = models.DateField(auto_now_add=True)  # 객체 생성 시 현재 날짜 자동 설정
-    date = models.DateField(db_index=True)  # 날짜 (인덱스 추가)
+    date = models.DateField(db_index=True, default=datetime.date.today)  # 날짜 (인덱스 추가)
     user = models.ForeignKey(user.models.User, max_length=20, on_delete=models.PROTECT, default='', null=False)
 
     def __str__(self):

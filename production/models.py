@@ -1,9 +1,11 @@
 from django.db import models
 
 import user.models
+import uuid
 
 
 class Product(models.Model):
+    product_id = models.UUIDField(default=uuid.uuid4, editable=False, unique=True, primary_key=True)
     name = models.CharField(max_length=255)  # 상품 이름
     expiration_date = models.DateField(null=True, blank=True)  # 유통 기한
     category = models.CharField(max_length=255, blank=True, null=True)  # 카테고리
