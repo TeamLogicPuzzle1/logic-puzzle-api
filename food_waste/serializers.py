@@ -7,7 +7,7 @@ class FoodWasteSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = FoodWaste
-        fields = ['user_id', 'quantity', 'date_recorded']  # date 필드를 포함시킴
+        fields = ['user_id', 'quantity', 'date_recorded']
         read_only_fields = ['date_recorded']
 
     def create(self, validated_data):

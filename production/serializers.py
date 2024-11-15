@@ -16,3 +16,13 @@ class ProductCreateSerializer(serializers.ModelSerializer):
         user = get_object_or_404(User, user_id=user_id)
         product = Product.objects.create(user=user, **validated_data)
         return product
+
+    def update(self, instance, validated_data):
+        # user_id를 업데이트하려는 경우 처리
+        user_id = validated_data.pop('user_id', None)
+        if user_id:
+            user = get_object_or_404(User, user_id=user_id)
+            validated_data['user'] = user
+
+        # 기본 업데이트 로직 수행
+        return super().update(instance, validated_data)
