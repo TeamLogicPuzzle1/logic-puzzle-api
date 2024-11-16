@@ -1,7 +1,7 @@
 ### Django ###
-*.log
-*.pot
-*.pyc
+*.log/
+*.pot/
+*.pyc/
 __pycache__/
 local_settings.py
 db.sqlite3
@@ -18,9 +18,10 @@ media
 *.spec
 
 # python file
-db_settings.py
-.static_root
+db_settings.py/
+.static_root/
 # Environments
+
 .env
 config/
 env/
