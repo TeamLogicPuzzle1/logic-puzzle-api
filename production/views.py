@@ -9,6 +9,7 @@ from user.models import User
 from .servicelayer import extract_and_parse_expiration_date
 from rest_framework import viewsets, status, permissions
 import logging
+from rest_framework.decorators import action
 
 # 로깅 설정
 logging.basicConfig(level=logging.INFO)
@@ -103,3 +104,28 @@ class ProductViewSet(viewsets.ModelViewSet):
             return Response(serializer.data, status=status.HTTP_200_OK)
 
         return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+
+    @swagger_auto_schema(
+        manual_parameters=[
+            openapi.Parameter(
+                'name', openapi.IN_QUERY, description="Search product by name", type=openapi.TYPE_STRING
+            )
+        ],
+        operation_description="Search for products by their name.",
+        responses={200: ProductCreateSerializer(many=True)}
+    )
+    @action(detail=False, methods=['get'], url_path='search-by-name')
+    def search_by_name(self, request):
+        product_name = request.query_params.get('name', None)
+
+        if not product_name:
+            return Response({"error": "Product name parameter 'name' is required."}, status=status.HTTP_400_BAD_REQUEST)
+
+        # 이름에 해당하는 상품 필터링
+        queryset = self.get_queryset().filter(name__icontains=product_name)
+
+        if not queryset.exists():
+            return Response({"message": "No products found with the given name."}, status=status.HTTP_404_NOT_FOUND)
+
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
