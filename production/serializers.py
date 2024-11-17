@@ -14,6 +14,12 @@ class ProductCreateSerializer(serializers.ModelSerializer):
     def create(self, validated_data):
         user_id = validated_data.pop('user_id')
         user = get_object_or_404(User, user_id=user_id)
+
+        # 기본값 처리
+        validated_data.setdefault('category', 1)  # category 기본값
+        validated_data.setdefault('location', 1)  # location 기본값
+        validated_data.setdefault('quantity', 1)  # quantity 기본값
+
         product = Product.objects.create(user=user, **validated_data)
         return product
 
