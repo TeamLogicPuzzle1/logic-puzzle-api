@@ -21,7 +21,7 @@ user_id_param = openapi.Parameter(
 
 
 class FoodWasteViewSet(viewsets.ModelViewSet):
-    permission_classes = [permissions.AllowAny]  # JWT 인증 제거, 모든 접근 허용
+    permission_classes = [permissions.IsAuthenticated]
     queryset = FoodWaste.objects.all()
     serializer_class = FoodWasteSerializer
 
@@ -31,7 +31,6 @@ class FoodWasteViewSet(viewsets.ModelViewSet):
         operation_description="Create a food waste record using user_id."
     )
     def create(self, request, *args, **kwargs):
-        # user_id 파라미터로 유저 조회
         user_id = request.data.get("user_id")
         if not user_id:
             return Response({"error": "user_id parameter is required."}, status=400)
@@ -52,7 +51,6 @@ class FoodWasteViewSet(viewsets.ModelViewSet):
         operation_description="List all food waste records for a specific user."
     )
     def list(self, request, *args, **kwargs):
-        # 특정 사용자의 모든 음식물 쓰레기 기록 조회
         user_id = request.query_params.get('user_id')
         if user_id:
             user = get_object_or_404(User, user_id=user_id)
@@ -65,7 +63,7 @@ class FoodWasteViewSet(viewsets.ModelViewSet):
 
     @swagger_auto_schema(
         manual_parameters=[user_id_param],
-        responses={200: 'Total quantity of food waste for today'},
+        responses={200: 'Daily statistics of food waste'},
         operation_description="Get daily statistics of food waste for a specific user."
     )
     @action(detail=False, methods=['get'], url_path='stats/daily')
@@ -75,12 +73,13 @@ class FoodWasteViewSet(viewsets.ModelViewSet):
             return Response({"error": "user_id parameter is required."}, status=400)
 
         user = get_object_or_404(User, user_id=user_id)
-        daily_data = get_daily_statistics(user=user)
-        return Response({'total_quantity': daily_data.get('total_quantity', 0)})
+        start_date = FoodWaste.objects.filter(user=user).earliest('date').date
+        daily_data = get_daily_statistics(user=user, start_date=start_date)
+        return Response({'daily_statistics': daily_data})
 
     @swagger_auto_schema(
         manual_parameters=[user_id_param],
-        responses={200: 'Total quantity of food waste for the week'},
+        responses={200: 'Weekly statistics of food waste'},
         operation_description="Get weekly statistics of food waste for a specific user."
     )
     @action(detail=False, methods=['get'], url_path='stats/weekly')
@@ -90,12 +89,13 @@ class FoodWasteViewSet(viewsets.ModelViewSet):
             return Response({"error": "user_id parameter is required."}, status=400)
 
         user = get_object_or_404(User, user_id=user_id)
-        weekly_data = get_weekly_statistics(user=user)
-        return Response({'total_quantity': weekly_data.get('total_quantity', 0)})
+        start_date = FoodWaste.objects.filter(user=user).earliest('date').date
+        weekly_data = get_weekly_statistics(user=user, start_date=start_date)
+        return Response({'weekly_statistics': weekly_data})
 
     @swagger_auto_schema(
         manual_parameters=[user_id_param],
-        responses={200: 'Total quantity of food waste for the month'},
+        responses={200: 'Monthly statistics of food waste'},
         operation_description="Get monthly statistics of food waste for a specific user."
     )
     @action(detail=False, methods=['get'], url_path='stats/monthly')
@@ -105,8 +105,9 @@ class FoodWasteViewSet(viewsets.ModelViewSet):
             return Response({"error": "user_id parameter is required."}, status=400)
 
         user = get_object_or_404(User, user_id=user_id)
-        monthly_data = get_monthly_statistics(user=user)
-        return Response({'total_quantity': monthly_data.get('total_quantity', 0)})
+        start_date = FoodWaste.objects.filter(user=user).earliest('date').date
+        monthly_data = get_monthly_statistics(user=user, start_date=start_date)
+        return Response({'monthly_statistics': monthly_data})
 
     @swagger_auto_schema(
         request_body=openapi.Schema(
@@ -125,29 +126,19 @@ class FoodWasteViewSet(viewsets.ModelViewSet):
         user_id = request.data.get("user_id")
         quantity = request.data.get("quantity")
 
-        logger.info(f"Received reduce request with user_id: {user_id}, quantity: {quantity}")
-
         if not user_id or quantity is None:
-            logger.error("Missing user_id or quantity in request.")
-            return Response({"error": "user_id and quantity parameters are required."},
-                            status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "user_id and quantity parameters are required."}, status=400)
 
         if quantity <= 0:
-            logger.error(f"Invalid quantity to reduce: {quantity}")
-            return Response({"error": "The quantity to reduce must be greater than zero."},
-                            status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "The quantity to reduce must be greater than zero."}, status=400)
 
         user = get_object_or_404(User, user_id=user_id)
         success = reduce_food_waste(user, quantity)
 
         if not success:
-            logger.error("No food waste available to reduce.")
-            return Response({"error": "No food waste available to reduce."},
-                            status=status.HTTP_400_BAD_REQUEST)
+            return Response({"error": "No food waste available to reduce."}, status=400)
 
-        return Response({
-            "message": f"Reduced {quantity}L from the latest record."
-        }, status=status.HTTP_200_OK)
+        return Response({"message": f"Reduced {quantity}L from the latest record."}, status=200)
 
     @swagger_auto_schema(
         manual_parameters=[user_id_param],
@@ -163,8 +154,4 @@ class FoodWasteViewSet(viewsets.ModelViewSet):
         user = get_object_or_404(User, user_id=user_id)
         records_deleted, _ = FoodWaste.objects.filter(user=user).delete()
 
-        logger.info(f"Deleted all food waste records for user_id: {user_id}. Total records deleted: {records_deleted}")
-
-        return Response({
-            "message": f"Deleted all food waste records for user_id: {user_id}."
-        }, status=status.HTTP_200_OK)
+        return Response({"message": f"Deleted all food waste records for user_id: {user_id}."}, status=200)
