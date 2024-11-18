@@ -1,7 +1,9 @@
-from rest_framework import serializers
 from django.shortcuts import get_object_or_404
-from .models import Product
+from rest_framework import serializers
+
 from user.models import User
+from .models import Product
+
 
 class ProductCreateSerializer(serializers.ModelSerializer):
     user_id = serializers.CharField(write_only=True)
@@ -9,16 +11,17 @@ class ProductCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['product_id', 'name', 'expiration_date', 'category', 'location', 'quantity', 'memo', 'image', 'user_id']
+        fields = ['product_id', 'name', 'expiration_date', 'category', 'location', 'quantity', 'memo', 'image',
+                  'user_id']
 
     def create(self, validated_data):
         user_id = validated_data.pop('user_id')
         user = get_object_or_404(User, user_id=user_id)
 
         # 기본값 처리
-        validated_data.setdefault('category', 1)  # category 기본값
-        validated_data.setdefault('location', 1)  # location 기본값
-        validated_data.setdefault('quantity', 1)  # quantity 기본값
+        validated_data.setdefault('category', 0)  # category 기본값
+        validated_data.setdefault('location', 0)  # location 기본값
+        validated_data.setdefault('quantity', 0)  # quantity 기본값
 
         product = Product.objects.create(user=user, **validated_data)
         return product

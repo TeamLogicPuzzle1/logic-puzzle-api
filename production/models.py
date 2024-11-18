@@ -1,8 +1,9 @@
+import uuid
+from datetime import date
+
 from django.db import models
 
 import user.models
-import uuid
-from datetime import date
 
 
 class Product(models.Model):
@@ -11,25 +12,25 @@ class Product(models.Model):
     expiration_date = models.DateField(default=date.today, null=False, blank=False)  # 유통 기한 (필수)
     category = models.IntegerField(
         choices=[
-            (1, '미분류'),
-            (2, '고기'),
-            (3, '해산물'),
-            (4, '유제품'),
-            (5, '야채'),
-            (6, '음료'),
-            (7, '과일'),
-            (8, '기타')
+            (0, '미분류'),
+            (1, '고기'),
+            (2, '해산물'),
+            (3, '유제품'),
+            (4, '야채'),
+            (5, '음료'),
+            (6, '과일'),
+            (7, '기타')
         ],
-        default=1  # 기본값
+        default=0  # 기본값
     )  # 카테고리 (필수)
     location = models.IntegerField(
         choices=[
-            (1, '냉장'),
-            (2, '냉동'),
-            (3, '상온'),
-            (4, '미분류')
+            (0, '냉장'),
+            (1, '냉동'),
+            (2, '상온'),
+            (3, '미분류')
         ],
-        default=1  # 기본값
+        default=0  # 기본값
     )  # 장소 선택 (필수)
     quantity = models.IntegerField(default=1)  # 수량 (필수, 기본값 1)
     memo = models.TextField(blank=True, null=True)  # 메모 (선택)
