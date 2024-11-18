@@ -1,5 +1,6 @@
 import uuid
 from datetime import date
+from pydoc import describe
 
 from django.db import models
 
@@ -21,7 +22,9 @@ class Product(models.Model):
             (6, '과일'),
             (7, '기타')
         ],
-        default=0  # 기본값
+        default=0,  # 기본값
+        help_text="0 : 미분류, 1 : 고기, 2 : 해산물, 3 : 유제품, 4 : 야채, 5 : 음료, 6 : 과일, 7 : 기타",
+
     )  # 카테고리 (필수)
     location = models.IntegerField(
         choices=[
@@ -30,7 +33,8 @@ class Product(models.Model):
             (2, '상온'),
             (3, '미분류')
         ],
-        default=0  # 기본값
+        default=0,  # 기본값
+        help_text="0 : 냉장, 1 : 냉동, 2 : 상온, 3 : 미분류",
     )  # 장소 선택 (필수)
     quantity = models.IntegerField(default=1)  # 수량 (필수, 기본값 1)
     memo = models.TextField(blank=True, null=True)  # 메모 (선택)
