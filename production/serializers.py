@@ -1,7 +1,9 @@
-from rest_framework import serializers
 from django.shortcuts import get_object_or_404
-from .models import Product
+from rest_framework import serializers
+
 from user.models import User
+from .models import Product
+
 
 class ProductCreateSerializer(serializers.ModelSerializer):
     user_id = serializers.CharField(write_only=True)  # 입력에서만 user_id를 받음
@@ -9,20 +11,19 @@ class ProductCreateSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Product
-        fields = ['product_id', 'name', 'expiration_date', 'category', 'location', 'quantity', 'memo', 'user_id']
-        extra_kwargs = {
-            'expiration_date': {'required': True},  # expiration_date 필수화
-            'category': {'default': 1},  # 기본값 설정
-            'location': {'default': 1},  # 기본값 설정
-            'quantity': {'default': 1},  # 기본값 설정
-        }
+        fields = ['product_id', 'name', 'expiration_date', 'category', 'location', 'quantity', 'memo', 'image',
+                  'user_id']
 
     def create(self, validated_data):
         # user_id로 User 객체 가져오기
         user_id = validated_data.pop('user_id')
         user = get_object_or_404(User, user_id=user_id)
 
-        # Product 생성
+        # 기본값 처리
+        validated_data.setdefault('category', 0)  # category 기본값
+        validated_data.setdefault('location', 0)  # location 기본값
+        validated_data.setdefault('quantity', 0)  # quantity 기본값
+
         product = Product.objects.create(user=user, **validated_data)
         return product
 
@@ -35,7 +36,3 @@ class ProductCreateSerializer(serializers.ModelSerializer):
 
         # 기본 업데이트 로직 수행
         return super().update(instance, validated_data)
-
-# ExpirationDateExtractSerializer를 클래스 외부로 이동
-class ExpirationDateExtractSerializer(serializers.Serializer):
-    image = serializers.ImageField(required=True)  # 이미지 파일 필수
