@@ -3,6 +3,10 @@ from rest_framework import serializers
 
 from user.models import User
 from .models import Product
+from rest_framework import serializers
+
+class ExpirationDateExtractSerializer(serializers.Serializer):
+    image = serializers.ImageField(required=True)  # 이미지 파일 필수
 
 
 class ProductCreateSerializer(serializers.ModelSerializer):
