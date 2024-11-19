@@ -33,7 +33,7 @@ class FoodWasteViewSet(viewsets.ModelViewSet):
     def create(self, request, *args, **kwargs):
         user_id = request.data.get("user_id")
         if not user_id:
-            return Response({"error": "user_id parameter is required."}, status=400)
+            return Response({"message": "유저를 찾을 수 없습니다.", "data": False}, status=status.HTTP_400_BAD_REQUEST)
 
         user = get_object_or_404(User, user_id=user_id)
         serializer = self.get_serializer(data=request.data)
@@ -41,9 +41,9 @@ class FoodWasteViewSet(viewsets.ModelViewSet):
             instance = serializer.save(user=user)
             logger.info(
                 f"Created food waste record: User ID={user_id}, Quantity={instance.quantity}, Date Recorded={instance.date_recorded}")
-            return Response(serializer.data, status=201)
+            return Response({"message": "저장이 완료되었습니다.", "data": True}, status=status.HTTP_201_CREATED)
 
-        return Response(serializer.errors, status=400)
+        return Response({"message": "저장에 실패하였습니다.", "data": False}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     @swagger_auto_schema(
         manual_parameters=[user_id_param],
