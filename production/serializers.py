@@ -3,10 +3,14 @@ from rest_framework import serializers
 
 from user.models import User
 from .models import Product
+from rest_framework import serializers
+
+class ExpirationDateExtractSerializer(serializers.Serializer):
+    image = serializers.ImageField(required=True)  # 이미지 파일 필수
 
 
 class ProductCreateSerializer(serializers.ModelSerializer):
-    user_id = serializers.CharField(write_only=True)
+    user_id = serializers.CharField(write_only=True)  # 입력에서만 user_id를 받음
     product_id = serializers.UUIDField(read_only=True)  # 응답에 product_id 포함
 
     class Meta:
@@ -15,6 +19,7 @@ class ProductCreateSerializer(serializers.ModelSerializer):
                   'user_id']
 
     def create(self, validated_data):
+        # user_id로 User 객체 가져오기
         user_id = validated_data.pop('user_id')
         user = get_object_or_404(User, user_id=user_id)
 

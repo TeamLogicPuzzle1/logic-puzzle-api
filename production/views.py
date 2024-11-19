@@ -10,7 +10,7 @@ from rest_framework.response import Response
 
 from user.models import User
 from .models import Product
-from .serializers import ProductCreateSerializer
+from .serializers import ProductCreateSerializer, ExpirationDateExtractSerializer
 from .servicelayer import extract_and_parse_expiration_date
 
 # 로깅 설정
@@ -46,7 +46,7 @@ class ProductViewSet(viewsets.ModelViewSet):
         user_id = self.request.query_params.get('user_id')
         if not user_id:
             logger.warning("user_id is missing in the request.")
-            return Product.objects.none()  # user_id가 없는 경우 빈 쿼리셋 반환
+            return Product.objects.none()
 
         queryset = Product.objects.filter(user__user_id=user_id)
 
@@ -77,42 +77,49 @@ class ProductViewSet(viewsets.ModelViewSet):
         serializer = self.get_serializer(queryset, many=True)
         return Response(serializer.data, status=200)
 
-    @action(detail=False, methods=['post'], url_path='create-with-image', url_name='create_with_image')
     @swagger_auto_schema(
-        operation_description="Create a product with an optional image file using user_id. If an image is provided, it attempts to extract the expiration date.",
-        request_body=ProductCreateSerializer,
-        responses={201: ProductCreateSerializer, 400: "Bad Request"},
+        operation_description="Extract expiration date from an uploaded image file.",
+        request_body=ExpirationDateExtractSerializer,
+        responses={
+            200: openapi.Schema(
+                type=openapi.TYPE_OBJECT,
+                properties={
+                    'expiration_date': openapi.Schema(type=openapi.TYPE_STRING, format='date',
+                                                      description='Extracted expiration date'),
+                }
+            ),
+            400: "Bad Request",
+            500: "Internal Server Error"
+        }
     )
-    @action(detail=False, methods=['post'], url_path='create-with-image', url_name='create_with_image')
-    @swagger_auto_schema(
-        operation_description="Create a product with an optional image file using user_id. If an image is provided, it attempts to extract the expiration date.",
-        request_body=ProductCreateSerializer,
-        responses={201: ProductCreateSerializer, 400: "Bad Request"},
-    )
-    def create_with_image(self, request):
+    @action(detail=False, methods=['post'], url_path='extract-expiration-date', url_name='extract_expiration_date')
+    def extract_expiration_date(self, request):
         """
-        이미지와 함께 제품 생성
+        이미지에서 소비기한 추출
+        """
+        serializer = ExpirationDateExtractSerializer(data=request.data)
+        if serializer.is_valid():
+            image = serializer.validated_data['image']
+            try:
+                expiration_date = extract_and_parse_expiration_date(image)
+                if expiration_date:
+                    return Response({"expiration_date": expiration_date}, status=200)
+                else:
+                    return Response({"error": "No expiration date could be extracted from the image."}, status=400)
+            except Exception as e:
+                logger.exception(f"Error extracting expiration date: {str(e)}")
+                return Response({"error": str(e)}, status=500)
+        return Response(serializer.errors, status=400)
+
+    def create(self, request, *args, **kwargs):
+        """
+        상품 생성 API (이미지 없이 소비기한 직접 입력)
         """
         serializer = self.get_serializer(data=request.data)
         if serializer.is_valid():
-            product = serializer.save()  # user 처리 제거
-
-            # 이미지 처리
-            image = request.FILES.get('image')
-            if image:
-                logger.info(f"Received image file: {image.name}, size: {image.size}")
-                try:
-                    expiration_date = extract_and_parse_expiration_date(image)
-                    if expiration_date:
-                        product.expiration_date = expiration_date
-                        product.save(update_fields=['expiration_date'])
-                    else:
-                        logger.warning("No expiration date could be extracted from the image.")
-                except Exception as e:
-                    logger.exception(f"Error processing image: {str(e)}")
-                    return Response({"error": str(e)}, status=400)
-
-            return Response(self.get_serializer(product).data, status=201)
+            # 상품 저장
+            product = serializer.save()
+            return Response(serializer.data, status=201)
 
         logger.error(f"Validation failed with errors: {serializer.errors}")
         return Response(serializer.errors, status=400)
@@ -150,24 +157,17 @@ class ProductViewSet(viewsets.ModelViewSet):
         product_id = kwargs.get(self.lookup_field)
         logger.info(f"PUT request received for product_id: {product_id} by user_id: {request.data.get('user_id')}")
 
-        # 요청 데이터에서 user_id 가져오기
         user_id = request.data.get('user_id')
         if not user_id:
             logger.error("user_id is missing in the request data.")
             return Response({"error": "user_id parameter is required."}, status=400)
 
-        # user_id로 사용자 확인
         user = get_object_or_404(User, user_id=user_id)
 
-        # product_id와 user로 Product 확인
         instance = get_object_or_404(Product, product_id=product_id, user=user)
 
-        logger.info(f"Product found: {instance} for user_id: {user_id}")
-
-        # 요청 데이터로 유효성 검사
         serializer = self.get_serializer(instance, data=request.data, partial=False)
         if serializer.is_valid():
-            logger.info("Validation succeeded.")
             self.perform_update(serializer)
             return Response(serializer.data, status=200)
 

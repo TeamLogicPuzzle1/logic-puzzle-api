@@ -134,3 +134,5 @@ def extract_and_parse_expiration_date(image):
     except Exception as e:
         logger.exception(f"An error occurred while processing the image: {str(e)}")
         return None
+
+
