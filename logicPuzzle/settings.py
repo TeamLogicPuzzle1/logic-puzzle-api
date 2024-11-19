@@ -89,6 +89,7 @@ INSTALLED_APPS = [
     'notice',
     'user',
     'profile',
+    'recipe',
     'sslserver',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
