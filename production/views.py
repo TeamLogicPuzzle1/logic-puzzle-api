@@ -12,6 +12,7 @@ from user.models import User
 from .models import Product
 from .serializers import ProductCreateSerializer, ExpirationDateExtractSerializer
 from .servicelayer import extract_and_parse_expiration_date
+from datetime import date, timedelta
 
 # 로깅 설정
 logging.basicConfig(level=logging.INFO)
@@ -65,18 +66,51 @@ class ProductViewSet(viewsets.ModelViewSet):
         return queryset
 
     @swagger_auto_schema(
-        manual_parameters=[user_id_param, name_param, category_param, location_param],
-        operation_description="List all products filtered by optional parameters and user_id.",
-        responses={200: ProductCreateSerializer(many=True)}
+        manual_parameters=[
+            user_id_param, name_param, category_param, location_param,
+            openapi.Parameter(
+                'filter_type', openapi.IN_QUERY,
+                description="1: Imminent products (7 days or less), 2: Expired products",
+                type=openapi.TYPE_STRING
+            )
+        ],
+        operation_description="List all products filtered by optional parameters, with summary in 'data' and items in 'List'.",
+        responses={200: "Custom response with data and List"}
     )
     def list(self, request, *args, **kwargs):
         """
-        필터링된 제품 목록 반환
+        Return filtered product list with summary data (imminent, expired counts).
         """
+        filter_type = request.query_params.get('filter_type')
         queryset = self.get_queryset()
-        serializer = self.get_serializer(queryset, many=True)
-        return Response(serializer.data, status=200)
 
+        # Current date
+        today = date.today()
+        upcoming_date = today + timedelta(days=7)
+
+        # Apply filter conditions
+        if filter_type == "1":  # Imminent products
+            queryset = queryset.filter(expiration_date__gte=today, expiration_date__lte=upcoming_date)
+        elif filter_type == "2":  # Expired products
+            queryset = queryset.filter(expiration_date__lt=today)
+
+        # Classify products (imminent, expired counts)
+        imminent_count = queryset.filter(expiration_date__gte=today, expiration_date__lte=upcoming_date).count()
+        expired_count = queryset.filter(expiration_date__lt=today).count()
+
+        # Serialize products
+        serializer = self.get_serializer(queryset, many=True)
+
+        # Structured response
+        response_data = {
+            "data": {
+                "imminent": imminent_count,  # Changed key to 'imminent'
+                "expired": expired_count  # Changed key to 'expired'
+            },
+            "List": serializer.data  # Serialized product list
+        }
+
+        return Response(response_data, status=200)
     @swagger_auto_schema(
         operation_description="Extract expiration date from an uploaded image file.",
         request_body=ExpirationDateExtractSerializer,
