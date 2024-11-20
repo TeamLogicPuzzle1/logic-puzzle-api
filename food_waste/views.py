@@ -10,6 +10,7 @@ from .models import FoodWaste
 from .serializers import FoodWasteSerializer
 from user.models import User
 from .serviceslayer import get_daily_statistics, get_weekly_statistics, get_monthly_statistics, reduce_food_waste
+from django.utils import timezone
 
 # 로깅 설정
 logging.basicConfig(level=logging.INFO)
@@ -114,7 +115,7 @@ class FoodWasteViewSet(viewsets.ModelViewSet):
             type=openapi.TYPE_OBJECT,
             properties={
                 'user_id': openapi.Schema(type=openapi.TYPE_STRING, description='User ID'),
-                'quantity': openapi.Schema(type=openapi.TYPE_INTEGER, description='Amount to reduce (index value)')
+                'quantity': openapi.Schema(type=openapi.TYPE_INTEGER, description='Quantity index to reduce (Integer)')
             },
             required=['user_id', 'quantity']
         ),
@@ -124,28 +125,31 @@ class FoodWasteViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'], url_path='reduce')
     def reduce(self, request):
         user_id = request.data.get("user_id")
-        quantity_index = request.data.get("quantity")  # 인덱스 값을 받음
+        quantity_index = request.data.get("quantity")  # Integer로 받음
 
         if not user_id or quantity_index is None:
             return Response({"error": "user_id and quantity parameters are required."}, status=400)
 
-        if quantity_index < 0 or quantity_index > 5:  # QUANTITY_CHOICES 범위 확인
+        # QUANTITY_CHOICES 범위 확인
+        if quantity_index < 0 or quantity_index >= len(FoodWaste.QUANTITY_CHOICES):
             return Response({"error": "Invalid quantity index."}, status=400)
 
-        user = get_object_or_404(User, user_id=user_id)
-
-        # QUANTITY_CHOICES에서 인덱스를 실제 리터 값으로 변환
-        quantity_liter = dict(FoodWaste.QUANTITY_CHOICES).get(quantity_index)  # 인덱스 -> 리터 값
-
+        # 인덱스를 리터 값으로 변환
+        quantity_liter = dict(FoodWaste.QUANTITY_CHOICES).get(quantity_index)
         if not quantity_liter:
-            return Response({"error": "Invalid quantity index."}, status=400)
+            return Response({"error": "Invalid quantity index mapping."}, status=400)
 
+        # 사용자 확인 및 쓰레기 양 감소
+        user = get_object_or_404(User, user_id=user_id)
         success = reduce_food_waste(user, quantity_index)
 
-        if not success:
+        # 성공 여부에 따른 응답 처리
+        if success:
+            logger.info(f"Successfully reduced {quantity_liter} for user_id {user_id}.")
+            return Response({"message": f"Reduced {quantity_liter} from the latest record."}, status=200)
+        else:
+            logger.error(f"Reduction failed for user_id {user_id} with quantity index {quantity_index}")
             return Response({"error": "No food waste available to reduce."}, status=400)
-
-        return Response({"message": f"Reduced {quantity_liter} from the latest record."}, status=200)
 
     @swagger_auto_schema(
         manual_parameters=[user_id_param],
