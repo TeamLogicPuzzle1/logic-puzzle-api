@@ -1,7 +1,7 @@
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions, status
-from rest_framework.parsers import MultiPartParser, JSONParser, FormParser
+from rest_framework.parsers import MultiPartParser, FormParser
 from rest_framework.response import Response
 from rest_framework.views import APIView
 
@@ -30,6 +30,7 @@ class MemberAPIView(APIView):
         except Exception as e:
             # 여기서 처리되지 않은 예외를 포괄적으로 처리
             return Response({"message": f"알 수 없는 오류가 발생했습니다: {str(e)}"}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
 
 class MemberListAPIView(APIView):
     permission_classes = [permissions.AllowAny]

@@ -238,6 +238,8 @@ USE_TZ = False
 
 APPEND_SLASH = False
 
+DEFAULT_CHARSET = 'utf-8'
+
 DEFAULT_LOGGING = {
     'version': 1,
     'disable_existing_loggers': False,
