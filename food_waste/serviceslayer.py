@@ -9,24 +9,36 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
+
+def convert_quantity_to_liter(quantity_index):
+    """Convert quantity index to actual liter value."""
+    quantity_mapping = dict(FoodWaste.QUANTITY_CHOICES)  # {0: '1L', 1: '2L', ...}
+    liter_value = quantity_mapping.get(quantity_index)
+    if liter_value:
+        return int(liter_value.rstrip('L'))  # '10L' -> 10
+    return 0
+
 def get_daily_statistics(user, start_date):
     """
     일별 데이터를 반환
     """
     today = timezone.now().date()
     days_difference = (today - start_date).days
+
     daily_data = [
         {
             "date": (start_date + timedelta(days=i)).strftime('%Y-%m-%d'),
-            "total_waste": FoodWaste.objects.filter(
-                user=user,
-                date=(start_date + timedelta(days=i))
-            ).aggregate(Sum('quantity'))['quantity__sum'] or 0
+            "total_waste": sum(
+                convert_quantity_to_liter(record.quantity)
+                for record in FoodWaste.objects.filter(
+                    user=user,
+                    date=(start_date + timedelta(days=i))
+                )
+            )
         }
         for i in range(days_difference + 1)
     ]
     return daily_data
-
 
 def get_weekly_statistics(user, start_date):
     """
@@ -43,25 +55,21 @@ def get_weekly_statistics(user, start_date):
 
     for record in food_waste_records:
         if record.date > week_end_date:
-            # 주 데이터 집계
             weekly_data.append({
                 "week_start": week_start_date.strftime('%Y-%m-%d'),
                 "week_end": week_end_date.strftime('%Y-%m-%d'),
                 "daily_data": current_week,
                 "total_waste": sum(day["total_waste"] for day in current_week),
             })
-            # 새로운 주 시작
             week_start_date = record.date
             week_end_date = week_start_date + timedelta(days=6)
             current_week = []
 
-        # 현재 주에 추가
         current_week.append({
             "date": record.date.strftime('%Y-%m-%d'),
-            "total_waste": record.quantity,
+            "total_waste": convert_quantity_to_liter(record.quantity),  # 변환 추가
         })
 
-    # 마지막 주 데이터 추가
     if current_week:
         weekly_data.append({
             "week_start": week_start_date.strftime('%Y-%m-%d'),
@@ -70,7 +78,6 @@ def get_weekly_statistics(user, start_date):
             "total_waste": sum(day["total_waste"] for day in current_week),
         })
 
-    # 최대 4주만 반환
     return weekly_data[-4:]
 
 
@@ -86,17 +93,15 @@ def get_monthly_statistics(user, start_date):
     current_date = start_date
 
     while current_date <= timezone.now().date():
-        # 현재 달의 첫 날과 마지막 날 계산
         _, last_day = monthrange(current_date.year, current_date.month)
         month_start = current_date.replace(day=1)
         month_end = current_date.replace(day=last_day)
 
-        # 현재 달의 데이터 필터링
         month_records = food_waste_records.filter(date__range=[month_start, month_end])
         daily_data = [
             {
                 "date": record.date.strftime('%Y-%m-%d'),
-                "total_waste": record.quantity
+                "total_waste": convert_quantity_to_liter(record.quantity)  # 변환 추가
             }
             for record in month_records
         ]
@@ -105,13 +110,11 @@ def get_monthly_statistics(user, start_date):
             "month_start": month_start.strftime('%Y-%m-%d'),
             "month_end": month_end.strftime('%Y-%m-%d'),
             "daily_data": daily_data,
-            "total_waste": sum(day["total_waste"] for day in daily_data)
+            "total_waste": sum(day["total_waste"] for day in daily_data),  # 합산 수정
         })
 
-        # 다음 달로 이동
         current_date = (month_end + timedelta(days=1))
 
-    # 최대 12달만 반환
     return monthly_data[-12:]
 
 

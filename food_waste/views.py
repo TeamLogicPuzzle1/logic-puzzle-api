@@ -114,7 +114,7 @@ class FoodWasteViewSet(viewsets.ModelViewSet):
             type=openapi.TYPE_OBJECT,
             properties={
                 'user_id': openapi.Schema(type=openapi.TYPE_STRING, description='User ID'),
-                'quantity': openapi.Schema(type=openapi.TYPE_NUMBER, description='Amount to reduce')
+                'quantity': openapi.Schema(type=openapi.TYPE_INTEGER, description='Amount to reduce (index value)')
             },
             required=['user_id', 'quantity']
         ),
@@ -124,21 +124,28 @@ class FoodWasteViewSet(viewsets.ModelViewSet):
     @action(detail=False, methods=['post'], url_path='reduce')
     def reduce(self, request):
         user_id = request.data.get("user_id")
-        quantity = request.data.get("quantity")
+        quantity_index = request.data.get("quantity")  # 인덱스 값을 받음
 
-        if not user_id or quantity is None:
+        if not user_id or quantity_index is None:
             return Response({"error": "user_id and quantity parameters are required."}, status=400)
 
-        if quantity <= 0:
-            return Response({"error": "The quantity to reduce must be greater than zero."}, status=400)
+        if quantity_index < 0 or quantity_index > 5:  # QUANTITY_CHOICES 범위 확인
+            return Response({"error": "Invalid quantity index."}, status=400)
 
         user = get_object_or_404(User, user_id=user_id)
-        success = reduce_food_waste(user, quantity)
+
+        # QUANTITY_CHOICES에서 인덱스를 실제 리터 값으로 변환
+        quantity_liter = dict(FoodWaste.QUANTITY_CHOICES).get(quantity_index)  # 인덱스 -> 리터 값
+
+        if not quantity_liter:
+            return Response({"error": "Invalid quantity index."}, status=400)
+
+        success = reduce_food_waste(user, quantity_index)
 
         if not success:
             return Response({"error": "No food waste available to reduce."}, status=400)
 
-        return Response({"message": f"Reduced {quantity}L from the latest record."}, status=200)
+        return Response({"message": f"Reduced {quantity_liter} from the latest record."}, status=200)
 
     @swagger_auto_schema(
         manual_parameters=[user_id_param],
