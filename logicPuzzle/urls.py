@@ -43,6 +43,7 @@ urlpatterns = [
     path('api/v1/notice/', include('notice.urls')),
     path('api/v1/profile/', include('profile.urls')),
     path('api/v1/auth/', include('auth.urls')),
+    path('api/v1/recipe/', include('recipe.urls')),
     re_path(r'^swagger(?P<format>\.json|\.yaml)$', schema_view.without_ui(cache_timeout=0), name='schema-json'),
     re_path(r'^swagger/$', schema_view.with_ui('swagger', cache_timeout=0), name='schema-swagger-ui'),
     re_path(r'^redoc/$', schema_view.with_ui('redoc', cache_timeout=0), name='schema-redoc'),

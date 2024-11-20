@@ -89,6 +89,7 @@ INSTALLED_APPS = [
     'notice',
     'user',
     'profile',
+    'recipe',
     'sslserver',
     'rest_framework_simplejwt',
     'rest_framework_simplejwt.token_blacklist',
@@ -236,6 +237,8 @@ USE_I18N = True
 USE_TZ = False
 
 APPEND_SLASH = False
+
+DEFAULT_CHARSET = 'utf-8'
 
 DEFAULT_LOGGING = {
     'version': 1,
