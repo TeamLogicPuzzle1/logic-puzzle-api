@@ -1,0 +1,1175 @@
+[33mcommit f121556ff42d00c2f4e108a6e493a14317179e1c[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m)[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Thu Nov 21 18:49:20 2024 +0900
+
+    delete pyche
+
+[33mcommit 28b35d96d7420962af8ac5f372b88bf7cac54dfc[m
+Merge: a0e70c2 8b2e665
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Thu Nov 21 18:46:09 2024 +0900
+
+    fix:merge
+
+[33mcommit 8b2e665e04100d88658cffd224fafd717c707c24[m[33m ([m[1;31morigin/main[m[33m, [m[1;31morigin/develop[m[33m, [m[1;31morigin/HEAD[m[33m, [m[1;32mdevelop[m[33m)[m
+Merge: 41a118e f1a7da5
+Author: byj <yeongjun1324@gmail.com>
+Date:   Thu Nov 21 18:26:58 2024 +0900
+
+    Merge branch 'dev/byj' of https://github.com/TeamLogicPuzzle1/logic-puzzle-api into develop
+
+[33mcommit f1a7da55bacb00e301b9778f5ab619e3dfed4e1a[m[33m ([m[1;31morigin/dev/byj[m[33m)[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Thu Nov 21 18:26:32 2024 +0900
+
+    fixing : recipe service
+
+[33mcommit a0e70c2c9481914f67c7f24b31d9203eb8343788[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Thu Nov 21 17:58:22 2024 +0900
+
+    media file delete
+
+[33mcommit 5d0b719b08cb6f6a3aa9a69fcc8898c235a8c329[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Thu Nov 21 17:41:05 2024 +0900
+
+    Add ACTION_TYPE_CHOICES to FoodWaste model to support addition and reduction of food waste
+
+[33mcommit 41a118ed0d9605527df473fd576d3cbae3b30187[m
+Merge: ee2a953 8824ec9
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Thu Nov 21 17:39:35 2024 +0900
+
+    Merge branch 'dev/sjh' of https://github.com/TeamLogicPuzzle1/logic-puzzle-api into develop
+
+[33mcommit 8824ec97170cfc8bfa244240a9ddd08e345fe9a0[m[33m ([m[1;31morigin/dev/sjh[m[33m, [m[1;32mdev/sjh[m[33m)[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Thu Nov 21 17:38:48 2024 +0900
+
+    Add ACTION_TYPE_CHOICES to FoodWaste model to support addition and reduction of food waste
+
+[33mcommit ee2a953ad12f4ca1d7719056e6b40b52a740a9f2[m
+Merge: 6e58805 b24c1a3
+Author: byj <yeongjun1324@gmail.com>
+Date:   Thu Nov 21 01:07:22 2024 +0900
+
+    Merge branch 'dev/byj' of https://github.com/TeamLogicPuzzle1/logic-puzzle-api into develop
+
+[33mcommit b24c1a3647487b0a3eebae27a4075bf84ee9a22c[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Thu Nov 21 01:06:51 2024 +0900
+
+    feat : create getRecipeList
+
+[33mcommit 6e58805ee88e6eca522e25a26cddfb62cb422f8f[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Thu Nov 21 00:47:01 2024 +0900
+
+    Fix: Properly handle quantity index '0' in reduce API
+
+[33mcommit b7c7a06a3cebea0e28c0996828a8185ed3774886[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Wed Nov 20 20:58:34 2024 +0900
+
+    Fix statistics calculations to sum actual liter values instead of indexes
+
+[33mcommit a0b7ddc98d379fbed29e98002ec0331067308599[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Wed Nov 20 20:09:38 2024 +0900
+
+    Add 2L option to QUANTITY_CHOICES and implement validation for valid choices
+
+[33mcommit ebb86edc5780b5916286529202f10cf12120318f[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Wed Nov 20 18:04:17 2024 +0900
+
+    Add imminent and expired count to search response
+
+[33mcommit 5051074f040a6e6cbb2c7d70af6b1414c179ea81[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Tue Nov 19 22:48:15 2024 +0900
+
+    feat : recipe api
+
+[33mcommit 1e2b8cb5e0926ce3f16f50e7aec1bcbbe375b6ec[m
+Merge: 6feef89 76903a1
+Author: byj <yeongjun1324@gmail.com>
+Date:   Tue Nov 19 19:36:35 2024 +0900
+
+    Merge branch 'develop' of https://github.com/TeamLogicPuzzle1/logic-puzzle-api into develop
+
+[33mcommit 6feef89030b80d7146588295ae684963a8910896[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Tue Nov 19 19:35:53 2024 +0900
+
+    fix : foodWasteLogic
+
+[33mcommit 76903a1185beba3d799e946a13993da14b655ffb[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Tue Nov 19 01:29:30 2024 +0900
+
+    Fix import issues and add missing serializers
+
+[33mcommit f261bededfd389ac1c4d9127e4e0bcfbb1a326b0[m
+Merge: 7fe6afe 770370d
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Tue Nov 19 01:25:43 2024 +0900
+
+    Fix conflicts and retain personal branch's product view changes
+
+[33mcommit 7fe6afe060068e5bd3b6e076b1d0393097b96e69[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Tue Nov 19 01:18:21 2024 +0900
+
+    Fix Google Cloud Vision API token refresh issue: updated credential handling for JWT validity.
+
+[33mcommit 55cef7476fd4ef457392e2ec52205ff24b3be5ed[m
+Merge: cf87597 770370d
+Author: byj <yeongjun1324@gmail.com>
+Date:   Mon Nov 18 22:36:58 2024 +0900
+
+    Merge branch 'develop' of https://github.com/TeamLogicPuzzle1/logic-puzzle-api into dev/byj
+
+[33mcommit 770370debebd158954634716d0107a78731e9c99[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Mon Nov 18 22:36:26 2024 +0900
+
+    fix : add to help_text in choices
+
+[33mcommit 21b1bf225dab1ac850325cf3d72eed93ceabef3c[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Mon Nov 18 22:22:43 2024 +0900
+
+    fix : update to choices numbering
+
+[33mcommit e1b266b9bae9b1c0e8ced968df74c34c7accc156[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Sun Nov 17 16:18:29 2024 +0900
+
+    feat: Update Product model and improve food_waste statistics methods
+
+[33mcommit cf87597e39253354882b927afc690e37146b2ec3[m
+Merge: f82f481 e26c5ac
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Nov 16 20:46:32 2024 +0900
+
+    Merge branch 'develop' of https://github.com/TeamLogicPuzzle1/logic-puzzle-api into dev/byj
+
+[33mcommit e26c5ac5ade14cd82bf4b3f7fa1ef9eb0521c951[m
+Merge: 9bf27aa f078316
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Nov 16 20:46:13 2024 +0900
+
+    fixing : api url format
+
+[33mcommit 9bf27aa5abbb3c01af18697c728aec8382b1f42f[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Nov 16 20:43:11 2024 +0900
+
+    fixing : api url format
+
+[33mcommit f078316c154f36dad234020c1d8c021f878e37e0[m
+Merge: 7867e10 a2ee966
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Sat Nov 16 20:36:00 2024 +0900
+
+    Remove .pyc files from repository
+
+[33mcommit a2ee9664d4ca91a510559523b93a6b67791acd49[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Sat Nov 16 20:34:39 2024 +0900
+
+    product api append product.name search
+
+[33mcommit 7867e10095169d7207641be096b07f177e1c0270[m
+Merge: eedd814 5e7cdd5
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Nov 15 21:53:18 2024 +0900
+
+    Merge branch 'dev/sjh' into develop
+
+[33mcommit 5e7cdd5f687af30a6e7336802201b3402ca986c0[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Nov 15 21:50:22 2024 +0900
+
+    feat(food_waste): add reduce functionality for waste reduction
+
+[33mcommit eedd814b7c71e98e6268a1244efe707993019e51[m
+Merge: e3000d6 fe79d92
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Thu Nov 14 16:56:55 2024 +0900
+
+    Remove .pyc files and update .gitignore
+
+[33mcommit e3000d674229cdb5c9a4930d854f24ba7d4482fd[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Thu Nov 14 16:46:08 2024 +0900
+
+    Complete food_waste package for production environment
+
+[33mcommit 2c31f367ab2f1fbedaace74c0be3bd6a290ad011[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Wed Nov 13 17:21:38 2024 +0900
+
+    Add new migration for product_id
+
+[33mcommit f82f481c3ee6beb2333b3345eeb6475164c7ab80[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Mon Nov 11 22:20:35 2024 +0900
+
+    fix : jwt setting
+
+[33mcommit d8510c1e3bb02b6177dff42ec3dbc43253e95e76[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Mon Nov 11 14:19:32 2024 +0900
+
+    Remove __pycache__ from tracking
+
+[33mcommit fe79d921bfce8a674d6355aeda3ed5e976fd2672[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sun Nov 10 19:50:38 2024 +0900
+
+    feating : getMemberList API
+
+[33mcommit 0fec2445d2c53d1e0ee2ce26e4c3cbf11df822cd[m
+Merge: 0e73110 ae5e12e
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Sun Nov 10 17:27:16 2024 +0900
+
+    Merge branch 'develop' into dev/sjh
+
+[33mcommit 0e7311079ad6261653e3aef09178edb97f0820a8[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Sun Nov 10 14:06:27 2024 +0900
+
+    Save local changes before pulling
+
+[33mcommit a265a5ccb5767de3927c1acf0b86dde3f9f7ca71[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Sun Nov 10 14:04:36 2024 +0900
+
+    Add notification feature files
+
+[33mcommit b5a13e27ffab20fd08620cf56a3fcebce1b02cc0[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sun Nov 10 00:54:53 2024 +0900
+
+    feating : getMemberList API
+
+[33mcommit 3ca9a60c5e67a476e0559eb2a15e092d3a03f18b[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sun Nov 10 00:31:45 2024 +0900
+
+    fix : fix to urlpatterns
+
+[33mcommit ae5e12e726c7e32a3a20514e4a3526c6d387999a[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sun Nov 10 00:12:54 2024 +0900
+
+    feat : create auth directory
+
+[33mcommit 49c70753097e53be5d283f148e79a48d2f7547c1[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Nov 9 23:07:55 2024 +0900
+
+    del : node_modules
+
+[33mcommit 8c5c7ce19e085f2a90310c2caa59e1798597c987[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Nov 9 23:04:13 2024 +0900
+
+    fix : checkVerifyCode logic
+
+[33mcommit 07d6f4a7e067ad9e78383e6d933767efe1fced17[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Fri Nov 8 11:56:03 2024 +0900
+
+    fixing :redis logic in sendVerifyCodeAPI
+
+[33mcommit 81c7ea36b85852d01aa27f371f831c573558ae64[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Wed Nov 6 21:44:48 2024 +0900
+
+    feat : sendVerifyCode API
+
+[33mcommit 0a6316fca7d729e6fe378044267ae4b48625e1d2[m
+Merge: fbed842 c5cae8c
+Author: byj <yeongjun1324@gmail.com>
+Date:   Wed Nov 6 02:00:36 2024 +0900
+
+    Merge branch 'develop' of https://github.com/TeamLogicPuzzle1/logic-puzzle-api
+
+[33mcommit c5cae8ca56ea8205d81f74b3b28df30dda661d00[m
+Merge: 60d02a7 4477280
+Author: byj <yeongjun1324@gmail.com>
+Date:   Wed Nov 6 01:59:35 2024 +0900
+
+    Merge branch 'dev/byj' of https://github.com/TeamLogicPuzzle1/logic-puzzle-api into develop
+
+[33mcommit 4477280e631b745ced0a25c5591d92ad0e58c03a[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Wed Nov 6 01:58:44 2024 +0900
+
+    fix : user auth setting
+
+[33mcommit fbed84217260288cc315c20f75a712978eca42f0[m
+Merge: f863a55 60d02a7
+Author: byj <yeongjun1324@gmail.com>
+Date:   Tue Nov 5 23:54:16 2024 +0900
+
+    Merge branch 'develop' of https://github.com/TeamLogicPuzzle1/logic-puzzle-api
+
+[33mcommit 60d02a7f5cee51d50757e9a4467d554056923ee4[m
+Merge: f8559ee 6390f75
+Author: byj <yeongjun1324@gmail.com>
+Date:   Tue Nov 5 23:49:45 2024 +0900
+
+    Merge branch 'develop' of https://github.com/TeamLogicPuzzle1/logic-puzzle-api into develop
+
+[33mcommit f8559ee1cb9efc4c6448c484c6c3cdd8b617041a[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Tue Nov 5 23:49:14 2024 +0900
+
+    fix : swagger setting
+
+[33mcommit f863a55e2e591ac4d039da6f3c534e0ecbc08083[m
+Merge: 1b47a74 6390f75
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Mon Nov 4 15:39:58 2024 +0900
+
+    Merge branch 'develop' of https://github.com/TeamLogicPuzzle1/logic-puzzle-api into main
+
+[33mcommit 6390f75497d15b0be751e33562fe2731f156a1f9[m
+Merge: 943440b 8b5f7df
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Mon Nov 4 15:39:34 2024 +0900
+
+    fix : git error
+
+[33mcommit 8b5f7dff8fcbd0764914bab2f51097b78a2d198e[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Mon Nov 4 15:31:29 2024 +0900
+
+    fixing : jwt token error
+
+[33mcommit 3bcd9499cddaf44757eacb98f96e926014b52a0d[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Mon Nov 4 01:10:38 2024 +0900
+
+    feat : create jwt login logic
+
+[33mcommit 37631e70990d1d9aeebb3bd150e7aa16ff32589a[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sun Nov 3 23:46:38 2024 +0900
+
+    feat : create add member api
+
+[33mcommit b9bbdb5f069e0b01a2c4def10e3896316bd4ef49[m
+Merge: 987c4c7 ca01393
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Sat Nov 2 20:29:07 2024 +0900
+
+    Merge branch 'dev/sjh' of https://github.com/TeamLogicPuzzle1/logic-puzzle-api into dev/sjh
+
+[33mcommit 987c4c78246031a0d15ef4f54dc9230840d26962[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Sat Nov 2 20:27:15 2024 +0900
+
+    Update .gitignore to ignore .env and .venv, remove .env from tracking
+
+[33mcommit ca013932d62bcf36db23b518f5c37afeb92bd303[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Mon Oct 14 13:19:54 2024 +0900
+
+    del : setting file
+
+[33mcommit 1b47a742238f6d11e14059fbea855a9adaaba497[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Mon Oct 14 01:15:32 2024 +0900
+
+    fixing : server error
+
+[33mcommit 03971fcb859b6856b99af23ea941a2c6dfee6754[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sun Oct 13 23:50:04 2024 +0900
+
+    fix : dockerignore
+
+[33mcommit 433ba91b2787b61c7f29e9727ae99c4251f59e67[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sun Oct 13 23:46:31 2024 +0900
+
+    del : setting file
+
+[33mcommit 943440b168e6bdd3a0dc3a1d72bdfd41215b93e4[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sun Oct 13 23:25:43 2024 +0900
+
+    fix : server error
+
+[33mcommit e67b32e54c93ec344ec9d49bc254ad893e70915b[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sun Oct 13 23:23:32 2024 +0900
+
+    fix : update to gitignore and dockerignore
+
+[33mcommit df6c502459dbeaffcb2414013e387a5760e64722[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Oct 12 01:14:15 2024 +0900
+
+    fix : gitignore
+
+[33mcommit 1af980d25400a9d018418493b19843cb1a787a19[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Oct 12 00:53:04 2024 +0900
+
+    fix : git error
+
+[33mcommit c9df6e0f338fcee53ec8e695833c3ee7478810f4[m
+Merge: bcf46de b31fe6e
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Oct 12 00:51:32 2024 +0900
+
+    fix : git error
+
+[33mcommit bcf46de1d0fe001c0d4989454b45e201a7deef94[m
+Merge: 90dcca5 d8a2a1f
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Oct 12 00:51:07 2024 +0900
+
+    fix : git error
+
+[33mcommit d8a2a1fa43a9e9ce5ee177efbec9aeffae536608[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Oct 12 00:42:14 2024 +0900
+
+    fix : gitignore
+
+[33mcommit bb78b1cba25e132004ee4b6b474f6cac61a2b382[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Oct 12 00:32:32 2024 +0900
+
+    fix : update to gitignore
+
+[33mcommit 301a782ddfc2c8d1751b2903810ab2413b6152df[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Oct 12 00:27:33 2024 +0900
+
+    del : unuse file
+
+[33mcommit 00f9baf651ef182bc5094652555c3fe2657bd414[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Oct 12 00:24:54 2024 +0900
+
+    fix : gitignore
+
+[33mcommit 6e0a2450b2a2fb79d4383e9f32a03b0da169be12[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Oct 12 00:23:40 2024 +0900
+
+    del : pycahce
+
+[33mcommit 64e2ab3b6b37202c1e49d4e1eaac9bf49139332e[m
+Merge: 9a0c42f 18ec35e
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Oct 12 00:16:45 2024 +0900
+
+    fix : git merge error
+
+[33mcommit 90dcca57f28199256aa43a2751e5ff1e7cbd2f92[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Oct 12 00:07:16 2024 +0900
+
+    fix : git error
+
+[33mcommit 1ceb769c8b23b47da1cb0d7fa99f4bff4a72fd93[m
+Merge: 155a364 18ec35e
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Oct 12 00:04:39 2024 +0900
+
+    fix : git error
+
+[33mcommit 18ec35eeefee789c99be95f975b64c1d5946b4e6[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Oct 12 00:03:33 2024 +0900
+
+    update : gitignore
+
+[33mcommit 35a35878de9212f7eea4ad705edbaad6851db9b5[m
+Merge: b102c8b 79b08bc
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Oct 11 21:04:42 2024 +0900
+
+    Resolve merge conflicts by removing .pyc files
+
+[33mcommit 79b08bce46d5b26e52604089dfc43c919ccac2d6[m
+Merge: 81ba688 de7ab7d
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Oct 11 20:59:38 2024 +0900
+
+    Resolve merge conflict by removing .pyc files
+
+[33mcommit 81ba688b4f1b048de74f800fcfe3aae169bc7476[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Oct 11 20:56:27 2024 +0900
+
+    develop complete
+
+[33mcommit b102c8be719e3b0668c97074328d357b9e6bb808[m
+Merge: fd80353 de7ab7d
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Oct 11 20:50:50 2024 +0900
+
+    Add multiple date format support to parsing logic
+
+[33mcommit fd803539c044353d8a32d90a6fc7344e08a5822a[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Oct 11 20:47:21 2024 +0900
+
+    Improve expiration date parsing and add format support
+
+[33mcommit b31fe6e13f1b3021c1994028a135c8ff58e26ab8[m
+Merge: 6bab521 de7ab7d
+Author: byj <yeongjun1324@gmail.com>
+Date:   Fri Oct 11 19:53:48 2024 +0900
+
+    fix : googleCloudAPI error
+
+[33mcommit de7ab7d0490a70b478f3ed7637af171681c3a8f3[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Fri Oct 11 19:51:50 2024 +0900
+
+    del : pyc files
+
+[33mcommit 3127ba0b628e2011b267437028fed075b9b3369b[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Fri Oct 11 19:50:12 2024 +0900
+
+    fix : update to gitignore
+
+[33mcommit ba5e809102da38af8dec21c769184ea501bbfc7c[m
+Merge: 722e154 95b5f27
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Oct 11 19:46:23 2024 +0900
+
+    complete2
+
+[33mcommit 722e154ffa5677f1fcf2761445cb2414ca870458[m
+Merge: d86a837 71eba0d
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Oct 11 19:41:01 2024 +0900
+
+    complete
+
+[33mcommit 6bab521649ca8b49bd2836cf629cff5a0b752cd2[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Fri Oct 11 19:06:21 2024 +0900
+
+    fixing : gitignore
+
+[33mcommit c7a8d4c8d24200f44a3783e19c0ca2f7fe3aaa1d[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Fri Oct 11 19:02:46 2024 +0900
+
+    fix : update to gitignore
+
+[33mcommit 95b5f27d1110318b556486df6b1c8a76120fc393[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Fri Oct 11 18:59:39 2024 +0900
+
+    fixing : merge error
+
+[33mcommit 71eba0d4bc3fc60740304c73d866563ae8b4ccd1[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Oct 11 18:15:55 2024 +0900
+
+    메modified requirements.txt
+
+[33mcommit 9c6780b200ab0c3bc385049adb818b1f2c27fa7e[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Oct 11 08:33:19 2024 +0900
+
+    Updated environment configuration and requirements
+
+[33mcommit f56ceeb896ad92c33c6acedb91de057fa6467108[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Oct 11 08:10:53 2024 +0900
+
+    Fix: Update servicelayer and views for OCR processing
+
+[33mcommit d86a8377ed5eebeb8036019b4ebec166e2b04378[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Oct 11 06:04:32 2024 +0900
+
+    Resolved issues related to product OCR
+
+[33mcommit 51d95794862a833425fd4f3910abe265221d737a[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Wed Oct 9 16:00:30 2024 +0900
+
+    Fix merge conflicts
+
+[33mcommit 67c33404c057d66506c30364dd8968024c63f900[m
+Merge: aa1cc7a f3f07d4
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Wed Oct 9 15:58:51 2024 +0900
+
+    Fix merge conflicts
+
+[33mcommit aa1cc7ae19c9d5af8db44ac4519b2a72fc79d08d[m
+Merge: 62c914c 8c77bc0
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Wed Oct 9 11:52:06 2024 +0900
+
+    Resolve merge conflicts and finalize changes
+
+[33mcommit 8c77bc0b67ffd70e0e42cd0523b59d6389193062[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Wed Oct 9 11:32:42 2024 +0900
+
+    pycache
+
+[33mcommit d9b06b30304ab2be8337f72f5e3100914d6aef82[m
+Merge: 0067f14 50ec3df
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Wed Oct 9 07:27:41 2024 +0900
+
+    Merge conflict resolved
+
+[33mcommit 0067f14e124ca7c7e57e865a8a3f26099c371a6e[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Wed Oct 9 07:07:16 2024 +0900
+
+    Update Google Cloud Vision API credentials handling
+
+[33mcommit 3559a062bb617babe1ebea311fcdf538a5bfafc5[m
+Merge: 65432c9 4943862
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Wed Oct 9 06:58:32 2024 +0900
+
+    Merge branch 'main' into dev/sjh
+
+[33mcommit 49438621143a4846f4a08ce4f31f0a3b89b95a2e[m
+Merge: 81bfd63 86962e1
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Wed Oct 9 06:55:34 2024 +0900
+
+    Merge branch 'main' of https://github.com/TeamLogicPuzzle1/logic-puzzle-api
+
+[33mcommit 9a0c42fc54fb3601d7e048964d1a673b12b4f826[m
+Merge: 83d6ad4 3bf9cf8
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Wed Oct 9 06:55:34 2024 +0900
+
+    Merge branch 'main' of https://github.com/TeamLogicPuzzle1/logic-puzzle-api
+
+[33mcommit 65432c9b824e787aac0aa453dfe0c1c30907d2db[m
+Merge: 467bd80 86962e1
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Tue Oct 8 18:39:30 2024 +0900
+
+    충돌 해결: 모델 정의 통합
+
+[33mcommit 467bd80368c834dc6d4e4b06e4fe3b96cf64a43c[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Tue Oct 8 18:23:42 2024 +0900
+
+    삭제: alarm, serviceAccountKey 파일들, 수정: settings.py, urls.py, views.py
+
+[33mcommit 155a3647666902a6bfda77fcd0d8754f6b4b5446[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Mon Oct 7 15:15:30 2024 +0900
+
+    fixing : ssl error
+
+[33mcommit f3f07d4aaf9b8d04c7fc7f30a7bcb65d851258d2[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sun Oct 6 22:31:05 2024 +0900
+
+    feating : member api
+
+[33mcommit aecc81a72e790c0c2ea4dc4dccd2c7765c876893[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sun Oct 6 21:21:03 2024 +0900
+
+    fix : db table error
+
+[33mcommit ff62fb931c5191b33fbeb40719e41b4436bf4078[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Oct 5 23:03:05 2024 +0900
+
+    feat : create member directory
+
+[33mcommit 325892b7d38f402f4c142007ff6f3360f347c186[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Oct 5 23:00:29 2024 +0900
+
+    fixing : email sending error
+
+[33mcommit 287938a16cf1fe30ae18df9589dcae382d29de8b[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Oct 5 19:19:31 2024 +0900
+
+    fix : merge source error
+
+[33mcommit 435220d0841aa9ba05a08cf7c5ad1bb15f6d964b[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Oct 5 19:06:45 2024 +0900
+
+    fix : update to gitignore
+
+[33mcommit 647e4cfcb6d3381869eb4e10dcadd32318396c3a[m
+Merge: c33dc95 840876c
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Oct 5 19:03:46 2024 +0900
+
+    fixing : merge error
+
+[33mcommit c33dc95747c698872a5b288364d9248f0c084c5a[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Oct 5 18:55:58 2024 +0900
+
+    feating : email sending error
+
+[33mcommit 9a61ed2b8f9cf55edf7af1667cdd268f18eade3a[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sat Oct 5 09:17:23 2024 +0900
+
+    feating : email setting
+
+[33mcommit fa044dd825b2091a02400be30d6b65bbe433f725[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Fri Oct 4 22:54:33 2024 +0900
+
+    feat : env setting
+
+[33mcommit b03f701ea08f378f27ef1e9993404a13b05475cf[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Fri Oct 4 22:42:37 2024 +0900
+
+    feat : userCheck function
+
+[33mcommit 62c914c891df32ba405f39ea57a8bb575bb594be[m
+Merge: 86962e1 7547e84
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Oct 4 09:40:40 2024 +0900
+
+    Resolve merge conflicts
+
+[33mcommit 840876ce9c49d7fad3e62984e183cf23817ac8f4[m
+Merge: 3bf9cf8 50ec3df
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Oct 4 09:40:40 2024 +0900
+
+    Resolve merge conflicts
+
+[33mcommit 81bfd6341574ea28399e71dc5e23ca921419e5b1[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Oct 4 09:04:45 2024 +0900
+
+    Add untracked files
+
+[33mcommit 83d6ad45472ff484448aa8ec4f1edc6f23063b46[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Oct 4 09:04:45 2024 +0900
+
+    Add untracked files
+
+[33mcommit 50ec3df6b7ce62d40ca67e13bb67da7fb073fd1e[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Oct 4 08:40:15 2024 +0900
+
+    Remove sensitive information from alarm.json
+
+[33mcommit 7547e8425bc237048118ec6945eb9ad53750233b[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Oct 4 08:40:15 2024 +0900
+
+    Remove sensitive information from alarm.json
+
+[33mcommit 5e7ff0fd9c782cec805df42e3595b6317d535865[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Oct 4 08:17:31 2024 +0900
+
+    Complete features for notice, product, food waste statistics, and alarms. Note: Product image API issue pending.
+
+[33mcommit 4949ed758ac1f96228a8ccade46552e81e5790d2[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Oct 4 08:17:31 2024 +0900
+
+    Complete features for notice, product, food waste statistics, and alarms. Note: Product image API issue pending.
+
+[33mcommit 1fe453453968175b5adadf3ae9f2cc7e2a75d540[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Tue Oct 1 11:35:03 2024 +0900
+
+    fixing : createUser validate logic
+
+[33mcommit 56736a3b8e1cacebb58712dad501580d68a33e22[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sun Sep 29 19:43:11 2024 +0900
+
+    fix : createUser logic
+
+[33mcommit 42259d55b6b50651f4c6b4ccabef6dbc541f6b09[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Fri Sep 27 11:51:33 2024 +0900
+
+    feat: createUser logic
+
+[33mcommit 86962e177e40be33d468c95ec526133b06a23bc1[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Fri Sep 20 16:06:16 2024 +0900
+
+    fixing : docker error in dev server
+
+[33mcommit 3bf9cf84b9f6bed4e943906bece49f84f3bc76a6[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Fri Sep 20 16:06:16 2024 +0900
+
+    fixing : docker error in dev server
+
+[33mcommit 61753dfed837835848fadb31f8824e7fc4b66590[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Fri Sep 20 11:37:29 2024 +0900
+
+    fix : python pip setting
+
+[33mcommit 3071553987707cdb163d60d2b5e4246d5901cee8[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Fri Sep 20 11:37:29 2024 +0900
+
+    fix : python pip setting
+
+[33mcommit 9d445b65d6d62b6329e6bb59eec4de125b2808a1[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Fri Sep 20 00:56:10 2024 +0900
+
+    fix : docker-compose setting
+
+[33mcommit 9fe0e7a4c7b3a0fb7326a01e21a1a38787f0c9e9[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Fri Sep 20 00:56:10 2024 +0900
+
+    fix : docker-compose setting
+
+[33mcommit b4a14a7e30238c56b9313d0c66d1d580686cbc26[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Thu Sep 19 23:56:58 2024 +0900
+
+    fix : dockerfile setting
+
+[33mcommit 6d991e0499e79161ed0caf1cacc679de6ba1c0e4[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Thu Sep 19 23:56:58 2024 +0900
+
+    fix : dockerfile setting
+
+[33mcommit b54312bb8246f123634657ebc421b6c8fbba5a5d[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Mon Sep 16 01:10:04 2024 +0900
+
+    Resolve merge conflict in production/urls.py
+
+[33mcommit a9372ddca0a771db396a17d662bf6f50035784fb[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Mon Sep 16 01:10:04 2024 +0900
+
+    Resolve merge conflict in production/urls.py
+
+[33mcommit 87a82ecdb1ab14e7b0211d9141f9f10b973b30fe[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Mon Sep 16 01:09:48 2024 +0900
+
+    Resolve merge conflict in ProductSerializer
+
+[33mcommit 3d777209b513236fcab300a8e26a8b9f3117468d[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Mon Sep 16 01:09:48 2024 +0900
+
+    Resolve merge conflict in ProductSerializer
+
+[33mcommit 079e7323eaeff50c7c6af797b7a925e9ea6943b5[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Sun Sep 8 23:20:49 2024 +0900
+
+    feat : setting db info
+
+[33mcommit c73e9891fe6330b55be792f1a2f3f1500fb9842a[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Sun Sep 8 23:20:49 2024 +0900
+
+    feat : setting db info
+
+[33mcommit 128e3ddf32a2b5aa4722ad39a0f47fd0e163d7da[m
+Merge: 2ade548 b1a4227
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Sun Sep 8 01:16:26 2024 +0900
+
+    Your commit message
+
+[33mcommit 3681c39277ef17b2d025a3f694383b229398139c[m
+Merge: b2211e6 4a0da7e
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Sun Sep 8 01:16:26 2024 +0900
+
+    Your commit message
+
+[33mcommit 61020b8959897676f19506c4e7269497d4b25b0e[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Fri Sep 6 00:42:28 2024 +0900
+
+    fix : update gitignore
+
+[33mcommit ff245cc33095bf7091aea0f55b2fe2aa99a9897c[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Fri Sep 6 00:42:28 2024 +0900
+
+    fix : update gitignore
+
+[33mcommit aaa20815901d8859c71148d75ef63a070924e994[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Fri Sep 6 00:41:24 2024 +0900
+
+    feating : depoly server setting
+
+[33mcommit 0fa5f39f188fc39874d1e5549f71b962d9f47b14[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Fri Sep 6 00:41:24 2024 +0900
+
+    feating : depoly server setting
+
+[33mcommit b1a42273d14747a7e473f1904d1d7b508364f847[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Thu Sep 5 23:35:45 2024 +0900
+
+    fix : django setting
+
+[33mcommit 4a0da7e03e2cb0d701366274987a8533a9c46230[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Thu Sep 5 23:35:45 2024 +0900
+
+    fix : django setting
+
+[33mcommit 217b40fbaee7d58dfcae1c4eeee1f28fba1d38e4[m
+Merge: 7aa3a8d f67df2d
+Author: byj <yeongjun1324@gmail.com>
+Date:   Thu Sep 5 23:30:35 2024 +0900
+
+    fixing : git error
+
+[33mcommit b3fd562c203e143c02e08df58742b0670ed410ec[m
+Merge: 429acee 963cc7a
+Author: byj <yeongjun1324@gmail.com>
+Date:   Thu Sep 5 23:30:35 2024 +0900
+
+    fixing : git error
+
+[33mcommit 7aa3a8d7581d3f6f5bd6e0b8d818408f669a5e54[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Thu Sep 5 23:27:29 2024 +0900
+
+    feat : dockerfile setting
+
+[33mcommit 429acee2e68f755d487b512dac86995c5629a91e[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Thu Sep 5 23:27:29 2024 +0900
+
+    feat : dockerfile setting
+
+[33mcommit 3a9bc7e195a0a6c8e086adfa1dfd233a7f721920[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Thu Sep 5 22:56:09 2024 +0900
+
+    feat : log setting
+
+[33mcommit 83607ce7c51dcd61bc8cc43fa0dbe82334f4abdf[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Thu Sep 5 22:56:09 2024 +0900
+
+    feat : log setting
+
+[33mcommit 200c414e8cf9cbb31b52e602541f85b87b084c9e[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Thu Sep 5 22:51:43 2024 +0900
+
+    feat : create user logic
+
+[33mcommit 7c6bc55b68b67e18136331f6e587bde49e913aec[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Thu Sep 5 22:51:43 2024 +0900
+
+    feat : create user logic
+
+[33mcommit d64ac7a2daf245b71d349efea814817aad1ab732[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Thu Sep 5 22:50:52 2024 +0900
+
+    fix : swagger setting
+
+[33mcommit 3bf4bbe1e9cf37b090207fb5d74de3d9b86dfcd2[m
+Author: byj <yeongjun1324@gmail.com>
+Date:   Thu Sep 5 22:50:52 2024 +0900
+
+    fix : swagger setting
+
+[33mcommit f67df2de34154e3520c8d3c4603857f17b54d151[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Mon Sep 2 05:15:49 2024 +0900
+
+    Optimize views and models for FoodWaste tracking
+
+[33mcommit 963cc7a69735405e5b514ef35df7b67f27078ceb[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Mon Sep 2 05:15:49 2024 +0900
+
+    Optimize views and models for FoodWaste tracking
+
+[33mcommit 2ade54897f918f37e08b77bad4a0f8fbf892123e[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Thu Aug 22 04:25:05 2024 +0900
+
+    Add FoodWaste app with serializers, views, and URLs
+
+[33mcommit b2211e6a70168bb007966b74ba75c2d0df42ea67[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Thu Aug 22 04:25:05 2024 +0900
+
+    Add FoodWaste app with serializers, views, and URLs
+
+[33mcommit ad2471f7a9e687ddfb251b44b3cbb4f71fe8a746[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Thu Aug 22 04:04:29 2024 +0900
+
+    Add food waste management API with CRUD operations and Swagger documentation
+
+[33mcommit 4246bade150f7c47d8f9e71fd09b3f349723e812[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Thu Aug 22 04:04:29 2024 +0900
+
+    Add food waste management API with CRUD operations and Swagger documentation
+
+[33mcommit 8054203db7440435fa331982ee5c8986b43103b0[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Sat Jul 27 12:34:47 2024 +0900
+
+    Add Swagger documentation and implement product API
+
+[33mcommit c6712389b9d8760a3365177d5614629558e65226[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Sat Jul 27 12:34:47 2024 +0900
+
+    Add Swagger documentation and implement product API
+
+[33mcommit f3ddabf07b48f9534e3a742ee5e59f0923645f66[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Jul 26 14:58:01 2024 +0900
+
+    Add serializers, update views, and create new models
+
+[33mcommit 4413559bb52905928a108dd4c4feb0bf53013e8c[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Jul 26 14:58:01 2024 +0900
+
+    Add serializers, update views, and create new models
+
+[33mcommit d935ac02e44db7d97196bcb7f32957a24a24f63b[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Jul 26 14:31:24 2024 +0900
+
+    Add product API and update Swagger
+
+[33mcommit 4c0537e72d2e3fb1f73fe8ec155c0138bca29296[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Fri Jul 26 14:31:24 2024 +0900
+
+    Add product API and update Swagger
+
+[33mcommit 65a79d2cfb37b1b1cdc9a65599a5eb36cafffb68[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Mon Jul 15 22:47:05 2024 +0900
+
+    create ; production files
+
+[33mcommit 73a9803f25d635bb9d5a4328c199cec03920e42d[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Mon Jul 15 22:47:05 2024 +0900
+
+    create ; production files
+
+[33mcommit afffd11bb8cfb7810fed3f441a0d2199baf8f9bf[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Mon Jul 15 22:31:27 2024 +0900
+
+    fix ; project setting
+
+[33mcommit 66d921560eef093c62089bac817b93e15698b9c9[m
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Mon Jul 15 22:31:27 2024 +0900
+
+    fix ; project setting
+
+[33mcommit eff8f9a3ce5f689ce594e471d8ca9844278b5010[m
+Merge: 657106a 114240d
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Mon Jul 15 21:14:39 2024 +0900
+
+    Merge branch 'develop' of https://github.com/TeamLogicPuzzle1/logic-puzzle-api into develop
+
+[33mcommit c0822b779c38feede8fe560289a8cbcc1a24042a[m
+Merge: 8a25205 114240d
+Author: seojaehong1 <wtme3@naver.com>
+Date:   Mon Jul 15 21:14:39 2024 +0900
+
+    Merge branch 'develop' of https://github.com/TeamLogicPuzzle1/logic-puzzle-api into develop
+
+[33mcommit 114240d66a84cda003288b43f7ac3329e0936208[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sun Jul 14 21:48:03 2024 +0900
+
+    add : project setting
+
+[33mcommit 7e1142e403ed7129a220c1f628f3c0158b073456[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sun Jul 14 21:33:41 2024 +0900
+
+    add : db_setting
+
+[33mcommit c835dec3ab3fb115ac977858bd88df3c7ed0a642[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sun Jul 14 21:23:43 2024 +0900
+
+    add : swagger
+
+[33mcommit 8a252051fbd2eb00b25fe8e6bafb1e838e33967b[m
+Merge: 2682fa0 7160475
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sun Jul 14 21:14:09 2024 +0900
+
+    add : README file
+
+[33mcommit 657106a9bf2d036de16595c902852553772e2d6c[m
+Merge: 2682fa0 01f6fc1
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sun Jul 14 21:14:09 2024 +0900
+
+    add : README file
+
+[33mcommit 2682fa0455e03eff36a084652a6a925f5ed84bdd[m
+Author: yjb <yeognjun1324@gmail.com>
+Date:   Sun Jul 14 20:57:57 2024 +0900
+
+    init : create project
+
+[33mcommit 7160475c3b13d2d07068dafdae67896a17aac4d1[m
+Author: TeamLogicPuzzle <teamlogicpuzzle@gmail.com>
+Date:   Fri May 31 15:13:20 2024 +0900
+
+    Initial commit
+
+[33mcommit 01f6fc12ddf499da8d466d835fd9aae3e7395217[m
+Author: TeamLogicPuzzle <teamlogicpuzzle@gmail.com>
+Date:   Fri May 31 15:13:20 2024 +0900
+
+    Initial commit
