@@ -21,3 +21,4 @@ class Migration(migrations.Migration):
             field=models.IntegerField(choices=[(0, '냉장'), (1, '냉동'), (2, '상온'), (3, '미분류')], default=0, help_text='0 : 냉장, 1 : 냉동, 2 : 상온, 3 : 미분류'),
         ),
     ]
+

@@ -35,3 +35,4 @@ class RecipeListAPIView(APIView):
         prod_names_list = prod_names.split(',')
         response = RecipeService.recipeList(prod_names_list)
         return response
+

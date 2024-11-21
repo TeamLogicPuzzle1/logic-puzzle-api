@@ -16,3 +16,4 @@ class Migration(migrations.Migration):
             field=models.IntegerField(choices=[(0, '1L'), (1, '3L'), (2, '5L'), (3, '10L'), (4, '20L')], default=0, help_text='0 : 1L, 1 : 3L, 2 : 5L, 3 : 10L, 4 : 20L'),
         ),
     ]
+

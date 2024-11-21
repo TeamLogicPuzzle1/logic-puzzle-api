@@ -1,5 +1,6 @@
 import logging
 import random
+import re
 
 from django.db import DatabaseError
 from rest_framework import status
@@ -17,8 +18,6 @@ class RecipeService:
         try:
             recipeList = Recipe.objects.all()
 
-            # 리스트 형태로 입력한 단어들입니다.
-            # prod_names_list = ['소고기', '돼지고기', '닭고기', '양고기']  # 실제로 사용할 단어 리스트로 수정하세요.
             logger.info(f"선택된 제품명: {prod_names_list}")
 
             # 조건을 만족하는 material_name 값을 저장할 리스트입니다.
@@ -65,3 +64,4 @@ class RecipeService:
                 {"message": "서버 오류가 발생했습니다.", "error": str(e)},
                 status=status.HTTP_500_INTERNAL_SERVER_ERROR
             )
+
