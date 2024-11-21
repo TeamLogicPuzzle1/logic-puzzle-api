@@ -36,7 +36,7 @@ class AuthService:
 
                 res = Response(
                     {
-                        "user": {"id": profile.user_id, "profile_name": profile.profile_name},
+                        "user": {"id": profile.user_id, "user_id" : user.user_id, "profile_name": profile.profile_name, "leaderYn" : profile.leader_yn},
                         "message": "login success",
                         "token": {
                             "access": access_token,
