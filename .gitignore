@@ -47,3 +47,6 @@ out/
 /ssl/
 /node_modules/
 logicPuzzle/__pycache__/
+
+.dockerignore
+requirements.txt
