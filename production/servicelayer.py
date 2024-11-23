@@ -1,12 +1,14 @@
-import io
+import logging
 import os
 import re
 from datetime import datetime
+
+from dotenv import load_dotenv
+from google.auth.transport.requests import Request
 from google.cloud import vision
 from google.oauth2 import service_account
-from google.auth.transport.requests import Request
-from dotenv import load_dotenv
-import logging
+from rest_framework.response import Response
+from rest_framework import status
 
 # 환경 변수 설정 및 로드
 load_dotenv()
@@ -22,6 +24,7 @@ EXPIRATION_DATE_REGEX = (
     r'(\d{1,2}\s*[A-Za-z]{3,9}\s*\d{2,4})|'  # DD Month YYYY
     r'(\d{8})'  # YYYYMMDD
 )
+
 
 def get_vision_client():
     """
@@ -47,6 +50,7 @@ def get_vision_client():
         logger.exception(f"Failed to create Vision API client: {str(e)}")
         raise
 
+
 def extract_and_parse_expiration_date(image):
     """
     이미지 파일에서 유통기한을 추출하고 파싱하는 함수.
@@ -60,7 +64,7 @@ def extract_and_parse_expiration_date(image):
         content = image.read()
         if not content:
             logger.error("Image content is empty.")
-            return None
+            return Response({"message": "이미지가 없습니다."}, status=status.HTTP_400_BAD_REQUEST)
 
         image_obj = vision.Image(content=content)
         response = client.text_detection(image=image_obj)
@@ -68,7 +72,7 @@ def extract_and_parse_expiration_date(image):
         # 오류 발생 시 처리
         if response.error.message:
             logger.error(f"Error in API request: {response.error.message}")
-            return None
+            return Response({"message": "이미지가 없습니다."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
         logger.info(f"API Response: {response}")
         texts = response.text_annotations
@@ -100,7 +104,7 @@ def extract_and_parse_expiration_date(image):
                         if len(match) == 8 and match.isdigit():
                             parsed_date = datetime.strptime(match, '%Y%m%d').date()
                             logger.info(f"Parsed date (YYYYMMDD): {parsed_date}")
-                            return parsed_date
+                            return Response({"expiration_date": str(parsed_date)}, status=status.HTTP_200_OK)
 
                         # YYYY-MM-DD, YYYY.MM.DD, YYYY MM DD 처리
                         if re.match(r'\d{4}[\s.-]\d{1,2}[\s.-]\d{1,2}', match):
@@ -108,7 +112,7 @@ def extract_and_parse_expiration_date(image):
                             formatted_match = match.replace('.', '-').replace(' ', '-')
                             parsed_date = datetime.strptime(formatted_match, '%Y-%m-%d').date()
                             logger.info(f"Parsed date (YYYY-MM-DD, YYYY.MM.DD, YYYY MM DD): {parsed_date}")
-                            return parsed_date
+                            return Response({"expiration_date": str(parsed_date)}, status=status.HTTP_200_OK)
 
                         # MM/DD/YYYY or MM-DD-YYYY 형식 처리
                         if '/' in match or '-' in match:
@@ -116,23 +120,21 @@ def extract_and_parse_expiration_date(image):
                                                             '%m/%d/%Y').date() if '/' in match else datetime.strptime(
                                 match, '%m-%d-%Y').date()
                             logger.info(f"Parsed date (MM/DD/YYYY or MM-DD-YYYY): {parsed_date}")
-                            return parsed_date
+                            return Response({"expiration_date": str(parsed_date)}, status=status.HTTP_200_OK)
 
                         # DD Month YYYY 형식 처리
                         if any(char.isalpha() for char in match):
                             parsed_date = datetime.strptime(match, '%d %B %Y').date()
                             logger.info(f"Parsed date (DD Month YYYY): {parsed_date}")
-                            return parsed_date
+                            return Response({"expiration_date": str(parsed_date)}, status=status.HTTP_200_OK)
 
                     except ValueError as e:
                         logger.warning(f"Failed to parse date '{match}' with error: {e}")
                         continue
 
             logger.warning("No valid expiration date found after parsing.")
-            return None
+            return Response({"message": "유통기한 유효성 체크 오류."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)
 
     except Exception as e:
         logger.exception(f"An error occurred while processing the image: {str(e)}")
-        return None
-
-
+        return Response({"message": "이미지 프로세싱 오류."}, status=status.HTTP_500_INTERNAL_SERVER_ERROR)

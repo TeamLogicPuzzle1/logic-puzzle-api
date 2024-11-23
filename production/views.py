@@ -107,7 +107,7 @@ class ProductViewSet(viewsets.ModelViewSet):
                 "imminent": imminent_count,  # Changed key to 'imminent'
                 "expired": expired_count  # Changed key to 'expired'
             },
-            "List": serializer.data  # Serialized product list
+            "list": serializer.data  # Serialized product list
         }
 
         return Response(response_data, status=200)
@@ -135,11 +135,11 @@ class ProductViewSet(viewsets.ModelViewSet):
         if serializer.is_valid():
             image = serializer.validated_data['image']
             try:
-                expiration_date = extract_and_parse_expiration_date(image)
-                if expiration_date:
-                    return Response({"expiration_date": expiration_date}, status=200)
+                response = extract_and_parse_expiration_date(image)
+                if response:
+                    return response
                 else:
-                    return Response({"error": "No expiration date could be extracted from the image."}, status=400)
+                    return response
             except Exception as e:
                 logger.exception(f"Error extracting expiration date: {str(e)}")
                 return Response({"error": str(e)}, status=500)
