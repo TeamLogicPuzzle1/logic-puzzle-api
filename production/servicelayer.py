@@ -31,24 +31,43 @@ def get_vision_client():
     최신 자격 증명을 사용하여 Vision API 클라이언트 생성
     """
     try:
+        # 환경 변수에서 자격 증명 경로 가져오기
         credentials_path = os.getenv('GOOGLE_APPLICATION_CREDENTIALS')
         if not credentials_path:
-            raise EnvironmentError("GOOGLE_APPLICATION_CREDENTIALS is not set in the .env file.")
+            raise EnvironmentError("GOOGLE_APPLICATION_CREDENTIALS is not set in the environment.")
+    except Exception as e:
+        logger.exception(f"Failed to retrieve credentials path: {str(e)}")
+        raise EnvironmentError("자격 증명 경로를 가져오는 데 실패했습니다. 환경 변수를 확인하세요.") from e
 
+    try:
         # OAuth 범위를 추가하여 자격 증명 설정
         scopes = ['https://www.googleapis.com/auth/cloud-platform']
         credentials = service_account.Credentials.from_service_account_file(credentials_path, scopes=scopes)
+    except FileNotFoundError as fnfe:
+        logger.exception(f"Credentials file not found: {str(fnfe)}")
+        raise FileNotFoundError("자격 증명 파일을 찾을 수 없습니다. 경로를 확인하세요.") from fnfe
+    except Exception as e:
+        logger.exception(f"Failed to load credentials: {str(e)}")
+        raise ValueError("자격 증명을 로드하는 데 실패했습니다.") from e
 
-        # 토큰 갱신
+    try:
+        # 자격 증명 유효성 확인 및 갱신
         request = Request()
         if credentials.expired or not credentials.valid:
             credentials.refresh(request)
+            logger.info("Credentials successfully refreshed.")
+    except Exception as e:
+        logger.exception(f"Failed to refresh credentials: {str(e)}")
+        raise RuntimeError("자격 증명 갱신에 실패했습니다.") from e
 
+    try:
+        # Vision API 클라이언트 생성
         client = vision.ImageAnnotatorClient(credentials=credentials)
+        logger.info("Vision API client successfully created.")
         return client
     except Exception as e:
         logger.exception(f"Failed to create Vision API client: {str(e)}")
-        raise
+        raise RuntimeError("Vision API 클라이언트를 생성하는 데 실패했습니다.") from e
 
 
 def extract_and_parse_expiration_date(image):
