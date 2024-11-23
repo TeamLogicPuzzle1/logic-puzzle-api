@@ -62,7 +62,7 @@ def extract_and_parse_expiration_date(image):
         content = image.read()
         if not content:
             logger.error("Image content is empty.")
-            return date.today()  # 오늘 날짜 반환
+            return date.today().strftime('%Y.%m.%d')  # 오늘 날짜 반환
 
         image_obj = vision.Image(content=content)
         response = client.text_detection(image=image_obj)
@@ -70,7 +70,7 @@ def extract_and_parse_expiration_date(image):
         # 오류 발생 시 처리
         if response.error.message:
             logger.error(f"Error in API request: {response.error.message}")
-            return date.today()  # 오늘 날짜 반환
+            return date.today().strftime('%Y.%m.%d')  # 오늘 날짜 반환
 
         logger.info(f"API Response: {response}")
         texts = response.text_annotations
@@ -110,7 +110,7 @@ def extract_and_parse_expiration_date(image):
                             formatted_match = match.replace('.', '-').replace(' ', '-')
                             parsed_date = datetime.strptime(formatted_match, '%Y-%m-%d').date()
                             logger.info(f"Parsed date (YYYY-MM-DD, YYYY.MM.DD, YYYY MM DD): {parsed_date}")
-                            return parsed_date
+                            return parsed_date.strftime('%Y.%m.%d')
 
                         # MM/DD/YYYY or MM-DD-YYYY 형식 처리
                         if '/' in match or '-' in match:
@@ -118,23 +118,23 @@ def extract_and_parse_expiration_date(image):
                                                             '%m/%d/%Y').date() if '/' in match else datetime.strptime(
                                 match, '%m-%d-%Y').date()
                             logger.info(f"Parsed date (MM/DD/YYYY or MM-DD-YYYY): {parsed_date}")
-                            return parsed_date
+                            return parsed_date.strftime('%Y.%m.%d')
 
                         # DD Month YYYY 형식 처리
                         if any(char.isalpha() for char in match):
                             parsed_date = datetime.strptime(match, '%d %B %Y').date()
                             logger.info(f"Parsed date (DD Month YYYY): {parsed_date}")
-                            return parsed_date
+                            return parsed_date.strftime('%Y.%m.%d')
 
                     except ValueError as e:
                         logger.warning(f"Failed to parse date '{match}' with error: {e}")
                         continue
 
             logger.warning("No valid expiration date found after parsing.")
-            return date.today()  # 유효한 날짜가 없을 경우 오늘 날짜 반환
+            return date.today().strftime('%Y.%m.%d')  # 유효한 날짜가 없을 경우 오늘 날짜 반환
 
     except Exception as e:
         logger.exception(f"An error occurred while processing the image: {str(e)}")
-        return date.today()  # 예외 발생 시 오늘 날짜 반환
+        return date.today().strftime('%Y.%m.%d')  # 예외 발생 시 오늘 날짜 반환
 
 
