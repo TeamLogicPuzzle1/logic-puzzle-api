@@ -7,6 +7,7 @@ from google.oauth2 import service_account
 from google.auth.transport.requests import Request
 from dotenv import load_dotenv
 import logging
+from datetime import date
 
 # 환경 변수 설정 및 로드
 load_dotenv()
@@ -50,6 +51,7 @@ def get_vision_client():
 def extract_and_parse_expiration_date(image):
     """
     이미지 파일에서 유통기한을 추출하고 파싱하는 함수.
+    인식 실패 시 오늘 날짜를 반환합니다.
     """
     try:
         # 최신 자격 증명을 사용해 Vision API 클라이언트 생성
@@ -60,7 +62,7 @@ def extract_and_parse_expiration_date(image):
         content = image.read()
         if not content:
             logger.error("Image content is empty.")
-            return None
+            return date.today()  # 오늘 날짜 반환
 
         image_obj = vision.Image(content=content)
         response = client.text_detection(image=image_obj)
@@ -68,7 +70,7 @@ def extract_and_parse_expiration_date(image):
         # 오류 발생 시 처리
         if response.error.message:
             logger.error(f"Error in API request: {response.error.message}")
-            return None
+            return date.today()  # 오늘 날짜 반환
 
         logger.info(f"API Response: {response}")
         texts = response.text_annotations
@@ -129,10 +131,10 @@ def extract_and_parse_expiration_date(image):
                         continue
 
             logger.warning("No valid expiration date found after parsing.")
-            return None
+            return date.today()  # 유효한 날짜가 없을 경우 오늘 날짜 반환
 
     except Exception as e:
         logger.exception(f"An error occurred while processing the image: {str(e)}")
-        return None
+        return date.today()  # 예외 발생 시 오늘 날짜 반환
 
 
