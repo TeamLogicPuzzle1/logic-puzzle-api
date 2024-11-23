@@ -1,6 +1,7 @@
 # Create your views here.
 import logging
 
+from django.db import DatabaseError
 from drf_yasg import openapi
 from drf_yasg.utils import swagger_auto_schema
 from rest_framework import permissions
@@ -41,20 +42,8 @@ class RecipeListAPIView(APIView):
 
             if not response_data:
                 return Response({'message': '레시피 데이터 없음'}, status=204)
-
-            return Response({'recipes': response_data}, status=200)
-
-
-        except DatabaseError:
-
-            logger.error("레시피 데이터를 가져오는 중 오류 발생")
-
-            return Response({'message': '레시피 데이터를 찾을 수 없습니다.'}, status=500)
-
-
+            return Response({"message": "추천 레시피 조회에 성공했습니다.", "data": response_data})
         except Exception as e:
-
             logger.error(f"레시피 조회 중 서버 오류 발생: {e}")
-
             return Response({'message': '서버 오류가 발생했습니다.'}, status=500)
 

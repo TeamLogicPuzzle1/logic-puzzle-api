@@ -37,7 +37,7 @@ class RecipeService:
 
                         # 새로 추가된 부분: 음식과 관련 재료를 함께 저장
                         recipe_details.append({
-                            "recipe_name": food_name,
+                            "recipeName": food_name,
                             "ingredients": [ingredient.strip() for ingredient in material_name.split(",")]
                         })
 
