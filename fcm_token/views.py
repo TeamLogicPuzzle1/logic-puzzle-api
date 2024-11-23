@@ -1,10 +1,11 @@
-from rest_framework.views import APIView
-from rest_framework.response import Response
-from rest_framework.permissions import IsAuthenticated
 from rest_framework import status
-from your_app.models import User, Profile  # 기존 User와 Profile을 import
-from .models import FCMToken
-from .serializers import FCMTokenSerializer
+from rest_framework.permissions import IsAuthenticated
+from rest_framework.response import Response
+from rest_framework.views import APIView
+from user.models import User
+from profile.models import Profile
+from fcm_token.model import FcmToken
+
 
 class SaveFCMTokenView(APIView):
     permission_classes = [IsAuthenticated]
@@ -20,7 +21,7 @@ class SaveFCMTokenView(APIView):
             profile = Profile.objects.get(id=data.get('profile_id'), user=user)
 
             # 해당 사용자의 프로필 및 기기에 대한 FCM 토큰 정보를 저장하거나 갱신
-            fcm_token, created = FCMToken.objects.update_or_create(
+            fcm_token, created = FcmToken.objects.update_or_create(
                 user=user,
                 profile=profile,
                 device_number=data.get('device_number'),

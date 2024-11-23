@@ -9,7 +9,6 @@ from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
 
-from logicPuzzle.celery import app
 from user.models import User
 from util.emailHelper import sendEmailHelper
 
