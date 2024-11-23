@@ -48,10 +48,8 @@ out/
 /node_modules/
 logicPuzzle/__pycache__/
 
-<<<<<<< HEAD
+
 .dockerignore
 requirements.txt
-=======
 FCMToken/
 NotificationSetting/
->>>>>>> f097dc5f655ac7457c00f2916d2e67399bf52f35
