@@ -1,7 +1,7 @@
 # Project Overview
 
-##LogicPuzzle API 는 음식물 쓰레기 관리와 제품 소비기한 추적을 목적으로 개발되었습니다. 
-이 프로젝트는 환경 보호와 효율적인 식자재 관리를 돕기 위해 설계되었습니다.
+### LogicPuzzle API 는 음식물 쓰레기 관리와 제품 소비기한 추적을 목적으로 개발되었습니다. 
+### 이 프로젝트는 환경 보호와 효율적인 식자재 관리를 돕기 위해 설계되었습니다.
 
 ### 주요 기능:
 1. **사용자 인증 및 관리**
@@ -411,6 +411,8 @@ True, 'type': 'string'}
 - 404 Not Found: 제공된 notice_id 에 해당하는 공지사항을 찾을 수 없는 경우 발생합니다
 - 500 Internal Server Error: 공지사항을 삭제하는 중 서버 오류가 발생한 경우 발생합니다
 
+### [Swagger 사이트 바로가기](http://43.202.243.97/swagger/)
+
 # Auth 패키지 문서 
 ### 'auth' 패키지는 사용자 인증을 처리하며, 로그인 기능 및 JWT 토큰 관리를 포함합니다. 아래는 패키지의 각 구성 요소에 대한 자세한 설명입니다.
 
@@ -751,50 +753,53 @@ urlpatterns = [
 ]
 
 # Nginx derectory
--목적: Nginx는 웹 서버로, 클라이언트의 요청을 Django 애플리케이션 서버로 전달하고, 정적 파일을 서빙하는 역할을 합니다.
+- 목적: Nginx는 웹 서버로, 클라이언트의 요청을 Django 애플리케이션 서버로 전달하고, 정적 파일을 서빙하는 역할을 합니다.
 주요 설정:
 - 리버스 프록시 설정 (location /): 클라이언트의 요청을 Django 서버로 전달
 - 정적 파일 서빙 (location static/): /static/ 경로로 요청된 정적 파일을 서빙.- 파일 업로드 제한: client_max_body_size를 128MB로 설정.
-Static derectory
+
+# Static derectory
 Django REST Framework와 관련된 설정 및 문서화와 관련된 파일들을 포함합니다.
-drf-yasg
--목적: Django REST Framework의 Swagger 문서화를 자동으로 생성하는 패키지입니다.
--유지보수 시 유의사항: API 변경 시 문서화가 자동으로 갱신되지만, 엔드포인트나 모델 변
-경 시 Swagger 문서를 다시 확인해야 합니다.
-rest_framework
--목적: Django REST Framework의 핵심적인 파일들이 위치한 폴더입니다. API 엔드포인트
-와 직렬화기 등이 포함됩니다.
--유지보수 시 유의사항: 새로운 API 엔드포인트 추가나 모델 변경 시, 직렬화기
-(serializers.py)를 수정해야 합니다.
-.env file
--목적: 프로젝트에서 사용하는 환경 변수를 정의하는 파일로, 민감한 정보를 관리합니다. 
-주요 환경 변수:
--GOOGLE_APPLICATION_CREDENTIALS: Google Cloud 인증 파일 경로.
--SECRET_KEY: Django의 보안 키.
--DB_NAME, DB_USER, DB_PASSWORD, DB_HOST: 데이터베이스 설정.
--EMAIL_HOST_USER, EMAIL_HOST_PASSWORD: 이메일 발송 관련 설정.
-Dockerfile
--목적: Django 애플리케이션을 Docker 컨테이너에서 실행할 수 있도록 설정합니다
-주요 설정:
--Python 3.12.4 이미지 사용
--requirements.txt를 사용하여 의존성 설치.-Gunicorn을 사용하여 Django 애플리케이션 실행.
-docker-compose.yml
--목적 여러 Docker 컨테이너를 정의하고 실행하기 위한 설정 파일입니다.
-주요 설정:
+#### drf-yasg
+- 목적: Django REST Framework의 Swagger 문서화를 자동으로 생성하는 패키지입니다.
+- 유지보수 시 유의사항: API 변경 시 문서화가 자동으로 갱신되지만, 엔드포인트나 모델 변경 시 Swagger 문서를 다시 확인해야 합니다.
+#### rest_framework
+- 목적: Django REST Framework의 핵심적인 파일들이 위치한 폴더입니다. API 엔드포인트와 직렬화기 등이 포함됩니다.
+- 유지보수 시 유의사항: 새로운 API 엔드포인트 추가나 모델 변경 시, 직렬화기(serializers.py)를 수정해야 합니다.
+
+# .env file
+- 목적: 프로젝트에서 사용하는 환경 변수를 정의하는 파일로, 민감한 정보를 관리합니다. 
+#### 주요 환경 변수:
+- GOOGLE_APPLICATION_CREDENTIALS: Google Cloud 인증 파일 경로.
+- SECRET_KEY: Django의 보안 키.
+- DB_NAME, DB_USER, DB_PASSWORD, DB_HOST: 데이터베이스 설정.
+- EMAIL_HOST_USER, EMAIL_HOST_PASSWORD: 이메일 발송 관련 설정.
+
+# Dockerfile
+- 목적: Django 애플리케이션을 Docker 컨테이너에서 실행할 수 있도록 설정합니다
+#### 주요 설정:
+- Python 3.12.4 이미지 사용
+- requirements.txt를 사용하여 의존성 설치.
+- Gunicorn을 사용하여 Django 애플리케이션 실행.
+
+# docker-compose.yml
+- 목적: 여러 Docker 컨테이너를 정의하고 실행하기 위한 설정 파일입니다.
+#### 주요 설정:
 - web 서비스: Django 애플리케이션 실행.
 - db 서비스: PostgreSQL 데이터베이스 설정.
 - 포트 노출: 8000번 포트로 Django 애플리케이션을 접근 가능.
 - 서비스 의존성: web 서비스는 db 서비스가 실행된 후 시작.
-requirements.txt
--목적 프로젝트에서 사용하는 Python 패키지 의존성을 정의하는 파일입니다.
-주요 패키지:
+
+# requirements.txt
+- 목적 프로젝트에서 사용하는 Python 패키지 의존성을 정의하는 파일입니다.
+#### 주요 패키지:
 - Django: 웹 애플리케이션 프레임워크.
 - djangorestframework: REST API 개발을 위한 확장.
 - gunicorn: WSGI 서버, Django 실행.
 - google-cloud-vision: Google Cloud Vision API 연동.
 - celery: 비동기 작업 큐 시스템.
 - redis: Redis 서버 연동.
--PyJWT: JWT 인증 관련 패키지
+- PyJWT: JWT 인증 관련 패키지
 
 
 
