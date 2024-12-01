@@ -8,6 +8,9 @@ from django.db import IntegrityError, DatabaseError
 from rest_framework import status
 from rest_framework.exceptions import ValidationError
 from rest_framework.response import Response
+from rest_framework.exceptions import AuthenticationFailed
+from django.contrib.auth.hashers import check_password, make_password
+import bcrypt
 
 from user.models import User
 from util.emailHelper import sendEmailHelper
@@ -104,3 +107,54 @@ class UserService:
             return Response({"message": "메일 인증이 성공하였습니다.", "data": True}, status=status.HTTP_200_OK)
         else:
             return Response({"message": "메일 인증이 실패하였습니다.", "data": False}, status=status.HTTP_400_BAD_REQUEST)
+
+class LoginService:
+    @staticmethod
+    def userSave(data, serializer_class):
+        serializer = serializer_class(data=data)
+        serializer.is_valid(raise_exception=True)
+        serializer.save()
+        return Response(
+            {"message": "User registered successfully."},
+            status=status.HTTP_201_CREATED
+        )
+
+
+class ChpassService:
+    @staticmethod
+    def reset_password(user_id, is_verified, new_password):
+        if not is_verified:
+            return {"success": False, "error": "Email verification required."}
+
+        try:
+            user = User.objects.get(user_id=user_id)
+        except User.DoesNotExist:
+            return {"success": False, "error": "User not found."}
+
+        hashed_password = bcrypt.hashpw(
+            new_password.encode('utf-8'),
+            bcrypt.gensalt()
+        ).decode('utf-8')
+
+        user.password = hashed_password
+        user.save()
+        return {"success": True}
+
+    @staticmethod
+    def change_password(user_id, current_password, new_password):
+        try:
+            user = User.objects.get(user_id=user_id)
+        except User.DoesNotExist:
+            return {"success": False, "error": "User not found."}
+
+        if not bcrypt.checkpw(current_password.encode('utf-8'), user.password.encode('utf-8')):
+            return {"success": False, "error": "Invalid current password."}
+
+        hashed_password = bcrypt.hashpw(
+            new_password.encode('utf-8'),
+            bcrypt.gensalt()
+        ).decode('utf-8')
+
+        user.password = hashed_password
+        user.save()
+        return {"success": True}

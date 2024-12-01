@@ -5,7 +5,7 @@ import bcrypt
 from drf_yasg.utils import logger
 from rest_framework import serializers, status
 from rest_framework.exceptions import APIException
-
+import re
 from .models import User
 
 
@@ -55,3 +55,33 @@ class CreateUserSerializer(serializers.Serializer):
             logger.error(f"Error creating user: {str(e)}")  # Log any errors during creation
             raise APIException(detail="Error creating user.",
                                code=status.HTTP_500_INTERNAL_SERVER_ERROR)
+
+class LoginSerializer(serializers.Serializer):
+    user_id = serializers.CharField()
+    password = serializers.CharField()
+
+    class Meta:
+        ref_name = "UserLoginSerializer"
+    def validate(self, data):
+        user_id = data.get('user_id')
+        password = data.get('password')
+
+        try:
+            user = User.objects.get(user_id=user_id)
+        except User.DoesNotExist:
+            raise serializers.ValidationError("User ID not found.")
+
+        if not bcrypt.checkpw(password.encode('utf-8'), user.password.encode('utf-8')):
+            raise serializers.ValidationError("Invalid password.")
+
+        return {"user_id": user.user_id}
+
+class CheckIdSerializer(serializers.Serializer):
+    email = serializers.CharField(required=True)
+    is_verified = serializers.BooleanField(required=True)
+
+    def validate_email(self, value):
+        # 이메일이 비어 있는지 여부만 확인
+        if not value.strip():
+            raise serializers.ValidationError("유효한 이메일 주소를 입력해 주세요.")
+        return value

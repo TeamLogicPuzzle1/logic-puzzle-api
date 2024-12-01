@@ -15,6 +15,8 @@ class User(models.Model):
 
     REQUIRED_FIELDS = []
 
+    is_staff = models.BooleanField(default=False)
+
     is_active = models.BooleanField(default=True)
 
     is_anonymous = models.BooleanField(default=True)
